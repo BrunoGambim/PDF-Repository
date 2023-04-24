@@ -9,10 +9,12 @@ public class PDF {
 	private String name;
 	private int size;
 	private byte[] data;
+	private PDFStatus status;
 	
-	public PDF(String name, String format, int size, byte[] data) {
+	public PDF(String name, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
+		status = PDFStatus.WAITING_FOR_ADMIN_VALIDATION;
 		this.setName(name);
-		this.setData(data);
+		this.setData(data, pdfSizePolicy);
 		validateFormat(format);
 		validateDataSize(size);
 	}
@@ -37,12 +39,25 @@ public class PDF {
 		return data;
 	}
 
-	public void setData(byte[] data) {
+	public PDFStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(PDFStatus status) {
+		this.status = status;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public void setData(byte[] data, PDFSizePolicy pdfSizePolicy) {
 		if(data == null) {
 			throw new InvalidEmptyOrNullFileFieldException("data");
 		}
 		this.data = data;
 		this.size = data.length;
+		pdfSizePolicy.execute(this);
 	}
 	
 	private void validateDataSize(int size) {
