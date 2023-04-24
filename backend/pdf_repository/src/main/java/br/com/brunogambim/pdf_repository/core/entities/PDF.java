@@ -1,8 +1,8 @@
-package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
+package br.com.brunogambim.pdf_repository.core.entities;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidEmptyOrNullFileFieldException;
-import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidFileDataSizeException;
-import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidFileFormatException;
+import br.com.brunogambim.pdf_repository.core.exceptions.InvalidEmptyOrNullFileFieldException;
+import br.com.brunogambim.pdf_repository.core.exceptions.InvalidFileDataSizeException;
+import br.com.brunogambim.pdf_repository.core.exceptions.InvalidFileFormatException;
 
 public class PDF {
 	private static final String PDF_FORMAT = "pdf";
@@ -81,5 +81,16 @@ public class PDF {
 		if(!format.equals(PDF_FORMAT)) {
 			throw new InvalidFileFormatException(format);
 		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() == this.getClass()) {
+			PDF pdf = (PDF) obj;
+			if(this.getId()  != null && (this.getId().equals(pdf.getId())) || this.getName().equals(pdf.getName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

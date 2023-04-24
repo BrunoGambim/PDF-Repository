@@ -1,7 +1,7 @@
-package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
+package br.com.brunogambim.pdf_repository.core.entities;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidFileDataSizeException;
-import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
+import br.com.brunogambim.pdf_repository.core.exceptions.InvalidFileDataSizeException;
+import br.com.brunogambim.pdf_repository.core.repositories.PDFManagementParametersRepository;
 
 public class PDFSizePolicy {
 	
@@ -12,7 +12,7 @@ public class PDFSizePolicy {
 	}
 	
 	public void execute(PDF pdf) {
-		PDFSizeManagementParameters sizeParameters = this.repository.findSizeParameters();
+		PDFManagementParameters sizeParameters = this.repository.findParameters();
 		if(pdf.getSize() > sizeParameters.getMaxSize()) {
 			throw new InvalidFileDataSizeException();
 		} else if(pdf.getSize() < sizeParameters.getMinBigFileSize()) {

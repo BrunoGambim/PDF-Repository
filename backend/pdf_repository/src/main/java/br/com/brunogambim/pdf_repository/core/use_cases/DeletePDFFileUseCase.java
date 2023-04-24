@@ -1,6 +1,6 @@
-package br.com.brunogambim.pdf_repository.core.pdf_management.use_cases;
+package br.com.brunogambim.pdf_repository.core.use_cases;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
+import br.com.brunogambim.pdf_repository.core.repositories.PDFRepository;
 
 public class DeletePDFFileUseCase {
 	private PDFRepository pdfRepository;
