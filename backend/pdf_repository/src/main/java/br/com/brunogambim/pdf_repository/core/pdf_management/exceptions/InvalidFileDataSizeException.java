@@ -12,6 +12,6 @@ public class InvalidFileDataSizeException extends RuntimeException{
 	}
 	
 	private static String message() {
-		return "File data size does not match with file size.";
+		return "Invalid file data size";
 	}
 }
