@@ -6,17 +6,32 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidF
 
 public class PDF {
 	private static final String PDF_FORMAT = "pdf";
+	
+	private Long id;
 	private String name;
 	private int size;
 	private byte[] data;
 	private PDFStatus status;
 	
-	public PDF(String name, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
-		status = PDFStatus.WAITING_FOR_ADMIN_VALIDATION;
+	public PDF(Long id, String name, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
+		this.setId(id);
+		this.setStatus(PDFStatus.WAITING_FOR_ADMIN_VALIDATION);
 		this.setName(name);
 		this.setData(data, pdfSizePolicy);
 		validateFormat(format);
 		validateDataSize(size);
+	}
+	
+	public PDF(String name, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
+		this(null, name, format, size, data, pdfSizePolicy);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -45,10 +60,6 @@ public class PDF {
 
 	public void setStatus(PDFStatus status) {
 		this.status = status;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
 	}
 
 	public void setData(byte[] data, PDFSizePolicy pdfSizePolicy) {
