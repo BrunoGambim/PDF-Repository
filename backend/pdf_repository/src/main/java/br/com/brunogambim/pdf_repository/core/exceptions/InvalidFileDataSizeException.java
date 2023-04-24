@@ -1,4 +1,4 @@
-package br.com.brunogambim.pdf_repository.core.pdf_management.exceptions;
+package br.com.brunogambim.pdf_repository.core.exceptions;
 
 public class InvalidFileDataSizeException extends RuntimeException{
 	private static final long serialVersionUID = 1L;

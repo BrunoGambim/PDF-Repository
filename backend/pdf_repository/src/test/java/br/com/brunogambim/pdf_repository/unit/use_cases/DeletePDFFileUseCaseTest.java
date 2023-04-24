@@ -1,4 +1,4 @@
-package br.com.brunogambim.pdf_repository.unit.pdf_management.use_cases;
+package br.com.brunogambim.pdf_repository.unit.use_cases;
 
 import static org.mockito.Mockito.verify;
 
@@ -8,8 +8,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.argThat;
 import org.mockito.Mockito;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
-import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.DeletePDFFileUseCase;
+import br.com.brunogambim.pdf_repository.core.repositories.PDFRepository;
+import br.com.brunogambim.pdf_repository.core.use_cases.DeletePDFFileUseCase;
 
 public class DeletePDFFileUseCaseTest {
 	private DeletePDFFileUseCase useCase;

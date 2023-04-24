@@ -1,4 +1,4 @@
-package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
+package br.com.brunogambim.pdf_repository.core.entities;
 
 public enum PDFStatus {
 	WAITING_FOR_ADMIN_VALIDATION(1, "Waiting for admin validation"),
