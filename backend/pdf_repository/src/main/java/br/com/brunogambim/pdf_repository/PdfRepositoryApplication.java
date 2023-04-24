@@ -9,5 +9,4 @@ public class PdfRepositoryApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PdfRepositoryApplication.class, args);
 	}
-
 }
