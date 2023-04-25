@@ -34,7 +34,7 @@ public class UpdatePDFFileUseCaseTest {
 	void initUseCase() {
 		useCase = new UpdatePDFFileUseCase(pdfRepository, managementParametersRepository, userRepository);
 		when(managementParametersRepository.findParameters())
-		.thenReturn(new PDFManagementParameters(5, 3, 5, 10));
+		.thenReturn(new PDFManagementParameters(5, 3, 5, 10, 3, 10, 9));
 		when(userRepository.isAdmin(1L)).thenReturn(false);
 		when(userRepository.isAdmin(2L)).thenReturn(false);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);

@@ -29,7 +29,7 @@ public class DeletePDFFileUseCaseTest {
 	@BeforeEach
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
-		.thenReturn(new PDFManagementParameters(5, 3, 10, 5));
+		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
 		useCase = new DeletePDFFileUseCase(pdfRepository, userRepository);
 		when(userRepository.isAdmin(1L)).thenReturn(false);
 		when(userRepository.isAdmin(2L)).thenReturn(true);

@@ -31,7 +31,7 @@ public class SaveNewPDFFileUseCaseTest {
 	@BeforeEach
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
-		.thenReturn(new PDFManagementParameters(5, 3, 5, 10));
+		.thenReturn(new PDFManagementParameters(5, 3, 5, 10, 3, 10, 9));
 		useCase = new SaveNewPDFFileUseCase(userRepository, managementParametersRepository);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		client.addPDFToOwnedPDFList(new PDF(2L,"name2", "desc2", "pdf", 2, new byte[] {1,2},

@@ -1,8 +1,12 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidEmptyOrNullFileFieldException;
 import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidFileDataSizeException;
 import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidFileFormatException;
+import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 
 public class PDF {
 	private static final String PDF_FORMAT = "pdf";
@@ -12,20 +16,27 @@ public class PDF {
 	private String description;
 	private int size;
 	private byte[] data;
+	private Map<Long, Evaluation> evaluations;
 	private PDFStatus status;
 	
-	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
+	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy,
+			HashMap<Long, Evaluation> evaluations) {
 		this.setId(id);
 		this.setStatus(PDFStatus.WAITING_FOR_ADMIN_VALIDATION);
 		this.setName(name);
 		this.setData(data, pdfSizePolicy);
 		this.setDescription(description);
+		this.setEvaluations(evaluations);
 		validateFormat(format);
 		validateDataSize(size);
 	}
 	
+	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
+		this(id, name, description, format, size, data, pdfSizePolicy, new HashMap<Long, Evaluation>());
+	}
+	
 	public PDF(String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
-		this(null, name, description, format, size, data, pdfSizePolicy);
+		this(null, name, description, format, size, data, pdfSizePolicy, new HashMap<Long, Evaluation>());
 	}
 
 	public Long getId() {
@@ -91,6 +102,26 @@ public class PDF {
 		if(!format.equals(PDF_FORMAT)) {
 			throw new InvalidFileFormatException(format);
 		}
+	}
+	
+	public Map<Long, Evaluation> getEvaluations() {
+		return new HashMap<Long, Evaluation>(evaluations);
+	}
+
+	public void setEvaluations(HashMap<Long, Evaluation> evaluations) {
+		this.evaluations = evaluations;
+	}
+	
+	public void addEvaluation(Client client, double value) {
+		this.evaluations.put(client.getId(), new Evaluation(value, client));
+	}
+	
+	public double getEvaluationsMean() {
+		double evaluationSum = 0;
+		for(Evaluation evaluation: this.evaluations.values()) {
+			evaluationSum += evaluation.getValue(); 
+		}
+		return evaluationSum / evaluations.size();
 	}
 
 	@Override

@@ -31,7 +31,7 @@ public class PurchaseAccessToPDFFileUseCaseTest {
 	@BeforeEach
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
-		.thenReturn(new PDFManagementParameters(5, 3, 10, 5));
+		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
 		useCase = new PurchaseAccessToPDFFileUseCase(userRepository, pdfRepository, managementParametersRepository);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 5);
