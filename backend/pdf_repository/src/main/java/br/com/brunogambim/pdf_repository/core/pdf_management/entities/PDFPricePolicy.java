@@ -12,10 +12,21 @@ public class PDFPricePolicy {
 	
 	public int execute(PDF pdf) {
 		PDFManagementParameters parameters = this.repository.findParameters();
+		return computePDFBaseValue(pdf, parameters) + computeEvaluationBonus(pdf, parameters);
+	}
+	
+	private int computePDFBaseValue(PDF pdf, PDFManagementParameters parameters) {
 		if(pdf.getSize() < parameters.getMinBigFileSize()) {
 			return parameters.getSmallFilePrice();
 		} else {
 			return parameters.getBigFilePrice();
 		}
+	}
+	
+	private int computeEvaluationBonus(PDF pdf, PDFManagementParameters parameters) {
+		if(pdf.getEvaluations().size() > parameters.getMinEvaluationNumberToBonus() && pdf.getEvaluationsMean() > parameters.getMinEvaluationNumberToBonus()) {
+			return parameters.getHighEvaluationMeanBonus();
+		} 
+		return 0;
 	}
 }
