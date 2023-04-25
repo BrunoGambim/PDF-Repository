@@ -16,13 +16,13 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePol
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFStatus;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
-import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.AuthorizePDFFileSavingUseCase;
+import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.ReportPDFFileUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.UnauthorizedUserException;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 
-public class AuthorizePDFFileSavingUseCaseTest {
-	private AuthorizePDFFileSavingUseCase useCase;
+public class ReportPDFFileUseCaseTest {
+	private ReportPDFFileUseCase useCase;
 	private PDFRepository pdfRepository = Mockito.mock(PDFRepository.class);
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
@@ -31,22 +31,25 @@ public class AuthorizePDFFileSavingUseCaseTest {
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5));
-		useCase = new AuthorizePDFFileSavingUseCase(pdfRepository, userRepository);
+		useCase = new ReportPDFFileUseCase(pdfRepository, userRepository);
 		when(userRepository.isAdmin(1L)).thenReturn(false);
-		when(userRepository.isAdmin(2L)).thenReturn(true);
+		when(userRepository.isAdmin(2L)).thenReturn(false);
+		when(userRepository.isAdmin(3L)).thenReturn(true);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
+		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
 		PDF pdf1 = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository));
 		client.addPDFToOwnedPDFList(pdf1);
 		client.addPDFToHasAccessPDFList(pdf1);
 		when(userRepository.findClient(1L)).thenReturn(client);
+		when(userRepository.findClient(2L)).thenReturn(client2);
 		when(pdfRepository.find(1L)).thenReturn(pdf1);
 	}
 	
 	
 	@Test
 	void repositoryMethodAreCalledWithAdmin() {
-		useCase.execute(2L, 1L);
+		useCase.execute(3L, 1L);
 	
 		verify(pdfRepository).save(argThat( x -> {
 			assertThat(x).isNotNull();
@@ -55,7 +58,23 @@ public class AuthorizePDFFileSavingUseCaseTest {
 			assertThat(x.getDescription()).isEqualTo("desc");
 			assertThat(x.getData()).isEqualTo(new byte[] {1,2,3,4});
 			assertThat(x.getSize()).isEqualTo(4);
-			assertThat(x.getStatus()).isEqualTo(PDFStatus.VALIDATED);
+			assertThat(x.getStatus()).isEqualTo(PDFStatus.REPORTED);
+			return true;
+	    }));
+	}
+	
+	@Test
+	void repositoryMethodAreCalledWithUserThatHasAccess() {
+		useCase.execute(1L, 1L);
+	
+		verify(pdfRepository).save(argThat( x -> {
+			assertThat(x).isNotNull();
+			assertThat(x.getId()).isEqualTo(1L);
+			assertThat(x.getName()).isEqualTo("name");
+			assertThat(x.getDescription()).isEqualTo("desc");
+			assertThat(x.getData()).isEqualTo(new byte[] {1,2,3,4});
+			assertThat(x.getSize()).isEqualTo(4);
+			assertThat(x.getStatus()).isEqualTo(PDFStatus.REPORTED);
 			return true;
 	    }));
 	}
@@ -63,7 +82,7 @@ public class AuthorizePDFFileSavingUseCaseTest {
 	@Test
 	void unauthorizedToDeletePDf() {	
 		assertThatThrownBy(() -> {
-			useCase.execute(1L, 1L);
+			useCase.execute(2L, 1L);
 		}).isInstanceOf(UnauthorizedUserException.class);
 	}
 }
