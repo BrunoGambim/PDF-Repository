@@ -29,7 +29,7 @@ public class AuthorizationPolicy {
 		}
 	}
 	
-	public void CheckAdminAuthorization(Long id) {
+	public void CheckIsAdminAuthorization(Long id) {
 		if(!this.userRepository.isAdmin(id)) {
 			throw new UnauthorizedUserException();
 		}
