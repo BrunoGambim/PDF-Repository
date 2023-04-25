@@ -41,7 +41,7 @@ public class AuthorizationPolicyTest {
 	
 	@Test
 	void checkAdmin() {
-		policy.CheckAdminAuthorization(3L);
+		policy.CheckIsAdminAuthorization(3L);
 		policy.CheckIsAdminOrHasAccessAuthorization(3L,1L);
 		policy.CheckIsAdminOrOwnerAuthorization(3L,1L);
 	}
