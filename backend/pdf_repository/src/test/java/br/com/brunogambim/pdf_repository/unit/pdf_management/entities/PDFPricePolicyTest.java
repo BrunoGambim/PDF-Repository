@@ -1,4 +1,4 @@
-package br.com.brunogambim.pdf_repository.unit.pdf_management.use_cases;
+package br.com.brunogambim.pdf_repository.unit.pdf_management.entities;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
