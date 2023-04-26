@@ -30,11 +30,11 @@ public class Client extends User{
 	}
 
 	public List<PDF> getOwnedPDFList() {
-		return ownedPDFList;
+		return new ArrayList<PDF>(ownedPDFList);
 	}
 
 	public List<PDF> getHasAccessPDFList() {
-		return hasAccessPDFList;
+		return new ArrayList<PDF>(hasAccessPDFList);
 	}
 	
 	public void addPDFToHasAccessPDFList(PDF pdf) {
@@ -82,5 +82,10 @@ public class Client extends User{
 
 	public int getBalance() {
 		return balance;
+	}
+	
+	public ClientInfo getClientInfo() {
+		List<Long> ownedPDFIdList = ownedPDFList.stream().map(pdf -> pdf.getId()).toList();
+		return new ClientInfo(getId(), getUsername(), getEmail(), ownedPDFIdList);
 	}
 }
