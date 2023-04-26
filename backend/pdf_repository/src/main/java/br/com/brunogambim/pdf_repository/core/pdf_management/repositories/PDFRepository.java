@@ -8,5 +8,6 @@ public interface PDFRepository {
 	public PDF find(Long id);
 	public void save(PDF pdf);
 	public void delete(Long id);
-	public List<PDF> findAllReportedPDF();
+	public List<PDF> findAllReportedPDFs();
+	public List<PDF> findAllWaitingForValidationPDFs();
 }

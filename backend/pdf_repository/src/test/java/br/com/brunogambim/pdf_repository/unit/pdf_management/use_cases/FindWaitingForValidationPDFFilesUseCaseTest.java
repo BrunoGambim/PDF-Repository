@@ -16,12 +16,12 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFManagem
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
-import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindReportedPDFFilesUseCase;
+import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindWaitingForValidationPDFFilesUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.UnauthorizedUserException;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 
-public class FindReportedPDFFilesUseCaseTest {
-	private FindReportedPDFFilesUseCase useCase;
+public class FindWaitingForValidationPDFFilesUseCaseTest {
+	private FindWaitingForValidationPDFFilesUseCase useCase;
 	private PDFRepository pdfRepository = Mockito.mock(PDFRepository.class);
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
@@ -31,7 +31,7 @@ public class FindReportedPDFFilesUseCaseTest {
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
-		useCase = new FindReportedPDFFilesUseCase(pdfRepository, userRepository);
+		useCase = new FindWaitingForValidationPDFFilesUseCase(pdfRepository, userRepository);
 		when(userRepository.isAdmin(1L)).thenReturn(true);
 		when(userRepository.isAdmin(2L)).thenReturn(false);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
@@ -43,7 +43,7 @@ public class FindReportedPDFFilesUseCaseTest {
 		PDF pdf4 = new PDF(4L,"name4", "desc4", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository));
 		pdfList = Arrays.asList(pdf, pdf2, pdf3, pdf4);
-		when(pdfRepository.findAllReportedPDFs()).thenReturn(pdfList);
+		when(pdfRepository.findAllWaitingForValidationPDFs()).thenReturn(pdfList);
 	}
 	
 	
