@@ -2,11 +2,11 @@ package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 
-public class PDFPricePolicy {
+public class PDFPricingPolicy {
 	
 	private PDFManagementParametersRepository repository;
 	
-	public PDFPricePolicy(PDFManagementParametersRepository repository) {
+	public PDFPricingPolicy(PDFManagementParametersRepository repository) {
 		this.repository = repository;
 	}
 	
@@ -24,7 +24,7 @@ public class PDFPricePolicy {
 	}
 	
 	private int computeEvaluationBonus(PDF pdf, PDFManagementParameters parameters) {
-		if(pdf.getEvaluations().size() >= parameters.getMinEvaluationNumberToBonus() && pdf.getEvaluationsMean() >= parameters.getMinHighEvaluationMean()) {
+		if(pdf.getEvaluations().size() >= parameters.getMinEvaluationNumberToBonus() && pdf.getEvaluationMean() >= parameters.getMinHighEvaluationMean()) {
 			return parameters.getHighEvaluationMeanBonus();
 		} 
 		return 0;

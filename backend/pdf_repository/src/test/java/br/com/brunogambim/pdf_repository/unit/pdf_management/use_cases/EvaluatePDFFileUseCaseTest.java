@@ -58,7 +58,7 @@ public class EvaluatePDFFileUseCaseTest {
 			assertThat(x.getEvaluations().get(1L)).isNotNull();
 			assertThat(x.getEvaluations().get(2L)).isNull();
 			assertThat(x.getEvaluations().get(1L).getValue()).isEqualTo(5);
-			assertThat(x.getEvaluationsMean()).isEqualTo(5);
+			assertThat(x.getEvaluationMean()).isEqualTo(5);
 			return true;
 	    }));
 	}
@@ -87,7 +87,7 @@ public class EvaluatePDFFileUseCaseTest {
 			assertThat(x.getStatus()).isEqualTo(PDFStatus.VALIDATED);
 			assertThat(x.getEvaluations().get(1L)).isNotNull();
 			assertThat(x.getEvaluations().get(1L).getValue()).isEqualTo(5);
-			assertThat(x.getEvaluationsMean()).isEqualTo(7.5);
+			assertThat(x.getEvaluationMean()).isEqualTo(7.5);
 			return true;
 	    }));
 	}
