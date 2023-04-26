@@ -24,7 +24,7 @@ public class PDFPricePolicy {
 	}
 	
 	private int computeEvaluationBonus(PDF pdf, PDFManagementParameters parameters) {
-		if(pdf.getEvaluations().size() > parameters.getMinEvaluationNumberToBonus() && pdf.getEvaluationsMean() > parameters.getMinEvaluationNumberToBonus()) {
+		if(pdf.getEvaluations().size() >= parameters.getMinEvaluationNumberToBonus() && pdf.getEvaluationsMean() >= parameters.getMinHighEvaluationMean()) {
 			return parameters.getHighEvaluationMeanBonus();
 		} 
 		return 0;
