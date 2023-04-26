@@ -17,9 +17,10 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePol
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFInfoByNameUseCase;
+import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFInfoByOwnerNameUseCase;
 
-public class FindPDFInfoByNameUseCaseTest {
-	private FindPDFInfoByNameUseCase useCase;
+public class FindPDFInfoByOwnerNameUseCaseTest {
+	private FindPDFInfoByOwnerNameUseCase useCase;
 	private PDFRepository pdfRepository = Mockito.mock(PDFRepository.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
 	private PDFPricingPolicy pricingPolicy; 
@@ -31,7 +32,7 @@ public class FindPDFInfoByNameUseCaseTest {
 		when(managementParametersRepository.findParameters())
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
 		this.pricingPolicy = new PDFPricingPolicy(managementParametersRepository);
-		useCase = new FindPDFInfoByNameUseCase(pdfRepository, managementParametersRepository);
+		useCase = new FindPDFInfoByOwnerNameUseCase(pdfRepository, managementParametersRepository);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository));
 		PDF pdf2 = new PDF(2L,"name2", "desc2", "pdf", 4, new byte[] {1,2,3,4},
@@ -50,8 +51,8 @@ public class FindPDFInfoByNameUseCaseTest {
 				new PDFSizePolicy(managementParametersRepository));
 		pdfList = Arrays.asList(pdf, pdf2, pdf3, pdf4);
 		pdfList2 = Arrays.asList(pdf5, pdf6, pdf7, pdf8);
-		when(pdfRepository.findPDFFilesByNameContains("name")).thenReturn(pdfList);
-		when(pdfRepository.findPDFFilesByNameContains("2name")).thenReturn(pdfList2);
+		when(pdfRepository.findPDFFilesByOwnerNameContains("name")).thenReturn(pdfList);
+		when(pdfRepository.findPDFFilesByOwnerNameContains("2name")).thenReturn(pdfList2);
 	}
 	
 	

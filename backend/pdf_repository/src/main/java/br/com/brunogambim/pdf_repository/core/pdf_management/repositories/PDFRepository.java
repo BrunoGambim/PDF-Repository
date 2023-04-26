@@ -10,5 +10,6 @@ public interface PDFRepository {
 	public void delete(Long id);
 	public List<PDF> findAllReportedPDFs();
 	public List<PDF> findAllWaitingForValidationPDFs();
-	public List<PDF> findPDFFilesNameContains(String name);
+	public List<PDF> findPDFFilesByNameContains(String name);
+	public List<PDF> findPDFFilesByOwnerNameContains(String name);
 }
