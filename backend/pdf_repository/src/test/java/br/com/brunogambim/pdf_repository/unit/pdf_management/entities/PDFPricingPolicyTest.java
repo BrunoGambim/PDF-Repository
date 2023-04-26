@@ -9,20 +9,20 @@ import org.mockito.Mockito;
 
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFManagementParameters;
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricePolicy;
+import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricingPolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 
-public class PDFPricePolicyTest {
-	private PDFPricePolicy policy;
+public class PDFPricingPolicyTest {
+	private PDFPricingPolicy policy;
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
 
 	@BeforeEach
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
-		policy = new PDFPricePolicy(managementParametersRepository);
+		policy = new PDFPricingPolicy(managementParametersRepository);
 
 	}
 	

@@ -82,6 +82,10 @@ public class PDF {
 	public void setStatus(PDFStatus status) {
 		this.status = status;
 	}
+	
+	public PDFInfo getPDFInfo(PDFPricingPolicy pricingPolicy) {
+		return new PDFInfo(id, name, description, size, this.getEvaluationMean(), pricingPolicy.execute(this));
+	}
 
 	public void setData(byte[] data, PDFSizePolicy pdfSizePolicy) {
 		if(data == null) {
@@ -116,7 +120,7 @@ public class PDF {
 		this.evaluations.put(client.getId(), new Evaluation(value, client));
 	}
 	
-	public double getEvaluationsMean() {
+	public double getEvaluationMean() {
 		double evaluationSum = 0;
 		for(Evaluation evaluation: this.evaluations.values()) {
 			evaluationSum += evaluation.getValue(); 
