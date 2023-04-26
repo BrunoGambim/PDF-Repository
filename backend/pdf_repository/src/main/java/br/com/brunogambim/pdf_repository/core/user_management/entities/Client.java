@@ -21,10 +21,11 @@ public class Client extends User{
 	}
 	
 	public Client(Long id, String username, String password, String email, int balance) {
-		super(id, username, password, email);
-		this.ownedPDFList = new ArrayList<PDF>();
-		this.hasAccessPDFList = new ArrayList<PDF>();
-		this.balance = balance;
+		this(id, username, password, email,  new ArrayList<PDF>(), new ArrayList<PDF>(), balance);
+	}
+	
+	public Client(String username, String password, String email, int balance) {
+		this(null, username, password, email,  new ArrayList<PDF>(), new ArrayList<PDF>(), balance);
 	}
 
 	public List<PDF> getOwnedPDFList() {
