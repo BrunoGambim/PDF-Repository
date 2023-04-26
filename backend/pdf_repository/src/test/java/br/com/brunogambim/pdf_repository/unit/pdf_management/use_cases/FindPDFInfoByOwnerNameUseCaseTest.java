@@ -16,7 +16,6 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricing
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
-import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFInfoByNameUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFInfoByOwnerNameUseCase;
 
 public class FindPDFInfoByOwnerNameUseCaseTest {
