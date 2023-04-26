@@ -117,7 +117,7 @@ public class UpdatePDFFileUseCaseTest {
 	}
 	
 	@Test
-	void unauthorizedToDeletePDf() {	
+	void unauthorizedToUpdatePDf() {	
 		assertThatThrownBy(() -> {
 			useCase.execute(2L, 1L,"", "desc", "pdf", 4, new byte[] {1,2,3,4});
 		}).isInstanceOf(UnauthorizedUserException.class);

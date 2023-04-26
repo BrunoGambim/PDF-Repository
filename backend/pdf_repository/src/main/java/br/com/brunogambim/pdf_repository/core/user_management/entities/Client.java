@@ -13,7 +13,8 @@ public class Client extends User{
 	private List<PDF> hasAccessPDFList;
 	int balance;
 
-	public Client(Long id, String username, String password, String email, List<PDF> ownedPDFList, List<PDF> hasAccessPDFList, int balance) {
+	public Client(Long id, String username, String password, String email,
+			List<PDF> ownedPDFList, List<PDF> hasAccessPDFList, int balance) {
 		super(id, username, password, email);
 		this.ownedPDFList = ownedPDFList;
 		this.hasAccessPDFList = hasAccessPDFList;
