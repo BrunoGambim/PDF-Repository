@@ -37,6 +37,27 @@ public class Client extends User{
 		return new ArrayList<PDF>(hasAccessPDFList);
 	}
 	
+	public void removeAccessAndGetRefound(Long pdfId, int value) {
+		this.addBalance(value);
+		this.removeFromHasAccessPDFList(pdfId);
+	}
+	
+	public void removeFromHasAccessPDFList(Long id) {
+		for(int i = 0; i < hasAccessPDFList.size(); i++) {
+			if(hasAccessPDFList.get(i).getId().equals(id)) {
+				hasAccessPDFList.remove(i);
+			}
+		}
+	}
+	
+	public void removeFromOwnedPDFList(Long id) {
+		for(int i = 0; i < ownedPDFList.size(); i++) {
+			if(ownedPDFList.get(i).getId().equals(id)) {
+				ownedPDFList.remove(i);
+			}
+		}
+	}
+	
 	public void addPDFToHasAccessPDFList(PDF pdf) {
 		if(this.hasAccessPDFList.contains(pdf)) {
 			throw new UserAlreadyHasAccessToPDFException();
@@ -73,6 +94,10 @@ public class Client extends User{
 		if(value > this.balance) {
 			throw new InsufficientBalanceException();
 		}
+		this.balance = this.balance - value;
+	}
+	
+	public void refound(int value) {
 		this.balance = this.balance - value;
 	}
 	

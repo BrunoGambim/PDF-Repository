@@ -61,14 +61,14 @@ public class GenerateClientTransactionReportUseCaseTest {
 		client2.addPDFToOwnedPDFList(pdf5);
 		
 		asOwnerTransactions = Arrays.asList(
-				new PurchasePDFAccessTransaction(client, pdf, client2, 5, pricingPolicy),
-				new PurchasePDFAccessTransaction(client, pdf2, client2, 7, pricingPolicy),
-				new PurchasePDFAccessTransaction(client, pdf3, client2, 10, pricingPolicy)
+				new PurchasePDFAccessTransaction(client, pdf, client2, pricingPolicy),
+				new PurchasePDFAccessTransaction(client, pdf2, client2, pricingPolicy),
+				new PurchasePDFAccessTransaction(client, pdf3, client2, pricingPolicy)
 				);
 		
 		asBuyerTransactions = Arrays.asList(
-				new PurchasePDFAccessTransaction(client2, pdf4, client, 8, pricingPolicy),
-				new PurchasePDFAccessTransaction(client2, pdf5, client, 6, pricingPolicy)
+				new PurchasePDFAccessTransaction(client2, pdf4, client, pricingPolicy),
+				new PurchasePDFAccessTransaction(client2, pdf5, client, pricingPolicy)
 				);
 		
 		when(transactionRepository.findByBuyerId(1L)).thenReturn(asBuyerTransactions);
