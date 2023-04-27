@@ -8,13 +8,13 @@ import br.com.brunogambim.pdf_repository.core.user_management.exceptions.Invalid
 
 public class UpdatePasswordCode {
 	private String code;
-	private LocalDateTime timestamp;
+	private LocalDateTime createdAt;
 	private static int MAX_PERIOD = 5 * 60 * 1000;
 	private static int CODE_LENGTH = 8;
 	
 	public UpdatePasswordCode() {
 		this.code = generateRandomCode();
-		this.timestamp = LocalDateTime.now();
+		this.createdAt = LocalDateTime.now();
 	}
 	
 	private String generateRandomCode() {
@@ -35,7 +35,7 @@ public class UpdatePasswordCode {
 	}
 
 	public void validateCode(String code) {
-		Long timePeriod = Duration.between(timestamp, LocalDateTime.now()).toMillis();
+		Long timePeriod = Duration.between(createdAt, LocalDateTime.now()).toMillis();
 		if(MAX_PERIOD < timePeriod || !code.equals(this.code)) {
 			throw new InvalidUpdatePasswordCodeException();
 		}

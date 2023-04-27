@@ -1,5 +1,7 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 
+import java.time.LocalDateTime;
+
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.ClientInfo;
 public class PurchasePDFAccessTransaction {
@@ -8,6 +10,7 @@ public class PurchasePDFAccessTransaction {
 	PDFInfo pdf;
 	ClientInfo pdfOwner;
 	int price;
+	private LocalDateTime createdAt;
 	
 	public PurchasePDFAccessTransaction(Client buyer, PDF pdf, Client pdfOwner,
 			PDFPricingPolicy pdfPricingPolicy) {
@@ -28,6 +31,7 @@ public class PurchasePDFAccessTransaction {
 		this.pdf = pdf;
 		this.pdfOwner = pdfOwner;
 		this.price = price;
+		this.createdAt = LocalDateTime.now();
 	}
 
 	public Long getId() {
@@ -49,6 +53,8 @@ public class PurchasePDFAccessTransaction {
 	public int getPrice() {
 		return price;
 	}
-	
-	
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 }

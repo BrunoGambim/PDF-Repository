@@ -1,5 +1,6 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ public class PDF {
 	private byte[] data;
 	private Map<Long, Evaluation> evaluations;
 	private PDFStatus status;
+	private LocalDateTime createdAt;
 	
 	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy,
 			HashMap<Long, Evaluation> evaluations) {
@@ -29,6 +31,7 @@ public class PDF {
 		this.setEvaluations(evaluations);
 		validateFormat(format);
 		validateDataSize(size);
+		createdAt = LocalDateTime.now();
 	}
 	
 	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
@@ -126,6 +129,14 @@ public class PDF {
 			evaluationSum += evaluation.getValue(); 
 		}
 		return evaluationSum / evaluations.size();
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	@Override

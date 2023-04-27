@@ -6,22 +6,13 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.argThat;
 import org.mockito.Mockito;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFManagementParameters;
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
-import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
-import br.com.brunogambim.pdf_repository.core.user_management.exceptions.InvalidUpdatePasswordCodeException;
-import br.com.brunogambim.pdf_repository.core.user_management.exceptions.UnauthorizedUserException;
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.EmailSenderGateway;
-import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SendUpdatePasswordCodeUseCase;
-import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientPasswordUseCase;
 
 public class SendUpdatePasswordCodeUseCaseTest {
 	private SendUpdatePasswordCodeUseCase useCase;
