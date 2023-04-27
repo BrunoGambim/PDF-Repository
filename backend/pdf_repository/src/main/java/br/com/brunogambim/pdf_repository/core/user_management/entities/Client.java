@@ -86,6 +86,6 @@ public class Client extends User{
 	
 	public ClientInfo getClientInfo() {
 		List<Long> ownedPDFIdList = ownedPDFList.stream().map(pdf -> pdf.getId()).toList();
-		return new ClientInfo(getId(), getUsername(), getEmail(), ownedPDFIdList);
+		return new ClientInfo(getId(), getUsername(), getEmail(), getBalance(), ownedPDFIdList);
 	}
 }

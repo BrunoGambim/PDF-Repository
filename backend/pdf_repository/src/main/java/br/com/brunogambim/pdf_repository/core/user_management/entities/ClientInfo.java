@@ -7,14 +7,15 @@ public class ClientInfo {
 	private Long id;
 	private String username;
 	private String email;
+	private int balance;
 	private List<Long> ownedPDFList;
 	
-	public ClientInfo(Long id, String username, String email, List<Long> ownedPDFList) {
-		super();
+	public ClientInfo(Long id, String username, String email, int balance, List<Long> ownedPDFList) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.ownedPDFList = ownedPDFList;
+		this.balance = balance;
 	}
 
 	public Long getId() {
@@ -27,6 +28,10 @@ public class ClientInfo {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public int getBalance() {
+		return balance;
 	}
 
 	public List<Long> getOwnedPDFList() {

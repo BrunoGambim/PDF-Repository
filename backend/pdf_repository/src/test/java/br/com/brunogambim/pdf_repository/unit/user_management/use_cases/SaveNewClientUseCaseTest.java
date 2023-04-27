@@ -10,14 +10,14 @@ import static org.mockito.ArgumentMatchers.argThat;
 import org.mockito.Mockito;
 
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
-import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncriptGateway;
+import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SaveNewClientUseCase;
 
 public class SaveNewClientUseCaseTest {
 	private SaveNewClientUseCase useCase;
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
-	private PasswordEncriptGateway passwordEncriptGateway = Mockito.mock(PasswordEncriptGateway.class);
+	private PasswordEncripterGateway passwordEncriptGateway = Mockito.mock(PasswordEncripterGateway.class);
 	
 	@BeforeEach
 	void initUseCase() {

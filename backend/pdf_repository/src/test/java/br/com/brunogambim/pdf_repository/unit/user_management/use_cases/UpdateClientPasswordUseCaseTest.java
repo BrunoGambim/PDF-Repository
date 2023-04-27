@@ -16,14 +16,14 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePol
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.UnauthorizedUserException;
-import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncriptGateway;
+import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientPasswordUseCase;
 
 public class UpdateClientPasswordUseCaseTest {
 	private UpdateClientPasswordUseCase useCase;
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
-	private PasswordEncriptGateway passwordEncriptGateway = Mockito.mock(PasswordEncriptGateway.class);
+	private PasswordEncripterGateway passwordEncriptGateway = Mockito.mock(PasswordEncripterGateway.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
 
 	@BeforeEach

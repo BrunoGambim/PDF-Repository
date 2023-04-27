@@ -1,5 +1,6 @@
 package br.com.brunogambim.pdf_repository.unit.pdf_management.use_cases;
 
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,6 +21,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePol
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFStatus;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
+import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFTransactionRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.PurchaseAccessToPDFFileUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.InsufficientBalanceException;
@@ -30,13 +32,14 @@ public class PurchaseAccessToPDFFileUseCaseTest {
 	private PurchaseAccessToPDFFileUseCase useCase;
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private PDFRepository pdfRepository = Mockito.mock(PDFRepository.class);
+	private PDFTransactionRepository transactionRepository = Mockito.mock(PDFTransactionRepository.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
 
 	@BeforeEach
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
-		useCase = new PurchaseAccessToPDFFileUseCase(userRepository, pdfRepository, managementParametersRepository);
+		useCase = new PurchaseAccessToPDFFileUseCase(userRepository, pdfRepository, managementParametersRepository, transactionRepository);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository));
 		PDF pdf2 = new PDF(5L,"name5", "desc5", "pdf", 2, new byte[] {1,2},
@@ -100,6 +103,24 @@ public class PurchaseAccessToPDFFileUseCaseTest {
 		assertThat(owner.getEmail()).isEqualTo("user3@mail.com");
 		assertThat(owner.getBalance()).isEqualTo(15);
 		assertThat(owner.getOwnedPDFList().size()).isEqualTo(3);
+		
+		verify(transactionRepository).save(argThat( x -> {
+			assertThat(x).isNotNull();
+			assertThat(x.getId()).isNull();
+			assertThat(x.getBuyer()).isNotNull();
+			assertThat(x.getBuyer().getId()).isEqualTo(1L);
+			assertThat(x.getBuyer().getUsername()).isEqualTo("user");
+			assertThat(x.getBuyer().getEmail()).isEqualTo("user@mail.com");
+			assertThat(x.getBuyer().getBalance()).isEqualTo(20);
+			assertThat(x.getBuyer().getOwnedPDFList().size()).isEqualTo(2);
+			assertThat(x.getPdfOwner()).isNotNull();
+			assertThat(x.getPdfOwner().getId()).isEqualTo(3L);
+			assertThat(x.getPdfOwner().getUsername()).isEqualTo("user3");
+			assertThat(x.getPdfOwner().getEmail()).isEqualTo("user3@mail.com");
+			assertThat(x.getPdfOwner().getBalance()).isEqualTo(15);
+			assertThat(x.getPdfOwner().getOwnedPDFList().size()).isEqualTo(3);
+			return true;
+	    }));
 	}
 	
 	@Test
@@ -136,6 +157,24 @@ public class PurchaseAccessToPDFFileUseCaseTest {
 		assertThat(owner.getEmail()).isEqualTo("user3@mail.com");
 		assertThat(owner.getBalance()).isEqualTo(10);
 		assertThat(owner.getOwnedPDFList().size()).isEqualTo(3);
+		
+		verify(transactionRepository).save(argThat( x -> {
+			assertThat(x).isNotNull();
+			assertThat(x.getId()).isNull();
+			assertThat(x.getBuyer()).isNotNull();
+			assertThat(x.getBuyer().getId()).isEqualTo(1L);
+			assertThat(x.getBuyer().getUsername()).isEqualTo("user");
+			assertThat(x.getBuyer().getEmail()).isEqualTo("user@mail.com");
+			assertThat(x.getBuyer().getBalance()).isEqualTo(25);
+			assertThat(x.getBuyer().getOwnedPDFList().size()).isEqualTo(2);
+			assertThat(x.getPdfOwner()).isNotNull();
+			assertThat(x.getPdfOwner().getId()).isEqualTo(3L);
+			assertThat(x.getPdfOwner().getUsername()).isEqualTo("user3");
+			assertThat(x.getPdfOwner().getEmail()).isEqualTo("user3@mail.com");
+			assertThat(x.getPdfOwner().getBalance()).isEqualTo(10);
+			assertThat(x.getPdfOwner().getOwnedPDFList().size()).isEqualTo(3);
+			return true;
+	    }));
 	}
 	
 	@Test

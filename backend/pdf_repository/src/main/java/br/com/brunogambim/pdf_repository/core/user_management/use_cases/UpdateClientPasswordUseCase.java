@@ -2,18 +2,18 @@ package br.com.brunogambim.pdf_repository.core.user_management.use_cases;
 
 import br.com.brunogambim.pdf_repository.core.user_management.entities.AuthorizationPolicy;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
-import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncriptGateway;
+import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 
 public class UpdateClientPasswordUseCase {
 	private UserRepository userRepository;
-	private PasswordEncriptGateway passwordEncriptGateway;
+	private PasswordEncripterGateway passwordEncripterGateway;
 	private AuthorizationPolicy authorizationPolicy;
 	
-	public UpdateClientPasswordUseCase(UserRepository userRepository, PasswordEncriptGateway passwordEncriptGateway) {
+	public UpdateClientPasswordUseCase(UserRepository userRepository, PasswordEncripterGateway passwordEncripterGateway) {
 		this.userRepository = userRepository;
 		this.authorizationPolicy = new AuthorizationPolicy(userRepository);
-		this.passwordEncriptGateway = passwordEncriptGateway;
+		this.passwordEncripterGateway = passwordEncripterGateway;
 	}
 	
 	public void execute(Long userId, Long clientId, String password) {
@@ -23,7 +23,7 @@ public class UpdateClientPasswordUseCase {
 		Client oldData = this.userRepository.findClient(clientId);
 		
 		Client result = new Client(clientId, oldData.getUsername(),
-				passwordEncriptGateway.encript(password), oldData.getEmail(),
+				passwordEncripterGateway.encript(password), oldData.getEmail(),
 				oldData.getOwnedPDFList(), oldData.getHasAccessPDFList(), oldData.getBalance());
 		
 		this.userRepository.save(result);
