@@ -8,4 +8,5 @@ public interface PDFTransactionRepository {
 	public List<PurchasePDFAccessTransaction> findByBuyerId(Long id);
 	public List<PurchasePDFAccessTransaction> findByOwnerId(Long id);
 	public void save(PurchasePDFAccessTransaction transaction);
+	public List<PurchasePDFAccessTransaction> findAll();
 }
