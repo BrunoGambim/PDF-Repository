@@ -15,6 +15,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFManagem
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
+import br.com.brunogambim.pdf_repository.core.user_management.exceptions.InvalidUpdatePasswordCodeException;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.UnauthorizedUserException;
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
@@ -25,7 +26,8 @@ public class UpdateClientPasswordUseCaseTest {
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private PasswordEncripterGateway passwordEncriptGateway = Mockito.mock(PasswordEncripterGateway.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
-
+	String code;
+	
 	@BeforeEach
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
@@ -33,6 +35,7 @@ public class UpdateClientPasswordUseCaseTest {
 		useCase = new UpdateClientPasswordUseCase(userRepository, passwordEncriptGateway);
 		when(passwordEncriptGateway.encript("789012")).thenReturn("210987");
 		Client client = new Client(1L, "user", "654321", "user@mail.com", 15);
+		code = client.newUpdatePasswordCode();
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository));
 		PDF pdf2 = new PDF(2L,"name2", "desc2", "pdf", 2, new byte[] {1,2},
@@ -48,7 +51,7 @@ public class UpdateClientPasswordUseCaseTest {
 	
 	@Test
 	void methodCalledWithClient() {
-		useCase.execute(1L, 1L,"789012");
+		useCase.execute(1L, 1L,"789012", code);
 	
 		verify(userRepository).save(argThat( x -> {
 			assertThat(x).isNotNull();
@@ -66,7 +69,7 @@ public class UpdateClientPasswordUseCaseTest {
 	
 	@Test
 	void methodCalledWithAdmin() {
-		useCase.execute(2L, 1L,"789012");
+		useCase.execute(2L, 1L,"789012", "1231A23");
 	
 		verify(userRepository).save(argThat( x -> {
 			assertThat(x).isNotNull();
@@ -85,7 +88,14 @@ public class UpdateClientPasswordUseCaseTest {
 	@Test
 	void unauthorizedToUpdateClientPassword() {	
 		assertThatThrownBy(() -> {
-			useCase.execute(3L, 1L,"789012");
+			useCase.execute(3L, 1L,"789012", code);
 		}).isInstanceOf(UnauthorizedUserException.class);
+	}
+	
+	@Test
+	void invalidaUpdatePasswordCode() {	
+		assertThatThrownBy(() -> {
+			useCase.execute(1L, 1L,"789012", "123A42");
+		}).isInstanceOf(InvalidUpdatePasswordCodeException.class);
 	}
 }

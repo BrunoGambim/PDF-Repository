@@ -1,16 +1,20 @@
 package br.com.brunogambim.pdf_repository.core.user_management.entities;
 
+import br.com.brunogambim.pdf_repository.core.user_management.exceptions.InvalidUpdatePasswordCodeException;
+
 public abstract class User {
 	private Long id;
 	private String username;
 	private String password;
 	private String email;
+	private UpdatePasswordCode code;
 	
 	public User(Long id, String username, String password, String email) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.code = null;
 	}
 
 	public Long getId() {
@@ -43,5 +47,17 @@ public abstract class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public void validateUpdatePasswordCode(String code) {
+		if(code == null) {
+			throw new InvalidUpdatePasswordCodeException();
+		}
+		this.code.validateCode(code);
+	}
+
+	public String newUpdatePasswordCode() {
+		code = new UpdatePasswordCode();
+		return code.getCode();
 	}
 }
