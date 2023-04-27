@@ -9,14 +9,14 @@ public class PurchasePDFAccessTransaction {
 	ClientInfo pdfOwner;
 	int price;
 	
-	public PurchasePDFAccessTransaction(Client buyer, PDF pdf, Client pdfOwner, int price,
+	public PurchasePDFAccessTransaction(Client buyer, PDF pdf, Client pdfOwner,
 			PDFPricingPolicy pdfPricingPolicy) {
-		this(buyer.getClientInfo(), pdf.getPDFInfo(pdfPricingPolicy), pdfOwner.getClientInfo(), price);
+		this(null, buyer, pdf, pdfOwner, pdfPricingPolicy);
 	}
 	
-	public PurchasePDFAccessTransaction(Long id, Client buyer, PDF pdf, Client pdfOwner, int price,
+	public PurchasePDFAccessTransaction(Long id, Client buyer, PDF pdf, Client pdfOwner,
 			PDFPricingPolicy pdfPricingPolicy) {
-		this(id, buyer.getClientInfo(), pdf.getPDFInfo(pdfPricingPolicy), pdfOwner.getClientInfo(), price);
+		this(id, buyer.getClientInfo(), pdf.getPDFInfo(pdfPricingPolicy), pdfOwner.getClientInfo(), pdfPricingPolicy.execute(pdf));
 	}
 	
 	public PurchasePDFAccessTransaction(ClientInfo buyer, PDFInfo pdf, ClientInfo pdfOwner, int price) {
