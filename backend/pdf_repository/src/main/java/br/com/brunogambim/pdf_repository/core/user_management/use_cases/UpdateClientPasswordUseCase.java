@@ -16,11 +16,14 @@ public class UpdateClientPasswordUseCase {
 		this.passwordEncripterGateway = passwordEncripterGateway;
 	}
 	
-	public void execute(Long userId, Long clientId, String password) {
-		if(userId != clientId) {
+	public void execute(Long userId, Long clientId, String password, String code) {
+		Client oldData = this.userRepository.findClient(clientId);
+		if(userId == clientId) {
+			oldData.validateUpdatePasswordCode(code);
+		}else {
 			authorizationPolicy.CheckIsAdminAuthorization(userId);
 		}
-		Client oldData = this.userRepository.findClient(clientId);
+		
 		
 		Client result = new Client(clientId, oldData.getUsername(),
 				passwordEncripterGateway.encript(password), oldData.getEmail(),
