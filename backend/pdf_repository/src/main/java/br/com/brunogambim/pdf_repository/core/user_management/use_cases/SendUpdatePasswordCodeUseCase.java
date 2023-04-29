@@ -16,7 +16,7 @@ public class SendUpdatePasswordCodeUseCase {
 	public void execute(String email) {
 		Client client = this.userRepository.findClientEmail(email);
 		String code = client.newUpdatePasswordCode();
-		this.emailSenderGateway.send(email,"Your code to update your password is " + code);
+		this.emailSenderGateway.send(email,"Your code to update your password is " + code, "Upadate Password Code");
 		this.userRepository.save(client);
 	}
 }
