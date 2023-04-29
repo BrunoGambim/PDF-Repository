@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.stereotype.Service;
 
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.EmailSenderGateway;
 
+@Service
 public class EmailSenderGatewayImpl implements EmailSenderGateway{
 	@Value("${default.sender}")
 	private String sender;
