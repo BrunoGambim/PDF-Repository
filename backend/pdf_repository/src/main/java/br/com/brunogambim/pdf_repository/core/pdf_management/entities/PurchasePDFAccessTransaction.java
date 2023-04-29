@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.ClientInfo;
 public class PurchasePDFAccessTransaction {
-	Long id;
-	ClientInfo buyer;
-	PDFInfo pdf;
-	ClientInfo pdfOwner;
-	int price;
+	private Long id;
+	private ClientInfo buyer;
+	private PDFInfo pdf;
+	private ClientInfo pdfOwner;
+	private int price;
 	private LocalDateTime createdAt;
 	
 	public PurchasePDFAccessTransaction(Client buyer, PDF pdf, Client pdfOwner,
@@ -27,11 +27,15 @@ public class PurchasePDFAccessTransaction {
 	}
 	
 	public PurchasePDFAccessTransaction(Long id, ClientInfo buyer, PDFInfo pdf, ClientInfo pdfOwner, int price) {
+		this(id, buyer, pdf, pdfOwner, price,LocalDateTime.now());
+	}
+	
+	public PurchasePDFAccessTransaction(Long id, ClientInfo buyer, PDFInfo pdf, ClientInfo pdfOwner, int price, LocalDateTime createdAt) {
 		this.buyer = buyer;
 		this.pdf = pdf;
 		this.pdfOwner = pdfOwner;
 		this.price = price;
-		this.createdAt = LocalDateTime.now();
+		this.createdAt = createdAt;
 	}
 
 	public Long getId() {
