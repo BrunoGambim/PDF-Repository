@@ -49,6 +49,10 @@ public abstract class User {
 		this.email = email;
 	}
 	
+	public UpdatePasswordCode getUpdatePasswordCode() {
+		return code;
+	}
+	
 	public void validateUpdatePasswordCode(String code) {
 		if(code == null) {
 			throw new InvalidUpdatePasswordCodeException();

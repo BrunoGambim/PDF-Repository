@@ -33,6 +33,10 @@ public class UpdatePasswordCode {
 	public String getCode() {
 		return code;
 	}
+	
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 
 	public void validateCode(String code) {
 		Long timePeriod = Duration.between(createdAt, LocalDateTime.now()).toMillis();

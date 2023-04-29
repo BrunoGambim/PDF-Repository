@@ -10,7 +10,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidF
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 
 public class PDF {
-	private static final String PDF_FORMAT = "pdf";
+	public static final String PDF_FORMAT = "pdf";
 	
 	private Long id;
 	private String name;
