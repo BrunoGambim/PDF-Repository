@@ -52,6 +52,10 @@ public class SendUpdatePasswordCodeUseCaseTest {
 			assertThat(x).isNotNull();
 			
 			return true;
+	    }),argThat( x -> {
+			assertThat(x).isNotNull();
+			
+			return true;
 	    }));
 	}
 }
