@@ -9,4 +9,5 @@ public interface UserRepository {
 	public Client findClientEmail(String email);
 	public Client findPDFOwner(Long pdfId);
 	public boolean isAdmin(Long id);
+	public User findUserEmail(String email);
 }
