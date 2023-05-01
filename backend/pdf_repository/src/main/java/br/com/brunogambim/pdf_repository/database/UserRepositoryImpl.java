@@ -81,6 +81,21 @@ public class UserRepositoryImpl implements UserRepository{
 			throw new ObjectNotFoundException();
 		}
 	}
+	
+	@Override
+	public User findUserEmail(String email) {
+		UserModel userModel = this.jpaUserRepository.findByEmail(email)
+				.orElseThrow(() -> {
+			throw new ObjectNotFoundException();
+		});
+		if(userIsClient(userModel)) {
+			ClientModel clientModel = (ClientModel) userModel;
+			return clientModel.toClient(pdfSizePolicy);
+		} else {
+			AdminModel adminModel = (AdminModel) userModel;
+			return adminModel.toAdmin(pdfSizePolicy);
+		}
+	}
 
 	@Override
 	public Client findPDFOwner(Long pdfId) {
