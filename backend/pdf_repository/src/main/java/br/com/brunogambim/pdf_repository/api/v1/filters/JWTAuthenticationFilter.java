@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.brunogambim.pdf_repository.api.v1.controllers.dtos.CredentialsDTO;
+import br.com.brunogambim.pdf_repository.api.v1.dtos.CredentialsDTO;
 import br.com.brunogambim.pdf_repository.api.v1.security.entities.JWTUtils;
 import br.com.brunogambim.pdf_repository.api.v1.security.entities.UserSS;
 import jakarta.servlet.FilterChain;

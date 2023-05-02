@@ -2,7 +2,6 @@ package br.com.brunogambim.pdf_repository.api.v1.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(name = "/users")
-@EnableMethodSecurity
 public class UserController {
 
 	private AuthenticationService authService;
@@ -26,5 +24,10 @@ public class UserController {
 	public ResponseEntity<Void> refreshToken(HttpServletResponse httpResponse){
 		this.authService.refreshToken(httpResponse);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value = "/admin", method = RequestMethod.POST)
+	public String admin(){
+		return "admin";
 	}
 }

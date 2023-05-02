@@ -1,4 +1,4 @@
-package br.com.brunogambim.pdf_repository.api.v1.controllers.dtos;
+package br.com.brunogambim.pdf_repository.api.v1.dtos;
 
 import java.io.Serializable;
 

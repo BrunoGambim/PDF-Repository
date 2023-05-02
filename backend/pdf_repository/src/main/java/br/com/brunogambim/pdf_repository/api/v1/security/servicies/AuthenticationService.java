@@ -34,4 +34,8 @@ public class AuthenticationService {
 			return Optional.empty();
 		}
 	}
+	
+	public static Long authenticatedId() {
+		return ((UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+	}
 }
