@@ -39,10 +39,12 @@ public class EvaluatePDFFileUseCaseTest {
 	
 	@Test
 	void evaluateAPDFFileWithNoEvaluations() {
-		PDF pdf =  new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2}, new PDFSizePolicy(managementParametersRepository));
-		when(pdfRepository.find(1L)).thenReturn(pdf);
+		Client owner = new Client(1L, "user", "123456","user@mail.com", 30);
+		PDF pdf =  new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2}, new PDFSizePolicy(managementParametersRepository), owner);
+		
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
-		client.addPDFToHasAccessPDFList(pdf);
+		pdf.addToCanBeAccessedByList(client);
+		when(pdfRepository.find(1L)).thenReturn(pdf);
 		when(userRepository.findClient(1L)).thenReturn(client);
 		
 		useCase.execute(1L, 1L, 5);
@@ -65,14 +67,15 @@ public class EvaluatePDFFileUseCaseTest {
 	
 	@Test
 	void evaluateAPDFFileWithOneEvaluation() {
-		PDF pdf =  new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2}, new PDFSizePolicy(managementParametersRepository));
+		Client owner = new Client(1L, "user", "123456","user@mail.com", 30);
+		PDF pdf =  new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2}, new PDFSizePolicy(managementParametersRepository), owner);
 		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
-		client2.addPDFToHasAccessPDFList(pdf);
+		pdf.addToCanBeAccessedByList(client2);
 		pdf.addEvaluation(client2, 10);
 		
 		when(pdfRepository.find(1L)).thenReturn(pdf);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
-		client.addPDFToHasAccessPDFList(pdf);
+		pdf.addToCanBeAccessedByList(client);
 		when(userRepository.findClient(1L)).thenReturn(client);
 		
 		useCase.execute(1L, 1L, 5);
@@ -94,10 +97,11 @@ public class EvaluatePDFFileUseCaseTest {
 	
 	@Test
 	void invalidEvaluationValue() {
-		PDF pdf =  new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2}, new PDFSizePolicy(managementParametersRepository));
+		Client owner = new Client(1L, "user", "123456","user@mail.com", 30);
+		PDF pdf =  new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2}, new PDFSizePolicy(managementParametersRepository), owner);
 		when(pdfRepository.find(1L)).thenReturn(pdf);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
-		client.addPDFToHasAccessPDFList(pdf);
+		pdf.addToCanBeAccessedByList(client);
 		when(userRepository.findClient(1L)).thenReturn(client);
 		
 		assertThatThrownBy(() -> {

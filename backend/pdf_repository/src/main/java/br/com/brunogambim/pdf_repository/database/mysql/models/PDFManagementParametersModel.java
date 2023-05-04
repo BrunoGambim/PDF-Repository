@@ -33,7 +33,7 @@ public class PDFManagementParametersModel {
 		this.minHighEvaluationMean = minHighEvaluationMean;
 	}
 	
-	public PDFManagementParameters toPDFManagementParameters() {
+	public PDFManagementParameters toEntity() {
 		return new PDFManagementParameters(maxSize, minBigFileSize, bigFilePrice, smallFilePrice,
 				highEvaluationMeanBonus, minEvaluationNumberToBonus, minHighEvaluationMean);
 	}

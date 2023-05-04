@@ -19,21 +19,21 @@ public class DeletePDFFileUseCase {
 			PDFTransactionRepository transactionRepository) {
 		this.pdfRepository = pdfRepository;
 		this.userRepository = userRepository;
-		this.authorizationPolicy = new AuthorizationPolicy(userRepository);
+		this.authorizationPolicy = new AuthorizationPolicy(userRepository, pdfRepository);
 		this.transactionRepository = transactionRepository;
 	}
 	
 	public void execute(Long clientId, Long pdfId) {
 		this.authorizationPolicy.CheckIsAdminOrOwnerAuthorization(clientId, pdfId);
 		List<PurchasePDFAccessTransaction> transactions = this.transactionRepository.findAll();
-		Client owner = userRepository.findPDFOwner(pdfId);
+		Client owner = pdfRepository.find(pdfId).getOwner();
 		for(PurchasePDFAccessTransaction transaction: transactions) {
-			Client client = userRepository.findClient(transaction.getBuyer().getId());
-			client.removeAccessAndGetRefound(pdfId, transaction.getPrice());
+			Client client = userRepository.findClient(transaction.getBuyerId());
+			client.addBalance(transaction.getPrice());
 			userRepository.save(client);
 			owner.refound(transaction.getPrice());
 		}
-		owner.removeFromOwnedPDFList(pdfId);
+
 		this.userRepository.save(owner);
 		this.pdfRepository.delete(pdfId);
 	}

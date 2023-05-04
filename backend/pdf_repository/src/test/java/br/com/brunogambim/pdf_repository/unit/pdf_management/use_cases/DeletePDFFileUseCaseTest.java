@@ -45,23 +45,20 @@ public class DeletePDFFileUseCaseTest {
 		when(userRepository.isAdmin(1L)).thenReturn(false);
 		when(userRepository.isAdmin(2L)).thenReturn(true);
 		when(userRepository.isAdmin(3L)).thenReturn(false);
-		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
-		client.addPDFToOwnedPDFList(pdf);
 		Client client2 = new Client(3L, "user3", "123456","user3@mail.com", 30);
-		client2.addPDFToHasAccessPDFList(pdf);
 		Client client3 = new Client(4L, "user4", "123456","user4@mail.com", 30);
-		client3.addPDFToHasAccessPDFList(pdf);
+		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
+				new PDFSizePolicy(managementParametersRepository), client);
 		List<PurchasePDFAccessTransaction> transactions = Arrays.asList(
 				new PurchasePDFAccessTransaction(client2, pdf, client, pricingPolicy),
 				new PurchasePDFAccessTransaction(client3, pdf, client, pricingPolicy)
 				);
 		when(transactionRepository.findAll()).thenReturn(transactions);
-		when(userRepository.findPDFOwner(1L)).thenReturn(client);
 		when(userRepository.findClient(1L)).thenReturn(client);
 		when(userRepository.findClient(3L)).thenReturn(client2);
 		when(userRepository.findClient(4L)).thenReturn(client3);
+		when(pdfRepository.find(1L)).thenReturn(pdf);
 	}
 	
 	
@@ -87,8 +84,6 @@ public class DeletePDFFileUseCaseTest {
 		assertThat(buyer.getPassword()).isEqualTo("123456");
 		assertThat(buyer.getEmail()).isEqualTo("user3@mail.com");
 		assertThat(buyer.getBalance()).isEqualTo(40);
-		assertThat(buyer.getOwnedPDFList().size()).isEqualTo(0);
-		assertThat(buyer.getHasAccessPDFList().size()).isEqualTo(0);
 		
 		Client buyer2 = clients.get(1);
 		assertThat(buyer2).isNotNull();
@@ -97,8 +92,6 @@ public class DeletePDFFileUseCaseTest {
 		assertThat(buyer2.getPassword()).isEqualTo("123456");
 		assertThat(buyer2.getEmail()).isEqualTo("user4@mail.com");
 		assertThat(buyer2.getBalance()).isEqualTo(40);
-		assertThat(buyer2.getOwnedPDFList().size()).isEqualTo(0);
-		assertThat(buyer2.getHasAccessPDFList().size()).isEqualTo(0);
 		
 		Client owner = clients.get(2);
 		assertThat(owner).isNotNull();
@@ -107,7 +100,6 @@ public class DeletePDFFileUseCaseTest {
 		assertThat(owner.getPassword()).isEqualTo("123456");
 		assertThat(owner.getEmail()).isEqualTo("user@mail.com");
 		assertThat(owner.getBalance()).isEqualTo(10);
-		assertThat(owner.getOwnedPDFList().size()).isEqualTo(0);
 	}
 	
 	@Test
@@ -132,8 +124,6 @@ public class DeletePDFFileUseCaseTest {
 		assertThat(buyer.getPassword()).isEqualTo("123456");
 		assertThat(buyer.getEmail()).isEqualTo("user3@mail.com");
 		assertThat(buyer.getBalance()).isEqualTo(40);
-		assertThat(buyer.getOwnedPDFList().size()).isEqualTo(0);
-		assertThat(buyer.getHasAccessPDFList().size()).isEqualTo(0);
 		
 		Client buyer2 = clients.get(1);
 		assertThat(buyer2).isNotNull();
@@ -142,8 +132,6 @@ public class DeletePDFFileUseCaseTest {
 		assertThat(buyer2.getPassword()).isEqualTo("123456");
 		assertThat(buyer2.getEmail()).isEqualTo("user4@mail.com");
 		assertThat(buyer2.getBalance()).isEqualTo(40);
-		assertThat(buyer2.getOwnedPDFList().size()).isEqualTo(0);
-		assertThat(buyer2.getHasAccessPDFList().size()).isEqualTo(0);
 		
 		Client owner = clients.get(2);
 		assertThat(owner).isNotNull();
@@ -152,7 +140,6 @@ public class DeletePDFFileUseCaseTest {
 		assertThat(owner.getPassword()).isEqualTo("123456");
 		assertThat(owner.getEmail()).isEqualTo("user@mail.com");
 		assertThat(owner.getBalance()).isEqualTo(10);
-		assertThat(owner.getOwnedPDFList().size()).isEqualTo(0);
 	}
 	
 	@Test

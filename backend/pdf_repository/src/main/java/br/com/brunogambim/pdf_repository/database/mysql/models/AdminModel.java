@@ -1,6 +1,5 @@
 package br.com.brunogambim.pdf_repository.database.mysql.models;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Admin;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.User;
 import jakarta.persistence.Entity;
@@ -20,7 +19,7 @@ public class AdminModel extends UserModel{
 		super(id, username, password, email, codeModel);
 	}
 
-	public User toAdmin(PDFSizePolicy pdfSizePolicy) {
+	public User toEntity() {
 		return new Admin(getId(), getUsername(), getPassword(), getEmail());
 	}
 }

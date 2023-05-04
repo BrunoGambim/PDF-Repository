@@ -32,6 +32,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -43,10 +44,21 @@ public class SecurityConfig {
 	private JWTUtils jwtUtils;
 	
 	private static final String[] PUBLIC_MATCHERS = {
-		"/login/**"
+		"/login/**",
+		"/**"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_GET = {
+		"/clients/*"
+	};
+	
+	private static final String[] PUBLIC_MATCHERS_POST = {
+		"/clients",
+		"/clients/updatePasswordCode"
+	};
+	
+	private static final String[] PUBLIC_MATCHERS_PUT = {
+		"/clients/*/password",
 	};
 	
 	@Bean
@@ -74,6 +86,8 @@ public class SecurityConfig {
 		http.cors().and().csrf().disable();
 		http.authorizeHttpRequests((authz) -> authz
             .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+            .requestMatchers(HttpMethod.PUT, PUBLIC_MATCHERS_PUT).permitAll()
+            .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
             .requestMatchers(PUBLIC_MATCHERS).permitAll()
  			.anyRequest().authenticated()
         ).httpBasic();

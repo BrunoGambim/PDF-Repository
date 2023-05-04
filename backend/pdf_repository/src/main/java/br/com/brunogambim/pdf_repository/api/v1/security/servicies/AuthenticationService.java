@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import br.com.brunogambim.pdf_repository.api.v1.exceptions.AuthorizationException;
 import br.com.brunogambim.pdf_repository.api.v1.security.entities.JWTUtils;
 import br.com.brunogambim.pdf_repository.api.v1.security.entities.UserSS;
+import br.com.brunogambim.pdf_repository.core.user_management.exceptions.UnauthorizedUserException;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Service
@@ -21,7 +21,7 @@ public class AuthenticationService {
 	}
 	
 	public void refreshToken(HttpServletResponse httpResponse) {
-		UserSS user = (UserSS) authenticated().orElseThrow(() -> new AuthorizationException());
+		UserSS user = (UserSS) authenticated().orElseThrow(() -> new UnauthorizedUserException());
 		String jwtToken = this.jwtUtil.generateToken(user.getUsername());
 		httpResponse.addHeader("Authorization","Bearer " + jwtToken);
 		httpResponse.addHeader("access-control-expose-headers","Authorization");

@@ -21,7 +21,7 @@ public class PDFManagementParametersRepositoryImpl implements PDFManagementParam
 	public PDFManagementParameters findParameters() {
 		return this.jpapdfManagementParametersRepository.findById(1L).orElseThrow(() -> {
 			throw new ObjectNotFoundException();
-		}).toPDFManagementParameters();
+		}).toEntity();
 	}
 
 }

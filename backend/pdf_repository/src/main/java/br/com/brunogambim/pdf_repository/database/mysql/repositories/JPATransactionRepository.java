@@ -9,7 +9,7 @@ import br.com.brunogambim.pdf_repository.database.mysql.models.PurchasePDFAccess
 
 @Repository
 public interface JPATransactionRepository extends JpaRepository<PurchasePDFAccessTransactionModel, Long> {
-	List<PurchasePDFAccessTransactionModel> findByPdfOwnerId(Long id);
+	List<PurchasePDFAccessTransactionModel> findByOwnerId(Long id);
 	List<PurchasePDFAccessTransactionModel> findByBuyerId(Long id);
 	List<PurchasePDFAccessTransactionModel> findByPdfId(Long id);
 }

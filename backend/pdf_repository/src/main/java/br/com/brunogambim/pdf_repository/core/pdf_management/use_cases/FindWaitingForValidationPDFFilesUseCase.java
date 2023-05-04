@@ -2,7 +2,9 @@ package br.com.brunogambim.pdf_repository.core.pdf_management.use_cases;
 
 import java.util.List;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
+import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFInfo;
+import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricingPolicy;
+import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.AuthorizationPolicy;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
@@ -10,14 +12,18 @@ import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserR
 public class FindWaitingForValidationPDFFilesUseCase {
 	private PDFRepository pdfRepository;
 	private AuthorizationPolicy authorizationPolicy;
+	private PDFPricingPolicy pdfPricingPolicy;
 
-	public FindWaitingForValidationPDFFilesUseCase(PDFRepository pdfRepository, UserRepository userRepository) {
+	public FindWaitingForValidationPDFFilesUseCase(PDFRepository pdfRepository, UserRepository userRepository,
+			PDFManagementParametersRepository pdfManagementParametersRepository) {
 		this.pdfRepository = pdfRepository;
-		this.authorizationPolicy = new AuthorizationPolicy(userRepository);
+		this.authorizationPolicy = new AuthorizationPolicy(userRepository, pdfRepository);
+		this.pdfPricingPolicy = new PDFPricingPolicy(pdfManagementParametersRepository);
 	}
 	
-	public List<PDF> execute(Long userId) {
+	public List<PDFInfo> execute(Long userId) {
 		this.authorizationPolicy.CheckIsAdminAuthorization(userId);
-		return this.pdfRepository.findAllWaitingForValidationPDFs();
+		return this.pdfRepository.findAllWaitingForValidationPDFs()
+				.stream().map(pdf -> pdf.getPDFInfoWithData(pdfPricingPolicy)).toList();
 	}
 }

@@ -2,17 +2,23 @@ package br.com.brunogambim.pdf_repository.core.pdf_management.use_cases;
 
 import java.util.List;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
-import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
+import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFInfo;
+import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricingPolicy;
+import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
+import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 
 public class FindPDFFilesThatAnUserOwnsUseCase {
-	private UserRepository userRepository;
+	private PDFRepository pdfRepository;
+	private PDFPricingPolicy pdfPricingPolicy;
 	
-	public FindPDFFilesThatAnUserOwnsUseCase(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public FindPDFFilesThatAnUserOwnsUseCase(PDFRepository pdfRepository,
+			PDFManagementParametersRepository pdfManagementParametersRepository) {
+		this.pdfRepository = pdfRepository;
+		this.pdfPricingPolicy = new PDFPricingPolicy(pdfManagementParametersRepository);
 	}
 	
-	public List<PDF> execute(Long id) {
-		return userRepository.findClient(id).getOwnedPDFList();
+	public List<PDFInfo> execute(Long id) {
+		return pdfRepository.findPDFilesOwnedBy(id)
+				.stream().map(pdf -> pdf.getPDFInfoWithData(pdfPricingPolicy)).toList();
 	}
 }

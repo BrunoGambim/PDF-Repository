@@ -19,6 +19,6 @@ public class FindPDFInfoByOwnerNameUseCase {
 	
 	public List<PDFInfo> execute(String name) {
 		List<PDF> pdfList = this.pdfRepository.findPDFFilesByOwnerNameContains(name);
-		return pdfList.stream().map(pdf -> pdf.getPDFInfo(pricingPolicy)).toList();
+		return pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy)).toList();
 	}
 }

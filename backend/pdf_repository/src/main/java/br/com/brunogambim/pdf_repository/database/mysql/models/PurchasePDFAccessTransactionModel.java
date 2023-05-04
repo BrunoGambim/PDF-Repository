@@ -3,116 +3,88 @@ package br.com.brunogambim.pdf_repository.database.mysql.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricingPolicy;
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PurchasePDFAccessTransaction;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity(name = "purchase_pdf_access_transaction")
 public class PurchasePDFAccessTransactionModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	
-	@ManyToOne
-	@JoinColumn(name = "buyer_id")
-	ClientModel buyer;
-	
-	@ManyToOne
-	@JoinColumn(name = "pdf_id")
-	PDFModel pdf;
-	
-	@ManyToOne
-	@JoinColumn(name = "pdf_owner_id")
-	ClientModel pdfOwner;
-	
-	int price;
+	private Long id;
+	private Long buyerId;
+	private String buyerName;
+	private Long pdfId;
+	private String pdfName;
+	private Long ownerId;
+	private String ownerName;
+	private int price;
 	private LocalDateTime createdAt;
-	
-	public PurchasePDFAccessTransactionModel() {
-	}
-	
-	public PurchasePDFAccessTransactionModel(PurchasePDFAccessTransaction pdfAccessTransaction,
-			ClientModel owner, ClientModel buyer, PDFModel pdf) {
-		this.buyer = buyer;
-		this.pdfOwner = owner;
-		this.pdf = pdf;
-		this.price = pdfAccessTransaction.getPrice();
-		this.createdAt = pdfAccessTransaction.getCreatedAt();
-	}
-	
-	public PurchasePDFAccessTransactionModel(Long id, ClientModel buyer, PDFModel pdf, ClientModel pdfOwner, int price,
-			LocalDateTime createdAt) {
-		super();
+
+	public PurchasePDFAccessTransactionModel(Long id, Long buyerId, String buyerName, Long pdfId, String pdfName,
+			Long ownerId, String ownerName, int price, LocalDateTime createdAt) {
 		this.id = id;
-		this.buyer = buyer;
-		this.pdf = pdf;
-		this.pdfOwner = pdfOwner;
+		this.buyerId = buyerId;
+		this.buyerName = buyerName;
+		this.pdfId = pdfId;
+		this.pdfName = pdfName;
+		this.ownerId = ownerId;
+		this.ownerName = ownerName;
 		this.price = price;
 		this.createdAt = createdAt;
 	}
 	
-	public PurchasePDFAccessTransaction toEntity(PDFPricingPolicy pdfPricingPolicy, PDFSizePolicy pdfSizePolicy) {
-		return new PurchasePDFAccessTransaction(id,buyer.toClient(pdfSizePolicy).getClientInfo(),
-				pdf.toPDF(pdfSizePolicy).getPDFInfo(pdfPricingPolicy),
-				pdfOwner.toClient(pdfSizePolicy).getClientInfo(),price);
+	public PurchasePDFAccessTransactionModel(PurchasePDFAccessTransaction entity) {
+		this(entity.getId(),entity.getBuyerId(), entity.getBuyerName(), entity.getPdfId(), entity.getPdfName(),
+				entity.getOwnerId(), entity.getOwnerName(), entity.getPrice(), entity.getCreatedAt());
 	}
 	
-	public static List<PurchasePDFAccessTransaction> modelListToEntityList(List<PurchasePDFAccessTransactionModel> modelList,
-			PDFPricingPolicy pdfPricingPolicy, PDFSizePolicy pdfSizePolicy) {
-		return modelList.stream().map(transaction -> transaction.toEntity(pdfPricingPolicy, pdfSizePolicy)).toList();
+	public PurchasePDFAccessTransaction toEntity() {
+		return new PurchasePDFAccessTransaction(id, buyerId, buyerName, pdfId, pdfName, ownerId, ownerName, price, createdAt);
+	}
+	
+	public static List<PurchasePDFAccessTransaction> modelListToEntityList(List<PurchasePDFAccessTransactionModel> modelList) {
+		return modelList.stream().map(transaction -> transaction.toEntity()).toList();
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Long getBuyerId() {
+		return buyerId;
 	}
 
-	public ClientModel getBuyer() {
-		return buyer;
+	public String getBuyerName() {
+		return buyerName;
 	}
 
-	public void setBuyer(ClientModel buyer) {
-		this.buyer = buyer;
+	public Long getPdfId() {
+		return pdfId;
 	}
 
-	public PDFModel getPdf() {
-		return pdf;
+	public String getPdfName() {
+		return pdfName;
 	}
 
-	public void setPdf(PDFModel pdf) {
-		this.pdf = pdf;
+	public Long getOwnerId() {
+		return ownerId;
 	}
 
-	public ClientModel getPdfOwner() {
-		return pdfOwner;
-	}
-
-	public void setPdfOwner(ClientModel pdfOwner) {
-		this.pdfOwner = pdfOwner;
+	public String getOwnerName() {
+		return ownerName;
 	}
 
 	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
+	
+	public PurchasePDFAccessTransactionModel() {
 	}
 }

@@ -12,7 +12,7 @@ public class ReportPDFFileUseCase {
 
 	public ReportPDFFileUseCase(PDFRepository pdfRepository, UserRepository userRepository) {
 		this.pdfRepository = pdfRepository;
-		this.authorizationPolicy = new AuthorizationPolicy(userRepository);
+		this.authorizationPolicy = new AuthorizationPolicy(userRepository, pdfRepository);
 	}
 	
 	public void execute(Long userId, Long pdfId) {

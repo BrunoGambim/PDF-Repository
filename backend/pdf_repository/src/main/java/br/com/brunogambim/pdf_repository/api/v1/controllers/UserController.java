@@ -10,7 +10,7 @@ import br.com.brunogambim.pdf_repository.api.v1.security.servicies.Authenticatio
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(name = "/users")
+@RequestMapping(value = "/users")
 public class UserController {
 
 	private AuthenticationService authService;
@@ -24,10 +24,5 @@ public class UserController {
 	public ResponseEntity<Void> refreshToken(HttpServletResponse httpResponse){
 		this.authService.refreshToken(httpResponse);
 		return ResponseEntity.noContent().build();
-	}
-	
-	@RequestMapping(value = "/admin", method = RequestMethod.POST)
-	public String admin(){
-		return "admin";
 	}
 }

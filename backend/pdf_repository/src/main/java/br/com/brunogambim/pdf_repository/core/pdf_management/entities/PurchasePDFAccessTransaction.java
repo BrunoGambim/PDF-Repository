@@ -3,37 +3,37 @@ package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 import java.time.LocalDateTime;
 
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
-import br.com.brunogambim.pdf_repository.core.user_management.entities.ClientInfo;
+
 public class PurchasePDFAccessTransaction {
 	private Long id;
-	private ClientInfo buyer;
-	private PDFInfo pdf;
-	private ClientInfo pdfOwner;
+	private Long buyerId;
+	private String buyerName;
+	private Long pdfId;
+	private String pdfName;
+	private Long ownerId;
+	private String ownerName;
 	private int price;
 	private LocalDateTime createdAt;
 	
-	public PurchasePDFAccessTransaction(Client buyer, PDF pdf, Client pdfOwner,
-			PDFPricingPolicy pdfPricingPolicy) {
-		this(null, buyer, pdf, pdfOwner, pdfPricingPolicy);
+	public PurchasePDFAccessTransaction(Long buyerId, String buyerName, Long pdfId, String pdfName,
+			Long ownerId, String ownerName, int price) {
+		this(null,  buyerId, buyerName, pdfId, pdfName, ownerId, ownerName, price, LocalDateTime.now());
 	}
 	
-	public PurchasePDFAccessTransaction(Long id, Client buyer, PDF pdf, Client pdfOwner,
-			PDFPricingPolicy pdfPricingPolicy) {
-		this(id, buyer.getClientInfo(), pdf.getPDFInfo(pdfPricingPolicy), pdfOwner.getClientInfo(), pdfPricingPolicy.execute(pdf));
+	public PurchasePDFAccessTransaction(Client buyer, PDF pdf, Client owner, PDFPricingPolicy pdfPricingPolicy) {
+		this(buyer.getId(), buyer.getUsername(), pdf.getId(), pdf.getName(), owner.getId(), owner.getUsername(), pdfPricingPolicy.execute(pdf));
 	}
-	
-	public PurchasePDFAccessTransaction(ClientInfo buyer, PDFInfo pdf, ClientInfo pdfOwner, int price) {
-		this(null, buyer, pdf, pdfOwner, price);
-	}
-	
-	public PurchasePDFAccessTransaction(Long id, ClientInfo buyer, PDFInfo pdf, ClientInfo pdfOwner, int price) {
-		this(id, buyer, pdf, pdfOwner, price,LocalDateTime.now());
-	}
-	
-	public PurchasePDFAccessTransaction(Long id, ClientInfo buyer, PDFInfo pdf, ClientInfo pdfOwner, int price, LocalDateTime createdAt) {
-		this.buyer = buyer;
-		this.pdf = pdf;
-		this.pdfOwner = pdfOwner;
+
+	public PurchasePDFAccessTransaction(Long id, Long buyerId, String buyerName, Long pdfId, String pdfName,
+			Long ownerId, String ownerName, int price, LocalDateTime createdAt) {
+		super();
+		this.id = id;
+		this.buyerId = buyerId;
+		this.buyerName = buyerName;
+		this.pdfId = pdfId;
+		this.pdfName = pdfName;
+		this.ownerId = ownerId;
+		this.ownerName = ownerName;
 		this.price = price;
 		this.createdAt = createdAt;
 	}
@@ -42,16 +42,28 @@ public class PurchasePDFAccessTransaction {
 		return id;
 	}
 
-	public ClientInfo getBuyer() {
-		return buyer;
+	public Long getBuyerId() {
+		return buyerId;
 	}
 
-	public PDFInfo getPdf() {
-		return pdf;
+	public String getBuyerName() {
+		return buyerName;
 	}
 
-	public ClientInfo getPdfOwner() {
-		return pdfOwner;
+	public Long getPdfId() {
+		return pdfId;
+	}
+
+	public String getPdfName() {
+		return pdfName;
+	}
+
+	public Long getOwnerId() {
+		return ownerId;
+	}
+
+	public String getOwnerName() {
+		return ownerName;
 	}
 
 	public int getPrice() {

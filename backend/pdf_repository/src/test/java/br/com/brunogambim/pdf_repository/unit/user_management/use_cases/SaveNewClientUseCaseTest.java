@@ -37,8 +37,6 @@ public class SaveNewClientUseCaseTest {
 			assertThat(client.getPassword()).isEqualTo("654321");
 			assertThat(client.getEmail()).isEqualTo("user@mail.com");
 			assertThat(client.getBalance()).isEqualTo(30);
-			assertThat(client.getOwnedPDFList().size()).isEqualTo(0);
-			assertThat(client.getHasAccessPDFList().size()).isEqualTo(0);
 		
 			return true;
 	    }));
