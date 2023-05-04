@@ -71,6 +71,9 @@ public class PDF {
 	}
 
 	public void setDescription(String description) {
+		if(description.equals("") || description == null) {
+			throw new InvalidEmptyOrNullFileFieldException("description");
+		}
 		this.description = description;
 	}
 
@@ -79,7 +82,7 @@ public class PDF {
 	}
 
 	public void setName(String name) {
-		if(name.equals("")) {
+		if(name.equals("") || name == null) {
 			throw new InvalidEmptyOrNullFileFieldException("name");
 		}
 		

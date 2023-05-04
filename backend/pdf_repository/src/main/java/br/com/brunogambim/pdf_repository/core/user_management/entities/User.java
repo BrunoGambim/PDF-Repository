@@ -1,5 +1,6 @@
 package br.com.brunogambim.pdf_repository.core.user_management.entities;
 
+import br.com.brunogambim.pdf_repository.core.user_management.exceptions.InvalidEmptyOrNullUserFieldException;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.InvalidUpdatePasswordCodeException;
 
 public abstract class User {
@@ -26,14 +27,23 @@ public abstract class User {
 	}
 
 	public String getUsername() {
+		
 		return username;
 	}
 
 	public void setUsername(String username) {
+		if(username.equals("") || username == null) {
+			throw new InvalidEmptyOrNullUserFieldException("username");
+		}
+		
 		this.username = username;
 	}
 
 	public String getPassword() {
+		if(password.equals("") || password == null) {
+			throw new InvalidEmptyOrNullUserFieldException("password");
+		}
+		
 		return password;
 	}
 
@@ -46,6 +56,10 @@ public abstract class User {
 	}
 
 	public void setEmail(String email) {
+		if(email.equals("") || email == null) {
+			throw new InvalidEmptyOrNullUserFieldException("email");
+		}
+		
 		this.email = email;
 	}
 
@@ -61,6 +75,7 @@ public abstract class User {
 		if(code == null) {
 			throw new InvalidUpdatePasswordCodeException();
 		}
+		
 		this.code.validateCode(code);
 	}
 
