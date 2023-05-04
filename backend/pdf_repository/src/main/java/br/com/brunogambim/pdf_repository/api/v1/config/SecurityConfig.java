@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +32,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -42,10 +44,21 @@ public class SecurityConfig {
 	private JWTUtils jwtUtils;
 	
 	private static final String[] PUBLIC_MATCHERS = {
-		"/login/**"
+		"/login/**",
+		"/**"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_GET = {
+		"/clients/*"
+	};
+	
+	private static final String[] PUBLIC_MATCHERS_POST = {
+		"/clients",
+		"/clients/updatePasswordCode"
+	};
+	
+	private static final String[] PUBLIC_MATCHERS_PUT = {
+		"/clients/*/password",
 	};
 	
 	@Bean
@@ -72,7 +85,9 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();
 		http.authorizeHttpRequests((authz) -> authz
-            .requestMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll()
+            .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+            .requestMatchers(HttpMethod.PUT, PUBLIC_MATCHERS_PUT).permitAll()
+            .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
             .requestMatchers(PUBLIC_MATCHERS).permitAll()
  			.anyRequest().authenticated()
         ).httpBasic();

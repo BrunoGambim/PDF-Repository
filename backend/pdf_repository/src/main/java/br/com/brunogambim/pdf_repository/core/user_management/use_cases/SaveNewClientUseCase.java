@@ -14,8 +14,8 @@ public class SaveNewClientUseCase {
 		this.passwordEncripterGateway = passwordEncripterGateway;
 	}
 	
-	public void execute(String username, String email, String password) {
+	public Long execute(String username, String email, String password) {
 		String encriptedPassword = this.passwordEncripterGateway.encript(password);
-		this.userRepository.save(new Client(username, encriptedPassword, email, STARTING_BALANCE_VALUE));
+		return this.userRepository.save(new Client(username, encriptedPassword, email, STARTING_BALANCE_VALUE));
 	}
 }

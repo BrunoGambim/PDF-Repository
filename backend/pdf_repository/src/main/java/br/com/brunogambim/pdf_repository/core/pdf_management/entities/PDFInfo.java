@@ -2,20 +2,35 @@ package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 
 public class PDFInfo {
 	private Long id;
-	private String Name;
+	private String name;
 	private String description;
 	private int size;
 	private double evaluationMean;
+	private int numberOfEvaluations;
 	private int price;
+	private byte[] data;
 	
-	public PDFInfo(Long id, String name, String description, int size, double evaluationMean, int price) {
-		super();
+	public PDFInfo(Long id, String name, String description, int size, double evaluationMean,
+			int numberOfEvaluations, int price) {
 		this.id = id;
-		Name = name;
+		this.name = name;
 		this.description = description;
 		this.size = size;
 		this.evaluationMean = evaluationMean;
 		this.price = price;
+		this.numberOfEvaluations = numberOfEvaluations;
+	}
+
+	public PDFInfo(Long id, String name, String description, int size, double evaluationMean,
+			int numberOfEvaluations, int price, byte[] data) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.size = size;
+		this.evaluationMean = evaluationMean;
+		this.price = price;
+		this.data = data;
+		this.numberOfEvaluations = numberOfEvaluations;
 	}
 
 	public Long getId() {
@@ -23,7 +38,7 @@ public class PDFInfo {
 	}
 
 	public String getName() {
-		return Name;
+		return this.name;
 	}
 
 	public String getDescription() {
@@ -40,6 +55,14 @@ public class PDFInfo {
 
 	public int getPrice() {
 		return price;
+	}
+
+	public byte[] getData() {
+		return data;
+	}
+
+	public int getNumberOfEvaluations() {
+		return numberOfEvaluations;
 	}
 
 	@Override

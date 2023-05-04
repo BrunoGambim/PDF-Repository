@@ -1,5 +1,6 @@
 package br.com.brunogambim.pdf_repository.database.mysql.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ public abstract class UserModel {
 	private Long id;
 	private String username;
 	private String password;
+	@Column(unique=true)
 	private String email;
 	
 	@Embedded

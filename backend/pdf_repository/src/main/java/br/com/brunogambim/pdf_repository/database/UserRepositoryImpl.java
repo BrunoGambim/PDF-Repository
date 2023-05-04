@@ -5,8 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
-import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Admin;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.User;
@@ -15,26 +13,20 @@ import br.com.brunogambim.pdf_repository.database.exceptions.ObjectNotFoundExcep
 import br.com.brunogambim.pdf_repository.database.mysql.models.AdminModel;
 import br.com.brunogambim.pdf_repository.database.mysql.models.ClientModel;
 import br.com.brunogambim.pdf_repository.database.mysql.models.UserModel;
-import br.com.brunogambim.pdf_repository.database.mysql.repositories.JPAPDFRepository;
 import br.com.brunogambim.pdf_repository.database.mysql.repositories.JPAUserRepository;
 
 @Service
 public class UserRepositoryImpl implements UserRepository{
 	private JPAUserRepository jpaUserRepository;
-	private JPAPDFRepository jpaPDFRepository;
-	private	PDFSizePolicy pdfSizePolicy;
 	
 	@Autowired
-	public UserRepositoryImpl(JPAUserRepository jpaUserRepository, PDFManagementParametersRepository pdfManagementParametersRepository,
-			JPAPDFRepository jpaPDFRepository) {
-		this.pdfSizePolicy = new PDFSizePolicy(pdfManagementParametersRepository);
+	public UserRepositoryImpl(JPAUserRepository jpaUserRepository) {
 		this.jpaUserRepository = jpaUserRepository;
-		this.jpaPDFRepository = jpaPDFRepository;
 	}
 	
 
 	@Override
-	public void save(User user) {
+	public Long save(User user) {
 		UserModel userModel = null;
 		if(userIsClient(user)) {
 			userModel = new ClientModel((Client) user);
@@ -43,7 +35,7 @@ public class UserRepositoryImpl implements UserRepository{
 		}else {
 			throw new IllegalArgumentException("Unexpected user type.");
 		}
-		this.jpaUserRepository.save(userModel);
+		return this.jpaUserRepository.save(userModel).getId();
 	}
 	
 	private static boolean userIsAdmin(User user) {
@@ -62,7 +54,7 @@ public class UserRepositoryImpl implements UserRepository{
 		});
 		if(userIsClient(userModel)) {
 			ClientModel clientModel = (ClientModel)userModel;
-			return clientModel.toClient(pdfSizePolicy);
+			return clientModel.toEntity();
 		} else {
 			throw new ObjectNotFoundException();
 		}
@@ -76,7 +68,7 @@ public class UserRepositoryImpl implements UserRepository{
 		});
 		if(userIsClient(userModel)) {
 			ClientModel clientModel = (ClientModel)userModel;
-			return clientModel.toClient(pdfSizePolicy);
+			return clientModel.toEntity();
 		} else {
 			throw new ObjectNotFoundException();
 		}
@@ -90,20 +82,11 @@ public class UserRepositoryImpl implements UserRepository{
 		});
 		if(userIsClient(userModel)) {
 			ClientModel clientModel = (ClientModel) userModel;
-			return clientModel.toClient(pdfSizePolicy);
+			return clientModel.toEntity();
 		} else {
 			AdminModel adminModel = (AdminModel) userModel;
-			return adminModel.toAdmin(pdfSizePolicy);
+			return adminModel.toEntity();
 		}
-	}
-
-	@Override
-	public Client findPDFOwner(Long pdfId) {
-		Long userId = this.jpaPDFRepository.findOwnerId(pdfId)
-				.orElseThrow(() -> {
-			throw new ObjectNotFoundException();
-		});
-		return findClient(userId);
 	}
 
 	@Override

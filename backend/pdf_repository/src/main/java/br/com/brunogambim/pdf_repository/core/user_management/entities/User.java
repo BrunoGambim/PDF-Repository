@@ -48,7 +48,11 @@ public abstract class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	public void setUpdatePasswordCode(UpdatePasswordCode code) {
+		this.code = code;
+	}
+
 	public UpdatePasswordCode getUpdatePasswordCode() {
 		return code;
 	}

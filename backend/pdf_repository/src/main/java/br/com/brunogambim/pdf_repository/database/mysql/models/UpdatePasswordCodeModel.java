@@ -24,6 +24,10 @@ public class UpdatePasswordCodeModel {
 		this.code = code;
 		this.createdAt = createdAt;
 	}
+	
+	public UpdatePasswordCode toEntity() {
+		return new UpdatePasswordCode(code, createdAt);
+	}
 
 	public String getCode() {
 		return code;

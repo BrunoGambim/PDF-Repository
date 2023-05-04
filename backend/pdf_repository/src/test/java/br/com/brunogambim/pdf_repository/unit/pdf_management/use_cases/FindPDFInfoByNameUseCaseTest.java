@@ -17,6 +17,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePol
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFInfoByNameUseCase;
+import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 
 public class FindPDFInfoByNameUseCaseTest {
 	private FindPDFInfoByNameUseCase useCase;
@@ -32,22 +33,23 @@ public class FindPDFInfoByNameUseCaseTest {
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
 		this.pricingPolicy = new PDFPricingPolicy(managementParametersRepository);
 		useCase = new FindPDFInfoByNameUseCase(pdfRepository, managementParametersRepository);
+		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), client);
 		PDF pdf2 = new PDF(2L,"name2", "desc2", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), client);
 		PDF pdf3 = new PDF(3L,"name3", "desc3", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), client);
 		PDF pdf4 = new PDF(4L,"name4", "desc4", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), client);
 		PDF pdf5 = new PDF(5L,"2name", "desc", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), client);
 		PDF pdf6 = new PDF(6L,"2name2", "desc2", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), client);
 		PDF pdf7 = new PDF(7L,"2name3", "desc3", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), client);
 		PDF pdf8 = new PDF(8L,"2name4", "desc4", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), client);
 		pdfList = Arrays.asList(pdf, pdf2, pdf3, pdf4);
 		pdfList2 = Arrays.asList(pdf5, pdf6, pdf7, pdf8);
 		when(pdfRepository.findPDFFilesByNameContains("name")).thenReturn(pdfList);
@@ -57,8 +59,8 @@ public class FindPDFInfoByNameUseCaseTest {
 	
 	@Test
 	void shouldReturnTheCorrectList() {
-		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfo(pricingPolicy).getId()).toList();
-		List<Long> idList2 = pdfList2.stream().map(pdf -> pdf.getPDFInfo(pricingPolicy).getId()).toList();
+		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
+		List<Long> idList2 = pdfList2.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
 		List<Long> resultIds = useCase.execute("name").stream().map(pdfInfo -> pdfInfo.getId()).toList();
 		assertThat(resultIds).isEqualTo(idList);
 		assertThat(resultIds.size()).isEqualTo(4);

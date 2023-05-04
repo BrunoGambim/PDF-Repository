@@ -17,6 +17,11 @@ public class UpdatePasswordCode {
 		this.createdAt = LocalDateTime.now();
 	}
 	
+	public UpdatePasswordCode(String code, LocalDateTime createdAt) {
+		this.code = code;
+		this.createdAt = createdAt;
+	}
+	
 	private String generateRandomCode() {
 		String result = "";
 		for(int i  = 0; i < CODE_LENGTH; i++) {

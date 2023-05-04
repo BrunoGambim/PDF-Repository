@@ -19,6 +19,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricing
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PurchasePDFAccessTransaction;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
+import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFTransactionRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.GenerateClientTransactionReportUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
@@ -30,6 +31,7 @@ public class GenerateClientTransactionReportUseCaseTest {
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private PDFTransactionRepository transactionRepository = Mockito.mock(PDFTransactionRepository.class);
+	private PDFRepository pdfRepository = Mockito.mock(PDFRepository.class);
 	private List<PurchasePDFAccessTransaction> asOwnerTransactions;
 	private List<PurchasePDFAccessTransaction> asBuyerTransactions;
 	
@@ -38,27 +40,27 @@ public class GenerateClientTransactionReportUseCaseTest {
 		when(managementParametersRepository.findParameters())
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
 		PDFPricingPolicy pricingPolicy = new PDFPricingPolicy(managementParametersRepository);
-		useCase = new GenerateClientTransactionReportUseCase(userRepository, transactionRepository);
-		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
-		PDF pdf2 = new PDF(2L,"name2", "desc2", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
-		PDF pdf3 = new PDF(3L,"name3", "desc3", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
-		PDF pdf4 = new PDF(4L,"2name", "desc", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
-		PDF pdf5 = new PDF(5L,"2name2", "desc2", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
-
+		useCase = new GenerateClientTransactionReportUseCase(userRepository, transactionRepository, pdfRepository);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
-		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
-		client.addPDFToOwnedPDFList(pdf);
-		client.addPDFToOwnedPDFList(pdf2);
-		client.addPDFToOwnedPDFList(pdf3);
-		client.addPDFToHasAccessPDFList(pdf4);
-		client.addPDFToHasAccessPDFList(pdf5);
-		client2.addPDFToOwnedPDFList(pdf4);
-		client2.addPDFToOwnedPDFList(pdf5);
+		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 5);
+		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
+				new PDFSizePolicy(managementParametersRepository), client);
+		PDF pdf2 = new PDF(2L,"name2", "desc2", "pdf", 4, new byte[] {1,2,3,4},
+				new PDFSizePolicy(managementParametersRepository), client);
+		PDF pdf3 = new PDF(3L,"name3", "desc3", "pdf", 4, new byte[] {1,2,3,4},
+				new PDFSizePolicy(managementParametersRepository), client);
+		PDF pdf4 = new PDF(4L,"name4", "desc4", "pdf", 4, new byte[] {1,2,3,4},
+				new PDFSizePolicy(managementParametersRepository), client);
+		PDF pdf5 = new PDF(5L,"name5", "desc5", "pdf", 4, new byte[] {1,2,3,4},
+				new PDFSizePolicy(managementParametersRepository), client2);
+		PDF pdf6 = new PDF(6L,"name6", "desc6", "pdf", 4, new byte[] {1,2,3,4},
+				new PDFSizePolicy(managementParametersRepository), client2);
+		
+		pdf2.addToCanBeAccessedByList(client2);
+		pdf3.addToCanBeAccessedByList(client2);
+		pdf4.addToCanBeAccessedByList(client2);
+		pdf5.addToCanBeAccessedByList(client);
+		pdf6.addToCanBeAccessedByList(client);
 		
 		asOwnerTransactions = Arrays.asList(
 				new PurchasePDFAccessTransaction(client, pdf, client2, pricingPolicy),

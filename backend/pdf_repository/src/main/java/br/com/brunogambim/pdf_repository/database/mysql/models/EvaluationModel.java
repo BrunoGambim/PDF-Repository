@@ -1,7 +1,9 @@
 package br.com.brunogambim.pdf_repository.database.mysql.models;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.Evaluation;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
@@ -41,8 +43,16 @@ public class EvaluationModel {
 		return evaluations.stream().map(evaluation -> new EvaluationModel(evaluation, pdfId)).toList();
 	}
 	
-	public Evaluation toEvaluation(PDFSizePolicy sizePolicy) {
-		return new Evaluation(value, this.getEvaluator().toClient(sizePolicy));
+	public static Map<Long, Evaluation> evaluationModelListToEvaluationMap(List<EvaluationModel> evaluations, PDFSizePolicy sizePolicy) {
+		Map<Long, Evaluation> evaluationsMap = new HashMap<Long, Evaluation>();
+		evaluations.forEach(evaluation -> {
+			evaluationsMap.put(evaluation.getEvaluator().getId(), evaluation.toEntity());
+		});
+		return evaluationsMap;
+	}
+	
+	public Evaluation toEntity() {
+		return new Evaluation(value, this.getEvaluator().toEntity());
 	}
 
 	public EvaluationId getId() {

@@ -1,13 +1,16 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidEmptyOrNullFileFieldException;
 import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidFileDataSizeException;
 import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidFileFormatException;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
+import br.com.brunogambim.pdf_repository.core.user_management.exceptions.UserAlreadyHasAccessToPDFException;
 
 public class PDF {
 	public static final String PDF_FORMAT = "pdf";
@@ -20,9 +23,11 @@ public class PDF {
 	private Map<Long, Evaluation> evaluations;
 	private PDFStatus status;
 	private LocalDateTime createdAt;
+	private Client owner;
+	private List<Client> canBeAccessedBy;
 	
 	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy,
-			HashMap<Long, Evaluation> evaluations) {
+			Client owner, Map<Long, Evaluation> evaluations, List<Client> canBeAccessedBy) {
 		this.setId(id);
 		this.setStatus(PDFStatus.WAITING_FOR_ADMIN_VALIDATION);
 		this.setName(name);
@@ -31,15 +36,26 @@ public class PDF {
 		this.setEvaluations(evaluations);
 		validateFormat(format);
 		validateDataSize(size);
-		createdAt = LocalDateTime.now();
+		this.createdAt = LocalDateTime.now();
+		this.owner = owner;
+		this.canBeAccessedBy = canBeAccessedBy;
 	}
 	
-	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
-		this(id, name, description, format, size, data, pdfSizePolicy, new HashMap<Long, Evaluation>());
+	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy,
+			Client owner) {
+		this(id, name, description, format, size, data, pdfSizePolicy, owner, new HashMap<Long, Evaluation>(),
+				new ArrayList<Client>());
 	}
 	
-	public PDF(String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy) {
-		this(null, name, description, format, size, data, pdfSizePolicy, new HashMap<Long, Evaluation>());
+	public PDF(String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy,
+			Client owner) {
+		this(null, name, description, format, size, data, pdfSizePolicy, owner);
+	}
+	
+	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFStatus status, PDFSizePolicy pdfSizePolicy,
+			Client owner, Map<Long, Evaluation> evaluations, List<Client> canBeAccessedBy) {
+		this(id, name, description, format, size, data, pdfSizePolicy, owner, evaluations, canBeAccessedBy);
+		this.status = status;
 	}
 
 	public Long getId() {
@@ -86,8 +102,14 @@ public class PDF {
 		this.status = status;
 	}
 	
-	public PDFInfo getPDFInfo(PDFPricingPolicy pricingPolicy) {
-		return new PDFInfo(id, name, description, size, this.getEvaluationMean(), pricingPolicy.execute(this));
+	public PDFInfo getPDFInfoWithoutData(PDFPricingPolicy pricingPolicy) {
+		return new PDFInfo(id, name, description, size, this.getEvaluationMean(),
+				this.evaluations.size(), pricingPolicy.execute(this));
+	}
+	
+	public PDFInfo getPDFInfoWithData(PDFPricingPolicy pricingPolicy) {
+		return new PDFInfo(id, name, description, size, this.getEvaluationMean(),
+				this.evaluations.size(), pricingPolicy.execute(this), data);
 	}
 
 	public void setData(byte[] data, PDFSizePolicy pdfSizePolicy) {
@@ -115,7 +137,7 @@ public class PDF {
 		return new HashMap<Long, Evaluation>(evaluations);
 	}
 
-	public void setEvaluations(HashMap<Long, Evaluation> evaluations) {
+	public void setEvaluations(Map<Long, Evaluation> evaluations) {
 		this.evaluations = evaluations;
 	}
 	
@@ -124,6 +146,9 @@ public class PDF {
 	}
 	
 	public double getEvaluationMean() {
+		if(evaluations.size() == 0) {
+			return 0;
+		}
 		double evaluationSum = 0;
 		for(Evaluation evaluation: this.evaluations.values()) {
 			evaluationSum += evaluation.getValue(); 
@@ -137,6 +162,30 @@ public class PDF {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public Client getOwner() {
+		return owner;
+	}
+
+	public List<Client> getCanBeAccessedBy() {
+		return new ArrayList<Client>(canBeAccessedBy);
+	}
+	
+	public void addToCanBeAccessedByList(Client client) {
+		if(canBeAccessedBy(client.getId())) {
+			throw new UserAlreadyHasAccessToPDFException();
+		}
+		this.canBeAccessedBy.add(client);
+	}
+	
+	public boolean canBeAccessedBy(Long clientId) {
+		for(Client client: this.canBeAccessedBy) {
+			if(clientId == client.getId()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

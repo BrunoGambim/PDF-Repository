@@ -3,6 +3,9 @@ package br.com.brunogambim.pdf_repository.unit.pdf_management.use_cases;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +29,9 @@ public class ReportPDFFileUseCaseTest {
 	private PDFRepository pdfRepository = Mockito.mock(PDFRepository.class);
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
-
+	private Client owner;
+	private Client hasAccess;
+	
 	@BeforeEach
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
@@ -35,15 +40,14 @@ public class ReportPDFFileUseCaseTest {
 		when(userRepository.isAdmin(1L)).thenReturn(false);
 		when(userRepository.isAdmin(2L)).thenReturn(false);
 		when(userRepository.isAdmin(3L)).thenReturn(true);
-		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
-		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
-		PDF pdf1 = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
-		client.addPDFToOwnedPDFList(pdf1);
-		client.addPDFToHasAccessPDFList(pdf1);
-		when(userRepository.findClient(1L)).thenReturn(client);
-		when(userRepository.findClient(2L)).thenReturn(client2);
-		when(pdfRepository.find(1L)).thenReturn(pdf1);
+		owner = new Client(1L, "user", "123456","user@mail.com", 30);
+		hasAccess = new Client(2L, "user2", "123456","user2@mail.com", 30);
+		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
+				new PDFSizePolicy(managementParametersRepository), owner);
+		pdf.addToCanBeAccessedByList(hasAccess);
+		when(pdfRepository.find(1L)).thenReturn(pdf);
+		when(pdfRepository.findPDFFilesThatCanBeAccessedBy(2L)).thenReturn(Arrays.asList(pdf));
+		when(pdfRepository.findPDFFilesThatCanBeAccessedBy(1L)).thenReturn(new ArrayList<PDF>());
 	}
 	
 	
@@ -65,7 +69,7 @@ public class ReportPDFFileUseCaseTest {
 	
 	@Test
 	void repositoryMethodAreCalledWithUserThatHasAccess() {
-		useCase.execute(1L, 1L);
+		useCase.execute(2L, 1L);
 	
 		verify(pdfRepository).save(argThat( x -> {
 			assertThat(x).isNotNull();
@@ -80,9 +84,9 @@ public class ReportPDFFileUseCaseTest {
 	}
 	
 	@Test
-	void unauthorizedToDeletePDf() {	
+	void unauthorizedToReportPDf() {	
 		assertThatThrownBy(() -> {
-			useCase.execute(2L, 1L);
+			useCase.execute(1L, 1L);
 		}).isInstanceOf(UnauthorizedUserException.class);
 	}
 }

@@ -13,7 +13,7 @@ public class EvaluatePDFFileUseCase {
 
 	public EvaluatePDFFileUseCase(PDFRepository pdfRepository, UserRepository userRepository) {
 		this.pdfRepository = pdfRepository;
-		this.authorizationPolicy = new AuthorizationPolicy(userRepository);
+		this.authorizationPolicy = new AuthorizationPolicy(userRepository, pdfRepository);
 		this.userRepository = userRepository;
 	}
 	

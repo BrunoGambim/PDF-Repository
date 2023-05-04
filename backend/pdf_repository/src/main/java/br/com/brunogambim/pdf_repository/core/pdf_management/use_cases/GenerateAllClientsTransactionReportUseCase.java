@@ -1,6 +1,7 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.use_cases;
 
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.AllClientsTransactionReport;
+import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFTransactionRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.AuthorizationPolicy;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
@@ -10,8 +11,8 @@ public class GenerateAllClientsTransactionReportUseCase {
 	private PDFTransactionRepository transactionRepository;
 
 	public GenerateAllClientsTransactionReportUseCase(UserRepository userRepository,
-			PDFTransactionRepository transactionRepository) {
-		this.authorizationPolicy = new AuthorizationPolicy(userRepository);
+			PDFTransactionRepository transactionRepository, PDFRepository pdfRepository) {
+		this.authorizationPolicy = new AuthorizationPolicy(userRepository, pdfRepository);
 		this.transactionRepository = transactionRepository;
 	}
 	

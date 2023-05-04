@@ -16,11 +16,13 @@ public class UpdatePDFFileUseCase {
 			UserRepository userRepository) {
 		this.pdfRepository = pdfRepository;
 		this.pdfSizePolicy = new PDFSizePolicy(managementParametersRepository);
-		this.authorizationPolicy = new AuthorizationPolicy(userRepository);
+		this.authorizationPolicy = new AuthorizationPolicy(userRepository, pdfRepository);
 	}
 	
 	public void execute(Long userId, Long pdfId, String name, String description, String format, int size, byte[] data) {
 		this.authorizationPolicy.CheckIsAdminOrOwnerAuthorization(userId, pdfId);
-		this.pdfRepository.save(new PDF(pdfId, name, description, format, size, data, pdfSizePolicy));
+		PDF pdf = this.pdfRepository.find(pdfId);
+		this.pdfRepository.save(new PDF(pdfId, name, description, format, size, data, pdfSizePolicy,
+				pdf.getOwner(), pdf.getEvaluations(), pdf.getCanBeAccessedBy()));
 	}
 }

@@ -28,8 +28,9 @@ public class PDFPricingPolicyTest {
 	
 	@Test
 	void smallFileWithFewEvaluations() {
+		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), owner);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
 		Client client3 = new Client(3L, "user3", "123456","user3@mail.com", 30);
@@ -57,8 +58,9 @@ public class PDFPricingPolicyTest {
 	
 	@Test
 	void smalFileWithEnoughtEvaluationsAndLowEvaluationsMean() {
+		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), owner);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
 		Client client3 = new Client(3L, "user3", "123456","user3@mail.com", 30);
@@ -86,8 +88,9 @@ public class PDFPricingPolicyTest {
 	
 	@Test
 	void smallFileWithEnoughtEvaluationsAndEnoughtEvaluationsMean() {
+		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), owner);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
 		Client client3 = new Client(3L, "user3", "123456","user3@mail.com", 30);
@@ -115,8 +118,9 @@ public class PDFPricingPolicyTest {
 	
 	@Test
 	void bigFileWithFewEvaluations() {
+		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), owner);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
 		Client client3 = new Client(3L, "user3", "123456","user3@mail.com", 30);
@@ -144,8 +148,9 @@ public class PDFPricingPolicyTest {
 	
 	@Test
 	void bigFileWithEnoughtEvaluationsAndLowEvaluationsMean() {
+		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), owner);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
 		Client client3 = new Client(3L, "user3", "123456","user3@mail.com", 30);
@@ -173,8 +178,9 @@ public class PDFPricingPolicyTest {
 	
 	@Test
 	void bigFileWithEnoughtEvaluationsAndEnoughtEvaluationsMean() {
+		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
-				new PDFSizePolicy(managementParametersRepository));
+				new PDFSizePolicy(managementParametersRepository), owner);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
 		Client client3 = new Client(3L, "user3", "123456","user3@mail.com", 30);

@@ -26,16 +26,19 @@ public class PurchaseAccessToPDFFileUseCase {
 	
 	public void execute(Long userId, Long pdfId) {
 		Client buyer = this.userRepository.findClient(userId);
-		Client owner = this.userRepository.findPDFOwner(pdfId);
 		PDF pdf = this.pdfRepository.find(pdfId);
+		Client owner = pdf.getOwner();
 		
-		PurchasePDFAccessTransaction transaction = new PurchasePDFAccessTransaction(buyer, pdf, owner, pdfPricingPolicy);
+		
+		
+		PurchasePDFAccessTransaction transaction = new PurchasePDFAccessTransaction(buyer,pdf,owner, pdfPricingPolicy);
 		buyer.subtractBalance(transaction.getPrice());
 		owner.addBalance(transaction.getPrice());
-		buyer.addPDFToHasAccessPDFList(pdf);
+		pdf.addToCanBeAccessedByList(buyer);
 		
 		this.userRepository.save(buyer);
 		this.userRepository.save(owner);
+		this.pdfRepository.save(pdf);
 		this.transactionRepository.save(transaction);
 	}
 }
