@@ -33,7 +33,7 @@ import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateCl
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientPasswordUseCase;
 
 @RestController
-@RequestMapping(value = "/clients")
+@RequestMapping(value = "/v1/clients")
 public class ClientController {
 
 	private UserRepository userRepository;

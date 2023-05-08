@@ -38,7 +38,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.UpdatePDF
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 
 @RestController
-@RequestMapping(value = "/pdfs")
+@RequestMapping(value = "/v1/pdfs")
 public class PDFController {
 
 	private UserRepository userRepository;
@@ -106,17 +106,17 @@ public class PDFController {
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<List<PDFInfo>> findPDFInfoByName(@RequestParam(name = "name", defaultValue = "") String name,
-			@RequestParam(name = "ownerName", defaultValue = "") String ownerName){
-		if(!name.equals("")) {
-			FindPDFInfoByNameUseCase useCase = new FindPDFInfoByNameUseCase(pdfRepository, pdfManagementParametersRepository);
+	public ResponseEntity<List<PDFInfo>> findPDFInfoByName(
+			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(value="ownersName", required = false, defaultValue = "false") boolean ownersName){
+		if(ownersName) {
+			FindPDFInfoByOwnerNameUseCase useCase = new FindPDFInfoByOwnerNameUseCase(pdfRepository, pdfManagementParametersRepository);
 			List<PDFInfo> pdfs = useCase.execute(name);
 			return ResponseEntity.ok(pdfs);
-		} else {
-			FindPDFInfoByOwnerNameUseCase useCase = new FindPDFInfoByOwnerNameUseCase(pdfRepository, pdfManagementParametersRepository);
-			List<PDFInfo> pdfs = useCase.execute(ownerName);
-			return ResponseEntity.ok(pdfs);
 		}
+		FindPDFInfoByNameUseCase useCase = new FindPDFInfoByNameUseCase(pdfRepository, pdfManagementParametersRepository);
+		List<PDFInfo> pdfs = useCase.execute(name);
+		return ResponseEntity.ok(pdfs);
 	}
 
 	@RequestMapping(value = "/reported", method = RequestMethod.GET)

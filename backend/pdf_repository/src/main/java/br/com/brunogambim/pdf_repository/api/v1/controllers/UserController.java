@@ -10,7 +10,7 @@ import br.com.brunogambim.pdf_repository.api.v1.security.servicies.Authenticatio
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/v1/users")
 public class UserController {
 
 	private AuthenticationService authService;
