@@ -41,4 +41,8 @@ export class HeaderComponent {
   ownedPDFs(){
     this.router.navigate(['ownedPDFs'])
   }
+
+  purchasedPDFs(){
+    this.router.navigate(['purchasedPDFs'])
+  }
 }

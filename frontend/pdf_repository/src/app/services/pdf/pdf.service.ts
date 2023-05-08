@@ -17,4 +17,13 @@ export class PdfService {
   getOwnedPDFs() {
     return this.httpClient.get<PDFModel[]>(`${API_CONFIG.baseURL}/${API_CONFIG.ownedPDFsPath}`)
   }
+
+  getPurchasedPDFs() {
+    return this.httpClient.get<PDFModel[]>(`${API_CONFIG.baseURL}/${API_CONFIG.purchasedPDFsPath}`)
+  }
+
+  reportPDFs(id: number) {
+    console.log(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.reportPDFPath}`)
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.reportPDFPath}`,{})
+  }
 }

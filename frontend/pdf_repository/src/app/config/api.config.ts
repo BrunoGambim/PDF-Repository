@@ -3,5 +3,7 @@ export const API_CONFIG = {
   baseURL: "http://localhost:8080/v1",
   pdfPath: "pdfs",
   userRolePath: "users/role",
-  ownedPDFsPath: "pdfs/owned"
+  ownedPDFsPath: "pdfs/owned",
+  purchasedPDFsPath: "pdfs/hasAccess",
+  reportPDFPath: "reported",
 }

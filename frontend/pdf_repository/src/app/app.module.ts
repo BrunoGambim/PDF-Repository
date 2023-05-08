@@ -22,6 +22,7 @@ import { LoginComponent } from './components/login/login.component';
 import { UserStorageService } from './services/storage/user-storage.service';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
 import { OwnedPDFsComponent } from './components/owned-pdfs/owned-pdfs.component';
+import { PurchasedPDFsComponent } from './components/purchased-pdfs/purchased-pdfs.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { OwnedPDFsComponent } from './components/owned-pdfs/owned-pdfs.component
     HeaderComponent,
     HomeComponent,
     LoginComponent,
-    OwnedPDFsComponent
+    OwnedPDFsComponent,
+    PurchasedPDFsComponent
   ],
   imports: [
     BrowserModule,

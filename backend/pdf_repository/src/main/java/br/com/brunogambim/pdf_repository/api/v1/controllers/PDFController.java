@@ -73,6 +73,7 @@ public class PDFController {
 	
 	@RequestMapping(value = "/{pdfId}/reported", method = RequestMethod.PUT)
 	public ResponseEntity<Void> reportPDFFile(@PathVariable Long pdfId){
+		System.out.println("aqui");
 		ReportPDFFileUseCase useCase = new ReportPDFFileUseCase(pdfRepository, userRepository);
 		Long userId = AuthenticationService.authenticatedId();
 		useCase.execute(userId, pdfId);

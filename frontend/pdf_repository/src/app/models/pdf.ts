@@ -1,4 +1,5 @@
 export interface PDFModel {
+  id: number;
   name: string;
   description: string;
   ownersName: string;
