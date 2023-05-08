@@ -16,13 +16,18 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
 import { HttpClientModule } from '@angular/common/http';
-import { PdfService } from './services/pdf_service/pdf.service';
+import { PdfService } from './services/pdf/pdf.service';
+import { AuthService } from './services/auth/auth.service';
+import { LoginComponent } from './components/login/login.component';
+import { UserStorageService } from './services/storage/user-storage.service';
+import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +45,7 @@ import { PdfService } from './services/pdf_service/pdf.service';
     MatRadioModule,
     HttpClientModule
   ],
-  providers: [PdfService],
+  providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
