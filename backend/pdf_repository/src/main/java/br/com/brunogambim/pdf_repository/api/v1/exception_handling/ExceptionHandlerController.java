@@ -107,9 +107,9 @@ public class ExceptionHandlerController {
 	
 	@ExceptionHandler(UnauthorizedUserException.class)
 	public ResponseEntity<StandartError> authorization(UnauthorizedUserException authorizationException, HttpServletRequest httpServletRequest){
-		StandartError standartError = new StandartError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Unauthorized",
+		StandartError standartError = new StandartError(System.currentTimeMillis(), HttpStatus.UNAUTHORIZED.value(), "Unauthorized",
 				authorizationException.getMessage(), httpServletRequest.getRequestURI());
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(standartError);
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(standartError);
 	}
 	
 	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)

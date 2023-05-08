@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { PdfService } from '../../services/pdf_service/pdf.service';
-import { PDFModel } from '../../models/PDFModel';
+import { PdfService } from '../../services/pdf/pdf.service';
+import { PDFModel } from '../../models/pdf';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +20,7 @@ export class HomeComponent {
   }
 
   getPDFs(){
-    this.pdfService.getPDFs(this.name,this.ownersName).subscribe(pdfs => {
+    this.pdfService.getPDFs(this.name, this.ownersName).subscribe(pdfs => {
       this.pdfList = pdfs
     })
   }

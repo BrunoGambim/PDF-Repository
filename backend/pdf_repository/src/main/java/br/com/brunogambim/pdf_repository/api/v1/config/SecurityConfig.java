@@ -43,20 +43,20 @@ public class SecurityConfig {
 	
 	private static final String[] PUBLIC_MATCHERS = {
 		"/login/**",
-		"/**"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_GET = {
-		"/clients/*"
+		"/v1/clients/*",
+		"/v1/pdfs"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_POST = {
-		"/clients",
-		"/clients/updatePasswordCode"
+		"/v1/clients",
+		"/v1/clients/updatePasswordCode"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_PUT = {
-		"/clients/*/password",
+		"/v1/clients/*/password",
 	};
 	
 	@Bean
