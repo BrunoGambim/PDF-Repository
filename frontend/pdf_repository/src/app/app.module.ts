@@ -21,13 +21,15 @@ import { AuthService } from './services/auth/auth.service';
 import { LoginComponent } from './components/login/login.component';
 import { UserStorageService } from './services/storage/user-storage.service';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
+import { OwnedPDFsComponent } from './components/owned-pdfs/owned-pdfs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    OwnedPDFsComponent
   ],
   imports: [
     BrowserModule,

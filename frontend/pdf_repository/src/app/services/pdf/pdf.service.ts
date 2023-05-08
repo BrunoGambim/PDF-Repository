@@ -13,4 +13,8 @@ export class PdfService {
   getPDFs(name: string, ownersName:boolean) {
     return this.httpClient.get<PDFModel[]>(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}?name=${name}&ownersName=${ownersName}`)
   }
+
+  getOwnedPDFs() {
+    return this.httpClient.get<PDFModel[]>(`${API_CONFIG.baseURL}/${API_CONFIG.ownedPDFsPath}`)
+  }
 }

@@ -2,5 +2,6 @@ export const API_CONFIG = {
   loginURL: "http://localhost:8080/login",
   baseURL: "http://localhost:8080/v1",
   pdfPath: "pdfs",
-  userRolePath: "users/role"
+  userRolePath: "users/role",
+  ownedPDFsPath: "pdfs/owned"
 }

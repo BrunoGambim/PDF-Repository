@@ -28,11 +28,17 @@ export class HeaderComponent {
   login(){
     this.router.navigate(['/login'])
   }
+
   logout(){
     this.authService.logout()
     this.router.navigate([''])
   }
+
   home(){
     this.router.navigate([''])
+  }
+
+  ownedPDFs(){
+    this.router.navigate(['ownedPDFs'])
   }
 }
