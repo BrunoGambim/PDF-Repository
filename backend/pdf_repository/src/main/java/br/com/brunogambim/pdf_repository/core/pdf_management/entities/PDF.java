@@ -107,12 +107,12 @@ public class PDF {
 	
 	public PDFInfo getPDFInfoWithoutData(PDFPricingPolicy pricingPolicy) {
 		return new PDFInfo(id, name, description, size, this.getEvaluationMean(),
-				this.evaluations.size(), pricingPolicy.execute(this));
+				this.evaluations.size(), pricingPolicy.execute(this), owner.getUsername());
 	}
 	
 	public PDFInfo getPDFInfoWithData(PDFPricingPolicy pricingPolicy) {
 		return new PDFInfo(id, name, description, size, this.getEvaluationMean(),
-				this.evaluations.size(), pricingPolicy.execute(this), data);
+				this.evaluations.size(), pricingPolicy.execute(this), data, owner.getUsername());
 	}
 
 	public void setData(byte[] data, PDFSizePolicy pdfSizePolicy) {

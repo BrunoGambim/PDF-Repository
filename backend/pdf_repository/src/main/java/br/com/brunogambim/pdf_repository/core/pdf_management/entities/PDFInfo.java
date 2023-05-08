@@ -4,6 +4,7 @@ public class PDFInfo {
 	private Long id;
 	private String name;
 	private String description;
+	private String ownersName;
 	private int size;
 	private double evaluationMean;
 	private int numberOfEvaluations;
@@ -11,7 +12,7 @@ public class PDFInfo {
 	private byte[] data;
 	
 	public PDFInfo(Long id, String name, String description, int size, double evaluationMean,
-			int numberOfEvaluations, int price) {
+			int numberOfEvaluations, int price, String ownersName) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -19,10 +20,11 @@ public class PDFInfo {
 		this.evaluationMean = evaluationMean;
 		this.price = price;
 		this.numberOfEvaluations = numberOfEvaluations;
+		this.ownersName = ownersName;
 	}
 
 	public PDFInfo(Long id, String name, String description, int size, double evaluationMean,
-			int numberOfEvaluations, int price, byte[] data) {
+			int numberOfEvaluations, int price, byte[] data, String ownersName) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -31,6 +33,7 @@ public class PDFInfo {
 		this.price = price;
 		this.data = data;
 		this.numberOfEvaluations = numberOfEvaluations;
+		this.ownersName = ownersName;
 	}
 
 	public Long getId() {
@@ -63,6 +66,10 @@ public class PDFInfo {
 
 	public int getNumberOfEvaluations() {
 		return numberOfEvaluations;
+	}
+
+	public String getOwnersName() {
+		return ownersName;
 	}
 
 	@Override

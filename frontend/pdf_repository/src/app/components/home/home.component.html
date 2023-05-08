@@ -1,0 +1,29 @@
+<form class="search-form">
+  <mat-radio-group [(ngModel)]="ownersName" name="ownersName">
+    <mat-radio-button value=false>PDF's name</mat-radio-button>
+    <mat-radio-button value=true>Owner's name</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Search</mat-label>
+    <input matInput placeholder="Search"  [(ngModel)]="name" name="search">
+  </mat-form-field>
+
+  <button mat-fab color="primary" class="search-buttom" (click)="getPDFs()">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>
+
+<mat-card class="card" *ngFor="let pdf of pdfList">
+  <mat-card-header class="card-header">
+    <mat-card-subtitle>{{pdf.ownersName}}</mat-card-subtitle>
+    <mat-card-title>{{pdf.name}}</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content class="card-body">
+    <p>{{pdf.description}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="primary">Download</button>
+  </mat-card-actions>
+</mat-card>

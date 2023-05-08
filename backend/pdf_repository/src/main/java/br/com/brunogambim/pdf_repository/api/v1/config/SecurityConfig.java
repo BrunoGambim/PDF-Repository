@@ -1,7 +1,5 @@
 package br.com.brunogambim.pdf_repository.api.v1.config;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -99,13 +97,11 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-	CorsConfigurationSource configurationSource() {
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
+	CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
+    }
 	
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {

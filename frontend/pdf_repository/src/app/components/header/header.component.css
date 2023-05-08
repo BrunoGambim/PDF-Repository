@@ -1,0 +1,17 @@
+.example-spacer {
+  flex: 1 auto;
+}
+
+.main-title {
+  display: inline-block;
+  padding: 1rem;
+  padding-top: 2rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.navbar-button {
+  border: none;
+  font-size: 1.1rem;
+  margin-right: 1rem;
+}
