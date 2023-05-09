@@ -105,14 +105,23 @@ public class PDF {
 		this.status = status;
 	}
 	
-	public PDFInfo getPDFInfoWithoutData(PDFPricingPolicy pricingPolicy) {
-		return new PDFInfo(id, name, description, size, this.getEvaluationMean(),
-				this.evaluations.size(), pricingPolicy.execute(this), owner.getUsername());
+	public PDFInfo getPDFInfo(Long userId, PDFPricingPolicy pricingPolicy) {
+		if(userId != null && (canBeAccessedBy(userId) || userId == owner.getId())) {
+			return getPDFInfoWithData(pricingPolicy);
+		} else {
+			return getPDFInfoWithoutData(pricingPolicy);
+		}
 	}
 	
 	public PDFInfo getPDFInfoWithData(PDFPricingPolicy pricingPolicy) {
+		PDFInfo pdfInfo = this.getPDFInfoWithoutData(pricingPolicy);
+		pdfInfo.setData(this.getData());
+		return pdfInfo;
+	}
+	
+	public PDFInfo getPDFInfoWithoutData(PDFPricingPolicy pricingPolicy) {
 		return new PDFInfo(id, name, description, size, this.getEvaluationMean(),
-				this.evaluations.size(), pricingPolicy.execute(this), data, owner.getUsername());
+				this.evaluations.size(), pricingPolicy.execute(this), owner.getUsername(), status, canBeAccessedBy);
 	}
 
 	public void setData(byte[] data, PDFSizePolicy pdfSizePolicy) {

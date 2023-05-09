@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { PDFModel } from '../../models/pdf';
+import { PDFConverter } from 'src/app/utils/PDFConverter';
 
 @Component({
   selector: 'app-home',
@@ -23,5 +24,12 @@ export class HomeComponent {
     this.pdfService.getPDFs(this.name, this.ownersName).subscribe(pdfs => {
       this.pdfList = pdfs
     })
+  }
+
+  download(pdf: PDFModel){
+    PDFConverter.createPDFLink(pdf).click()
+  }
+
+  purchase(pdf: PDFModel){
   }
 }

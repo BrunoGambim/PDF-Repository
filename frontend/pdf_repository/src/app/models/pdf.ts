@@ -1,6 +1,7 @@
 export interface PDFModel {
   id: number;
   name: string;
+  status: string;
   description: string;
   ownersName: string;
   price: number;
@@ -8,4 +9,5 @@ export interface PDFModel {
   numberOfEvaluations: number;
   size: number;
   data: number[]
+  canBeAccessedBy: string[]
 }

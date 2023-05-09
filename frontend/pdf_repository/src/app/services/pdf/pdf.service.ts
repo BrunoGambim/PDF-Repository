@@ -23,7 +23,10 @@ export class PdfService {
   }
 
   reportPDFs(id: number) {
-    console.log(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.reportPDFPath}`)
     return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.reportPDFPath}`,{})
+  }
+
+  deletePDF(id: number) {
+    return this.httpClient.delete(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}`)
   }
 }

@@ -24,6 +24,7 @@
     <p>{{pdf.description}}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button color="primary">Download</button>
+    <button *ngIf="pdf.data != null" mat-button color="primary" (click)="download(pdf)">Download</button>
+    <button *ngIf="pdf.data == null" mat-button color="primary" (click)="purchase(pdf)">Purchase</button>
   </mat-card-actions>
 </mat-card>

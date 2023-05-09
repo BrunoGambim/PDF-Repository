@@ -73,7 +73,6 @@ public class PDFController {
 	
 	@RequestMapping(value = "/{pdfId}/reported", method = RequestMethod.PUT)
 	public ResponseEntity<Void> reportPDFFile(@PathVariable Long pdfId){
-		System.out.println("aqui");
 		ReportPDFFileUseCase useCase = new ReportPDFFileUseCase(pdfRepository, userRepository);
 		Long userId = AuthenticationService.authenticatedId();
 		useCase.execute(userId, pdfId);
@@ -110,13 +109,14 @@ public class PDFController {
 	public ResponseEntity<List<PDFInfo>> findPDFInfoByName(
 			@RequestParam(name = "name", defaultValue = "") String name,
 			@RequestParam(value="ownersName", required = false, defaultValue = "false") boolean ownersName){
+		Long userId = AuthenticationService.authenticatedId();
 		if(ownersName) {
 			FindPDFInfoByOwnerNameUseCase useCase = new FindPDFInfoByOwnerNameUseCase(pdfRepository, pdfManagementParametersRepository);
-			List<PDFInfo> pdfs = useCase.execute(name);
+			List<PDFInfo> pdfs = useCase.execute(userId, name);
 			return ResponseEntity.ok(pdfs);
 		}
 		FindPDFInfoByNameUseCase useCase = new FindPDFInfoByNameUseCase(pdfRepository, pdfManagementParametersRepository);
-		List<PDFInfo> pdfs = useCase.execute(name);
+		List<PDFInfo> pdfs = useCase.execute(userId, name);
 		return ResponseEntity.ok(pdfs);
 	}
 

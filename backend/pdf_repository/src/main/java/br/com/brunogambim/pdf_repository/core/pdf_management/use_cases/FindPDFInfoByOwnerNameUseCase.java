@@ -17,8 +17,12 @@ public class FindPDFInfoByOwnerNameUseCase {
 		this.pricingPolicy = new PDFPricingPolicy(managementParametersRepository);
 	}
 	
-	public List<PDFInfo> execute(String name) {
+	public List<PDFInfo> execute(Long userId, String name) {
 		List<PDF> pdfList = this.pdfRepository.findPDFFilesByOwnerNameContains(name);
-		return pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy)).toList();
+		if(userId == null) {
+			return pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy)).toList();
+		}else {
+			return pdfList.stream().map(pdf -> pdf.getPDFInfo(userId, pricingPolicy)).toList();
+		}
 	}
 }
