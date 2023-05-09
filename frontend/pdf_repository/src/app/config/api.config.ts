@@ -7,4 +7,5 @@ export const API_CONFIG = {
   purchasedPDFsPath: "pdfs/hasAccess",
   hasAccessPath: "hasAccess",
   reportPDFPath: "reported",
+  pdfEvaluationPath: "evaluation",
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PDFModel } from 'src/app/models/pdf';
 import { API_CONFIG } from 'src/app/config/api.config';
+import { EvaluationDTO } from 'src/app/models/evaluation.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,12 @@ export class PdfService {
     formData.append("file", file);
     formData.append("description", description);
     return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}`, formData)
+  }
+
+  evaluatePDF(pdfId: number, evaluationValue: number) {
+    let dto: EvaluationDTO = {
+      evaluationValue: evaluationValue
+    }
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${pdfId}/${API_CONFIG.pdfEvaluationPath}`, dto)
   }
 }

@@ -5,6 +5,8 @@ import { PDFConverter } from 'src/app/utils/PDFConverter';
 import { UserStorageService } from 'src/app/services/storage/user-storage.service';
 import { UpdatePDFService } from 'src/app/services/pdf/update-pdf.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { EvaluatePDFComponent } from '../evaluate-pdf/evaluate-pdf.component';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +21,7 @@ export class HomeComponent {
   userEmail: string = ""
 
   constructor(private pdfService: PdfService, userStorageService: UserStorageService,
-    private updatePDFService: UpdatePDFService, private router: Router){
+    private updatePDFService: UpdatePDFService, private router: Router, private dialog: MatDialog){
     pdfService.getPDFs("",false).subscribe(pdfs => {
       this.pdfList = pdfs
     })
@@ -52,5 +54,19 @@ export class HomeComponent {
   updatePDF(pdf: PDFModel){
     this.updatePDFService.putPDF(pdf)
     this.router.navigate(['updatePDF'])
+  }
+
+  openEvaluateDialog(pdf: PDFModel){
+    const dialogRef = this.dialog.open(EvaluatePDFComponent, {data: pdf.id});
+  }
+
+  reportPDF(id: number) {
+    this.pdfService.reportPDFs(id).subscribe(res => {
+      this.pdfList.forEach(pdf => {
+        if(pdf.id == id){
+          pdf.status = "REPORTED"
+        }
+      })
+    })
   }
 }

@@ -25,6 +25,8 @@ import { OwnedPDFsComponent } from './components/owned-pdfs/owned-pdfs.component
 import { PurchasedPDFsComponent } from './components/purchased-pdfs/purchased-pdfs.component';
 import { SaveNewPDFComponent } from './components/save-new-pdf/save-new-pdf.component';
 import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component';
+import { EvaluatePDFComponent } from './components/evaluate-pdf/evaluate-pdf.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component
     OwnedPDFsComponent,
     PurchasedPDFsComponent,
     SaveNewPDFComponent,
-    UpdatePDFComponent
+    UpdatePDFComponent,
+    EvaluatePDFComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,8 @@ import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component
     MatCardModule,
     MatDividerModule,
     MatRadioModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider],
   bootstrap: [AppComponent]

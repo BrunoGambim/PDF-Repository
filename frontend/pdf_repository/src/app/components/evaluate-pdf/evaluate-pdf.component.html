@@ -1,0 +1,19 @@
+<form class="evaluation-form">
+  <div>
+    <mat-icon *ngIf="hoverValue < 1" (mouseenter)="mouseEnterTwo()" (mouseleave)="mouseLeave()" (click)="mouseClickTwo()">star_outline</mat-icon>
+    <mat-icon *ngIf="hoverValue >= 2" (mouseenter)="mouseEnterTwo()" (mouseleave)="mouseLeave()" (click)="mouseClickTwo()">star</mat-icon>
+    <mat-icon *ngIf="hoverValue < 3" (mouseenter)="mouseEnterFour()" (mouseleave)="mouseLeave()" (click)="mouseClickFour()">star_outline</mat-icon>
+    <mat-icon *ngIf="hoverValue >= 4" (mouseenter)="mouseEnterFour()" (mouseleave)="mouseLeave()" (click)="mouseClickFour()">star</mat-icon>
+    <mat-icon *ngIf="hoverValue < 5" (mouseenter)="mouseEnterSix()" (mouseleave)="mouseLeave()" (click)="mouseClickSix()">star_outline</mat-icon>
+    <mat-icon *ngIf="hoverValue >= 6" (mouseenter)="mouseEnterSix()" (mouseleave)="mouseLeave()" (click)="mouseClickSix()">star</mat-icon>
+    <mat-icon *ngIf="hoverValue < 7" (mouseenter)="mouseEnterEight()" (mouseleave)="mouseLeave()" (click)="mouseClickEight()">star_outline</mat-icon>
+    <mat-icon *ngIf="hoverValue >= 8" (mouseenter)="mouseEnterEight()" (mouseleave)="mouseLeave()" (click)="mouseClickEight()">star</mat-icon>
+    <mat-icon *ngIf="hoverValue < 9" (mouseenter)="mouseEnterTen()" (mouseleave)="mouseLeave()" (click)="mouseClickTen()">star_outline</mat-icon>
+    <mat-icon *ngIf="hoverValue >= 10" (mouseenter)="mouseEnterTen()" (mouseleave)="mouseLeave()" (click)="mouseClickTen()">star</mat-icon>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" class="pdf-form-button pdf-form-save-button" (click)="evaluatePDF()">
+      <span>Evaluate</span>
+    </button>
+  </div>
+</form>

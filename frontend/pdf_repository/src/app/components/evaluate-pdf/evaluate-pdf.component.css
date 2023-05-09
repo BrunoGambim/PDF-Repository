@@ -1,0 +1,16 @@
+.evaluation-form{
+  min-width: 20rem;
+  min-height: 8rem;
+  text-align: center;
+  padding-top: 2rem;
+  font-size: 3rem;
+}
+
+.evaluation-form mat-icon{
+  transform: scale(1.5);
+  margin: .7rem;
+}
+
+.evaluation-form button {
+  margin-top: 1rem;
+}
