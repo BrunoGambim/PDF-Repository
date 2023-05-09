@@ -49,4 +49,8 @@ export class HeaderComponent {
   saveNewPDF(){
     this.router.navigate(['saveNewPDF'])
   }
+
+  perfil(){
+    this.router.navigate(['perfil'])
+  }
 }

@@ -1,0 +1,13 @@
+.update-client-form{
+  min-width: 20rem;
+  min-height: 13rem;
+  padding: 3rem 2rem 1rem 2rem;
+}
+
+.update-client-form-field{
+  display: block;
+}
+
+.update-client-form-button{
+  width: 100%;
+}

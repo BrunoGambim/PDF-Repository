@@ -36,7 +36,7 @@ public class UpdateClientPasswordUseCaseTest {
 		when(userRepository.isAdmin(1L)).thenReturn(false);
 		when(userRepository.isAdmin(2L)).thenReturn(true);
 		when(userRepository.isAdmin(3L)).thenReturn(false);		
-		when(userRepository.findClientEmail("user@mail.com")).thenReturn(client);
+		when(userRepository.findClientByEmail("user@mail.com")).thenReturn(client);
 	}
 	
 	
