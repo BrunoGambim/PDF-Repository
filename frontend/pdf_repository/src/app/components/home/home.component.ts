@@ -31,5 +31,6 @@ export class HomeComponent {
   }
 
   purchase(pdf: PDFModel){
+    this.pdfService.purchasePDF(pdf.id)
   }
 }

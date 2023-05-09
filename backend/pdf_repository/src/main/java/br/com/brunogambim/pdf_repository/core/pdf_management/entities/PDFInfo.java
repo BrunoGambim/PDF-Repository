@@ -1,9 +1,5 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 
-import java.util.List;
-
-import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
-
 public class PDFInfo {
 	private Long id;
 	private String name;
@@ -14,11 +10,10 @@ public class PDFInfo {
 	private int numberOfEvaluations;
 	private int price;
 	private PDFStatus status;
-	private List<String> canBeAccessedBy;
 	private byte[] data;
 	
 	public PDFInfo(Long id, String name, String description, int size, double evaluationMean,
-			int numberOfEvaluations, int price, String ownersName, PDFStatus status, List<Client> canBeAccessedBy) {
+			int numberOfEvaluations, int price, String ownersName, PDFStatus status) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -28,11 +23,10 @@ public class PDFInfo {
 		this.numberOfEvaluations = numberOfEvaluations;
 		this.ownersName = ownersName;
 		this.status = status;
-		this.canBeAccessedBy = canBeAccessedBy.stream().map(client -> client.getEmail()).toList();
 	}
 
 	public PDFInfo(Long id, String name, String description, int size, double evaluationMean,
-			int numberOfEvaluations, int price, byte[] data, String ownersName, PDFStatus status, List<Client> canBeAccessedBy) {
+			int numberOfEvaluations, int price, byte[] data, String ownersName, PDFStatus status) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -43,7 +37,6 @@ public class PDFInfo {
 		this.numberOfEvaluations = numberOfEvaluations;
 		this.ownersName = ownersName;
 		this.status = status;
-		this.canBeAccessedBy = canBeAccessedBy.stream().map(client -> client.getEmail()).toList();
 	}
 
 	public Long getId() {
@@ -84,10 +77,6 @@ public class PDFInfo {
 	
 	public String getStatus() {
 		return status.getDescription();
-	}
-
-	public List<String> getCanBeAccessedBy() {
-		return canBeAccessedBy;
 	}
 
 	public void setData(byte[] data) {

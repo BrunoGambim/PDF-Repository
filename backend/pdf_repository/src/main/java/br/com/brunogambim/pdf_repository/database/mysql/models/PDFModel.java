@@ -75,7 +75,7 @@ public class PDFModel {
 	public PDF toEntity(PDFSizePolicy pdfSizePolicy) {
 		return new PDF(id, name, description, PDF.PDF_FORMAT, size, data, PDFStatus.toEnum(status),
 				pdfSizePolicy, owner.toEntity(), EvaluationModel.evaluationModelListToEvaluationMap(evaluations, pdfSizePolicy), 
-				ClientModel.modelListToEntityList(canBeAccessedBy));
+				ClientModel.modelListToEntityMap(canBeAccessedBy));
 	}
 	
 	public static List<PDF> pdfModelListToEntityList(List<PDFModel> pdfModelList, PDFSizePolicy pdfSizePolicy) {

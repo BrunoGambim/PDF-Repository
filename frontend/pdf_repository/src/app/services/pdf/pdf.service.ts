@@ -29,4 +29,10 @@ export class PdfService {
   deletePDF(id: number) {
     return this.httpClient.delete(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}`)
   }
+
+  purchasePDF(id: number) {
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.hasAccessPath}`,{}).subscribe(
+      res =>{console.log(res)}
+    )
+  }
 }

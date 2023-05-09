@@ -5,5 +5,6 @@ export const API_CONFIG = {
   userRolePath: "users/role",
   ownedPDFsPath: "pdfs/owned",
   purchasedPDFsPath: "pdfs/hasAccess",
+  hasAccessPath: "hasAccess",
   reportPDFPath: "reported",
 }

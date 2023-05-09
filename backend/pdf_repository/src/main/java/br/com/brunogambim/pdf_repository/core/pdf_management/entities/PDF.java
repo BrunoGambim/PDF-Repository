@@ -1,9 +1,7 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import br.com.brunogambim.pdf_repository.core.pdf_management.exceptions.InvalidEmptyOrNullFileFieldException;
@@ -24,10 +22,10 @@ public class PDF {
 	private PDFStatus status;
 	private LocalDateTime createdAt;
 	private Client owner;
-	private List<Client> canBeAccessedBy;
+	private Map<Long, Client> canBeAccessedBy;
 	
 	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy,
-			Client owner, Map<Long, Evaluation> evaluations, List<Client> canBeAccessedBy) {
+			Client owner, Map<Long, Evaluation> evaluations, Map<Long, Client> canBeAccessedBy) {
 		this.setId(id);
 		this.setStatus(PDFStatus.WAITING_FOR_ADMIN_VALIDATION);
 		this.setName(name);
@@ -44,7 +42,7 @@ public class PDF {
 	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy,
 			Client owner) {
 		this(id, name, description, format, size, data, pdfSizePolicy, owner, new HashMap<Long, Evaluation>(),
-				new ArrayList<Client>());
+				new HashMap<Long, Client>());
 	}
 	
 	public PDF(String name, String description, String format, int size, byte[] data, PDFSizePolicy pdfSizePolicy,
@@ -53,7 +51,7 @@ public class PDF {
 	}
 	
 	public PDF(Long id, String name, String description, String format, int size, byte[] data, PDFStatus status, PDFSizePolicy pdfSizePolicy,
-			Client owner, Map<Long, Evaluation> evaluations, List<Client> canBeAccessedBy) {
+			Client owner, Map<Long, Evaluation> evaluations, Map<Long, Client> canBeAccessedBy) {
 		this(id, name, description, format, size, data, pdfSizePolicy, owner, evaluations, canBeAccessedBy);
 		this.status = status;
 	}
@@ -121,7 +119,7 @@ public class PDF {
 	
 	public PDFInfo getPDFInfoWithoutData(PDFPricingPolicy pricingPolicy) {
 		return new PDFInfo(id, name, description, size, this.getEvaluationMean(),
-				this.evaluations.size(), pricingPolicy.execute(this), owner.getUsername(), status, canBeAccessedBy);
+				this.evaluations.size(), pricingPolicy.execute(this), owner.getUsername(), status);
 	}
 
 	public void setData(byte[] data, PDFSizePolicy pdfSizePolicy) {
@@ -180,24 +178,19 @@ public class PDF {
 		return owner;
 	}
 
-	public List<Client> getCanBeAccessedBy() {
-		return new ArrayList<Client>(canBeAccessedBy);
+	public Map<Long, Client> getCanBeAccessedBy() {
+		return new HashMap<Long, Client>(canBeAccessedBy);
 	}
 	
 	public void addToCanBeAccessedByList(Client client) {
 		if(canBeAccessedBy(client.getId())) {
 			throw new UserAlreadyHasAccessToPDFException();
 		}
-		this.canBeAccessedBy.add(client);
+		this.canBeAccessedBy.put(client.getId(), client);
 	}
 	
 	public boolean canBeAccessedBy(Long clientId) {
-		for(Client client: this.canBeAccessedBy) {
-			if(clientId == client.getId()) {
-				return true;
-			}
-		}
-		return false;
+		return this.canBeAccessedBy.containsKey(clientId);
 	}
 
 	@Override
