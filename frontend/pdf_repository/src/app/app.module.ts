@@ -21,13 +21,24 @@ import { AuthService } from './services/auth/auth.service';
 import { LoginComponent } from './components/login/login.component';
 import { UserStorageService } from './services/storage/user-storage.service';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
+import { OwnedPDFsComponent } from './components/owned-pdfs/owned-pdfs.component';
+import { PurchasedPDFsComponent } from './components/purchased-pdfs/purchased-pdfs.component';
+import { SaveNewPDFComponent } from './components/save-new-pdf/save-new-pdf.component';
+import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component';
+import { EvaluatePDFComponent } from './components/evaluate-pdf/evaluate-pdf.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    OwnedPDFsComponent,
+    PurchasedPDFsComponent,
+    SaveNewPDFComponent,
+    UpdatePDFComponent,
+    EvaluatePDFComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +54,8 @@ import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
     MatCardModule,
     MatDividerModule,
     MatRadioModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider],
   bootstrap: [AppComponent]

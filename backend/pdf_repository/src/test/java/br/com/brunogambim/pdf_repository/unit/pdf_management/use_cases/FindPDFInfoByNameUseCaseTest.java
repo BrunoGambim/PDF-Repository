@@ -61,11 +61,11 @@ public class FindPDFInfoByNameUseCaseTest {
 	void shouldReturnTheCorrectList() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
 		List<Long> idList2 = pdfList2.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
-		List<Long> resultIds = useCase.execute("name").stream().map(pdfInfo -> pdfInfo.getId()).toList();
+		List<Long> resultIds = useCase.execute(null, "name").stream().map(pdfInfo -> pdfInfo.getId()).toList();
 		assertThat(resultIds).isEqualTo(idList);
 		assertThat(resultIds.size()).isEqualTo(4);
 		
-		List<Long> resultIds2 = useCase.execute("2name").stream().map(pdfInfo -> pdfInfo.getId()).toList();
+		List<Long> resultIds2 = useCase.execute(null, "2name").stream().map(pdfInfo -> pdfInfo.getId()).toList();
 		assertThat(resultIds2).isEqualTo(idList2);
 		assertThat(resultIds2.size()).isEqualTo(4);
 	}

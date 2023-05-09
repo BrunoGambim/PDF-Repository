@@ -36,6 +36,11 @@ public class AuthenticationService {
 	}
 	
 	public static Long authenticatedId() {
-		return ((UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+		try {
+			return ((UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 }

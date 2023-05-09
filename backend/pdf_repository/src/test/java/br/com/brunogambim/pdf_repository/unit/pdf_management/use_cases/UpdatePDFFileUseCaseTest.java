@@ -70,7 +70,7 @@ public class UpdatePDFFileUseCaseTest {
 			assertThat(x.getDescription()).isEqualTo("desc");
 			assertThat(x.getStatus()).isEqualTo(PDFStatus.WAITING_FOR_ADMIN_VALIDATION);
 			assertThat(x.getOwner()).isEqualTo(owner);
-			assertThat(x.getCanBeAccessedBy()).contains(hasAccess);
+			assertThat(x.getCanBeAccessedBy().values()).contains(hasAccess);
 			return true;
 	    }));
 		
@@ -89,7 +89,7 @@ public class UpdatePDFFileUseCaseTest {
 			assertThat(x.getDescription()).isEqualTo("desc");
 			assertThat(x.getStatus()).isEqualTo(PDFStatus.VALIDATED);
 			assertThat(x.getOwner()).isEqualTo(owner);
-			assertThat(x.getCanBeAccessedBy()).contains(hasAccess);
+			assertThat(x.getCanBeAccessedBy().values()).contains(hasAccess);
 			return true;
 	    }));
 	}

@@ -5,14 +5,16 @@ public class PDFInfo {
 	private String name;
 	private String description;
 	private String ownersName;
+	private String ownersEmail;
 	private int size;
 	private double evaluationMean;
 	private int numberOfEvaluations;
 	private int price;
+	private PDFStatus status;
 	private byte[] data;
 	
 	public PDFInfo(Long id, String name, String description, int size, double evaluationMean,
-			int numberOfEvaluations, int price, String ownersName) {
+			int numberOfEvaluations, int price, String ownersName, PDFStatus status, String ownersEmail) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -21,10 +23,12 @@ public class PDFInfo {
 		this.price = price;
 		this.numberOfEvaluations = numberOfEvaluations;
 		this.ownersName = ownersName;
+		this.status = status;
+		this.ownersEmail = ownersEmail;
 	}
 
 	public PDFInfo(Long id, String name, String description, int size, double evaluationMean,
-			int numberOfEvaluations, int price, byte[] data, String ownersName) {
+			int numberOfEvaluations, int price, byte[] data, String ownersName, PDFStatus status, String ownersEmail) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -34,6 +38,8 @@ public class PDFInfo {
 		this.data = data;
 		this.numberOfEvaluations = numberOfEvaluations;
 		this.ownersName = ownersName;
+		this.status = status;
+		this.ownersEmail = ownersEmail;
 	}
 
 	public Long getId() {
@@ -70,6 +76,18 @@ public class PDFInfo {
 
 	public String getOwnersName() {
 		return ownersName;
+	}
+	
+	public String getStatus() {
+		return status.getDescription();
+	}
+
+	public void setData(byte[] data) {
+		this.data = data;
+	}
+
+	public String getOwnersEmail() {
+		return ownersEmail;
 	}
 
 	@Override

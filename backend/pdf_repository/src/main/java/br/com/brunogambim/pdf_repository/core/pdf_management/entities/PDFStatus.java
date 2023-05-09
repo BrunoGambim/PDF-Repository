@@ -1,9 +1,9 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.entities;
 
 public enum PDFStatus {
-	WAITING_FOR_ADMIN_VALIDATION(1, "Waiting for admin validation"),
-	VALIDATED(2, "Validated"),
-	REPORTED(3, "Reported");
+	WAITING_FOR_ADMIN_VALIDATION(1, "WAITING_FOR_ADMIN_VALIDATION"),
+	VALIDATED(2, "VALIDATED"),
+	REPORTED(3, "REPORTED");
 
 	private int code;
 	private String description;

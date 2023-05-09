@@ -1,7 +1,9 @@
 package br.com.brunogambim.pdf_repository.database.mysql.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import jakarta.persistence.Entity;
@@ -25,12 +27,16 @@ public class ClientModel extends UserModel{
 		this.balance = balance;
 	}
 	
-	public static List<Client>  modelListToEntityList(List<ClientModel> modelList){
-		return new ArrayList<Client>(modelList.stream().map(model -> model.toEntity()).toList());
+	public static Map<Long, Client> modelListToEntityMap(List<ClientModel> modelList){
+		Map<Long, Client> map = new HashMap<Long, Client>();
+		modelList.stream().forEach(model -> {
+			map.put(model.getId(), model.toEntity());
+		});
+		return map;
 	}
 	
-	public static List<ClientModel>  modelListFromEntityList(List<Client> entityList){
-		return new ArrayList<ClientModel>(entityList.stream().map(entity -> new ClientModel(entity)).toList());
+	public static List<ClientModel>  modelListFromEntityList(Map<Long, Client> entityList){
+		return new ArrayList<ClientModel>(entityList.values().stream().map(entity -> new ClientModel(entity)).toList());
 	}
 	
 	public Client toEntity() {

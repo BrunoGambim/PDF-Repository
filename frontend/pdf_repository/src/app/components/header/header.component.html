@@ -1,6 +1,15 @@
 <mat-toolbar color="primary">
   <h1 class="main-title" (click)="home()">PDF Repository</h1>
   <span class="example-spacer"></span>
+  <button *ngIf="state == 2" mat-stroked-button class="navbar-button" (click)="saveNewPDF()">
+    <span>Save New PDF</span>
+  </button>
+  <button *ngIf="state == 2" mat-stroked-button class="navbar-button" (click)="purchasedPDFs()">
+    <span>Purchased PDFs</span>
+  </button>
+  <button *ngIf="state == 2" mat-stroked-button class="navbar-button" (click)="ownedPDFs()">
+    <span>Owned PDFs</span>
+  </button>
   <button *ngIf="state == 2" mat-stroked-button class="navbar-button" (click)="home()">
     <mat-icon>account_circle</mat-icon>
     <span>Perfil</span>
