@@ -1,0 +1,19 @@
+<mat-card class="update-pdf-card">
+  <mat-card-content class="card-body">
+    <form class="update-pdf-form">
+      <mat-form-field appearance="outline" class="update-pdf-form-field">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Description" name="description" [(ngModel)]="description"></textarea>
+      </mat-form-field>
+      <input #pdfInput hidden="true" type="file" onclick="this.value=null" accept="application/pdf" (change)="onFileSelected($event)">
+      <button mat-fab extended color="primary" class="pdf-form-button" (click)="pdfInput.click()">
+        <mat-icon>attach_file</mat-icon>
+        <span>Choose PDF File</span>
+      </button>
+      <div class="file-status-container"><span class="file-status-text">{{fileName || "No file uploaded yet."}}</span></div>
+      <button mat-raised-button color="primary" class="pdf-form-button pdf-form-update-button" (click)="updatePDF()">
+        <span>Update</span>
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -23,6 +23,8 @@ import { UserStorageService } from './services/storage/user-storage.service';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
 import { OwnedPDFsComponent } from './components/owned-pdfs/owned-pdfs.component';
 import { PurchasedPDFsComponent } from './components/purchased-pdfs/purchased-pdfs.component';
+import { SaveNewPDFComponent } from './components/save-new-pdf/save-new-pdf.component';
+import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { PurchasedPDFsComponent } from './components/purchased-pdfs/purchased-pd
     HomeComponent,
     LoginComponent,
     OwnedPDFsComponent,
-    PurchasedPDFsComponent
+    PurchasedPDFsComponent,
+    SaveNewPDFComponent,
+    UpdatePDFComponent
   ],
   imports: [
     BrowserModule,

@@ -31,8 +31,20 @@ export class PdfService {
   }
 
   purchasePDF(id: number) {
-    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.hasAccessPath}`,{}).subscribe(
-      res =>{console.log(res)}
-    )
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.hasAccessPath}`,{})
+  }
+
+  savePDF(file: File, description: string) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("description", description);
+    return this.httpClient.post(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}`, formData)
+  }
+
+  updatePDF(id: number, file: File, description: string) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("description", description);
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}`, formData)
   }
 }

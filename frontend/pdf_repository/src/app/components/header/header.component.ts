@@ -45,4 +45,8 @@ export class HeaderComponent {
   purchasedPDFs(){
     this.router.navigate(['purchasedPDFs'])
   }
+
+  saveNewPDF(){
+    this.router.navigate(['saveNewPDF'])
+  }
 }

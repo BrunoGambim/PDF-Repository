@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { PdfService } from '../../services/pdf/pdf.service';
 import { PDFModel } from '../../models/pdf';
 import { PDFConverter } from 'src/app/utils/PDFConverter';
+import { UserStorageService } from 'src/app/services/storage/user-storage.service';
+import { UpdatePDFService } from 'src/app/services/pdf/update-pdf.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +16,17 @@ export class HomeComponent {
   pdfList: PDFModel[] = []
   name: string = ""
   ownersName: boolean = false
+  userEmail: string = ""
 
-  constructor(private pdfService: PdfService){
+  constructor(private pdfService: PdfService, userStorageService: UserStorageService,
+    private updatePDFService: UpdatePDFService, private router: Router){
     pdfService.getPDFs("",false).subscribe(pdfs => {
       this.pdfList = pdfs
     })
+    let localuser = userStorageService.getLocalUser()
+    if(localuser != null){
+      this.userEmail = localuser.email
+    }
   }
 
   getPDFs(){
@@ -32,5 +41,16 @@ export class HomeComponent {
 
   purchase(pdf: PDFModel){
     this.pdfService.purchasePDF(pdf.id)
+  }
+
+  deletePDF(id: number){
+    this.pdfService.deletePDF(id).subscribe(res => {
+      this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
+    })
+  }
+
+  updatePDF(pdf: PDFModel){
+    this.updatePDFService.putPDF(pdf)
+    this.router.navigate(['updatePDF'])
   }
 }

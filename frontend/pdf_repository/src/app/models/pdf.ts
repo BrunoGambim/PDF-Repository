@@ -4,6 +4,7 @@ export interface PDFModel {
   status: string;
   description: string;
   ownersName: string;
+  ownersEmail: string;
   price: number;
   evaluationMean: number;
   numberOfEvaluations: number;

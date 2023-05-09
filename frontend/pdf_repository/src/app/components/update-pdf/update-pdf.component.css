@@ -1,0 +1,29 @@
+.update-pdf-card {
+  width: 60rem;
+  margin: auto;
+  text-align: right;
+}
+
+.update-pdf-form {
+  padding: 1rem;
+}
+
+.update-pdf-form-field {
+  width: 100%;
+
+}
+
+.update-form-save-button {
+  width: 100%;
+  height: 2.5rem;
+}
+
+.file-status-container{
+  margin-top: .5rem;
+  margin-bottom: 1rem;
+  padding-right: .7rem;
+}
+
+.file-status-text{
+  font-size: 1rem;
+}
