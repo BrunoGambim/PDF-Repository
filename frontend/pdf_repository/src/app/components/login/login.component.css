@@ -13,8 +13,19 @@
   margin-bottom: .5rem;
 }
 
+.last-login-form-field {
+  margin-bottom: .1rem;
+}
+
 .login-form-button {
   width: 100%;
   margin-bottom: 1rem;
   height: 2.5rem;
+}
+
+.forgot-password-container{
+  z-index: 1;
+  margin-top: -.8rem;
+  margin-bottom: .8rem;
+  text-align: right;
 }

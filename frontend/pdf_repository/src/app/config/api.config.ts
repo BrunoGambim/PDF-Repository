@@ -9,4 +9,6 @@ export const API_CONFIG = {
   reportPDFPath: "reported",
   pdfEvaluationPath: "evaluation",
   clientPath: "clients",
+  passwordUpdateCodePath: "updatePasswordCode",
+  updatePasswordPath: "password",
 }

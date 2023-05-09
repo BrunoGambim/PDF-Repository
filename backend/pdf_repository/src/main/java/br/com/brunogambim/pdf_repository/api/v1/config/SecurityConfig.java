@@ -56,7 +56,7 @@ public class SecurityConfig {
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_PUT = {
-		"/v1/clients/*/password",
+		"/v1/clients/password",
 	};
 	
 	@Bean

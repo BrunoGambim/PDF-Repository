@@ -3,4 +3,5 @@ export interface ClientModel {
   username: string;
   email: string;
   balance: number;
+  password: string;
 }

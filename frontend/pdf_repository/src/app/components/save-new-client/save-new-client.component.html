@@ -1,0 +1,21 @@
+<mat-card class="save-client-card">
+  <mat-card-content class="card-body">
+    <form class="save-client-form">
+      <mat-form-field appearance="outline" class="save-client-form-field">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="user@mail.com" name="email" [(ngModel)]="client.email">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="save-client-form-field">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Username" name="username" [(ngModel)]="client.username">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="save-client-form-field">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Password" name="password" type="password" [(ngModel)]="client.password">
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="client-form-signup-button" (click)="saveClient()">
+        <span>Signup</span>
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

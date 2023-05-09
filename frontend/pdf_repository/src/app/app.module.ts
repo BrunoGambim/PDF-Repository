@@ -29,6 +29,9 @@ import { EvaluatePDFComponent } from './components/evaluate-pdf/evaluate-pdf.com
 import { MatDialogModule } from '@angular/material/dialog';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { UpdateClientComponent } from './components/update-client/update-client.component';
+import { SaveNewClientComponent } from './components/save-new-client/save-new-client.component';
+import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { UpdateClientComponent } from './components/update-client/update-client.
     UpdatePDFComponent,
     EvaluatePDFComponent,
     PerfilComponent,
-    UpdateClientComponent
+    UpdateClientComponent,
+    SaveNewClientComponent,
+    RecoverPasswordComponent,
+    UpdatePasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -19,7 +19,8 @@ export class PerfilComponent {
     balance: 0,
     email: "",
     id: 0,
-    username: ""
+    username: "",
+    password:""
   }
 
   constructor(clientService: ClientService, userStorageService: UserStorageService,
