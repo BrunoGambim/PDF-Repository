@@ -6,6 +6,10 @@ import { OwnedPDFsComponent } from './components/owned-pdfs/owned-pdfs.component
 import { PurchasedPDFsComponent } from './components/purchased-pdfs/purchased-pdfs.component';
 import { SaveNewPDFComponent } from './components/save-new-pdf/save-new-pdf.component';
 import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { SaveNewClientComponent } from './components/save-new-client/save-new-client.component';
+import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -13,7 +17,11 @@ const routes: Routes = [
   {path: 'ownedPDFs', component: OwnedPDFsComponent},
   {path: 'purchasedPDFs', component: PurchasedPDFsComponent},
   {path: 'saveNewPDF', component: SaveNewPDFComponent},
-  {path: 'updatePDF', component: UpdatePDFComponent}
+  {path: 'updatePDF', component: UpdatePDFComponent},
+  {path: 'perfil', component: PerfilComponent},
+  {path: 'saveNewClient', component: SaveNewClientComponent},
+  {path: 'recoverPassword', component: RecoverPasswordComponent},
+  {path: 'updatePassword', component: UpdatePasswordComponent},
 ];
 
 @NgModule({

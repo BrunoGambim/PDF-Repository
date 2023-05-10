@@ -1,8 +1,5 @@
 package br.com.brunogambim.pdf_repository.core.user_management.entities;
 
-import java.util.List;
-
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.InsufficientBalanceException;
 
 public class Client extends User{
@@ -36,7 +33,7 @@ public class Client extends User{
 		return balance;
 	}
 
-	public ClientInfo getClientInfo(List<PDF> list) {
-		return new ClientInfo(getId(), getUsername(), getEmail(), balance, list.stream().map(pdf -> pdf.getId()).toList());
+	public ClientInfo getClientInfo() {
+		return new ClientInfo(getId(), getUsername(), getEmail(), balance);
 	}
 }

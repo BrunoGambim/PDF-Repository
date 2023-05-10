@@ -27,6 +27,11 @@ import { SaveNewPDFComponent } from './components/save-new-pdf/save-new-pdf.comp
 import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component';
 import { EvaluatePDFComponent } from './components/evaluate-pdf/evaluate-pdf.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { UpdateClientComponent } from './components/update-client/update-client.component';
+import { SaveNewClientComponent } from './components/save-new-client/save-new-client.component';
+import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     PurchasedPDFsComponent,
     SaveNewPDFComponent,
     UpdatePDFComponent,
-    EvaluatePDFComponent
+    EvaluatePDFComponent,
+    PerfilComponent,
+    UpdateClientComponent,
+    SaveNewClientComponent,
+    RecoverPasswordComponent,
+    UpdatePasswordComponent
   ],
   imports: [
     BrowserModule,

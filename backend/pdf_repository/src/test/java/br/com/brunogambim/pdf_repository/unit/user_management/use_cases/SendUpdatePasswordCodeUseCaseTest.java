@@ -24,7 +24,7 @@ public class SendUpdatePasswordCodeUseCaseTest {
 	void initUseCase() {
 		useCase = new SendUpdatePasswordCodeUseCase(userRepository, emailSenderGateway);
 		client = new Client(1L, "user", "654321", "user@mail.com", 15);
-		when(userRepository.findClientEmail("user@mail.com")).thenReturn(client);
+		when(userRepository.findClientByEmail("user@mail.com")).thenReturn(client);
 	}
 	
 	

@@ -42,7 +42,9 @@ export class HomeComponent {
   }
 
   purchase(pdf: PDFModel){
-    this.pdfService.purchasePDF(pdf.id)
+    this.pdfService.purchasePDF(pdf.id).subscribe(res => {
+      //TODO reload page
+    })
   }
 
   deletePDF(id: number){

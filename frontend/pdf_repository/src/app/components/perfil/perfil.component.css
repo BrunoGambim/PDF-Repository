@@ -1,0 +1,17 @@
+.card {
+  margin: auto;
+  width: 30rem;
+}
+
+.card-header {
+  margin-bottom: .5rem;
+}
+
+.card-body {
+  margin-top: 1rem;
+}
+
+.card-body button{
+  margin-top: .9rem;
+  width: 100%;
+}

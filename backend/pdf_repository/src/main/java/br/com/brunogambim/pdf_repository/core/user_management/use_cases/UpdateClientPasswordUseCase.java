@@ -14,7 +14,7 @@ public class UpdateClientPasswordUseCase {
 	}
 	
 	public void execute(String email, String password, String code) {
-		Client oldData = this.userRepository.findClientEmail(email);
+		Client oldData = this.userRepository.findClientByEmail(email);
 		oldData.validateUpdatePasswordCode(code);
 		Client result = new Client(oldData.getId(), oldData.getUsername(),
 				passwordEncripterGateway.encript(password), oldData.getEmail(), oldData.getBalance());

@@ -8,4 +8,7 @@ export const API_CONFIG = {
   hasAccessPath: "hasAccess",
   reportPDFPath: "reported",
   pdfEvaluationPath: "evaluation",
+  clientPath: "clients",
+  passwordUpdateCodePath: "updatePasswordCode",
+  updatePasswordPath: "password",
 }

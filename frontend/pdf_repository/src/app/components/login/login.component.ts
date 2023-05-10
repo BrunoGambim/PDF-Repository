@@ -21,4 +21,8 @@ export class LoginComponent {
       this.router.navigate([''])
     })
   }
+
+  signup(){
+    this.router.navigate(['saveNewClient'])
+  }
 }

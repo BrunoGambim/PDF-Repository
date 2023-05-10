@@ -5,15 +5,18 @@
         <mat-label>Email</mat-label>
         <input matInput placeholder="user@email.com" name="email" [(ngModel)]="email">
       </mat-form-field>
-      <mat-form-field appearance="outline" class="login-form-field">
+      <mat-form-field appearance="outline" class="login-form-field last-login-form-field">
         <mat-label>Password</mat-label>
         <input matInput type="password" name="password" [(ngModel)]="password">
       </mat-form-field>
+      <div class="forgot-password-container">
+        <a [routerLink]="['../recoverPassword']">Forgot Password?</a>
+      </div>
       <div class="button-container">
         <button mat-raised-button color="primary" class="login-form-button" (click)="login()">
           <span>Login</span>
         </button>
-        <button mat-raised-button class="login-form-button">
+        <button mat-raised-button class="login-form-button" (click)="signup()">
           <span>Signup</span>
         </button>
       </div>

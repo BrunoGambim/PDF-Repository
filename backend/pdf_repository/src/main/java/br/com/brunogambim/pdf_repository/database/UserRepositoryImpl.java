@@ -61,7 +61,7 @@ public class UserRepositoryImpl implements UserRepository{
 	}
 
 	@Override
-	public Client findClientEmail(String email) {
+	public Client findClientByEmail(String email) {
 		UserModel userModel = this.jpaUserRepository.findByEmail(email)
 				.orElseThrow(() -> {
 			throw new ObjectNotFoundException();

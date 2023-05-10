@@ -1,0 +1,11 @@
+<mat-card class="card">
+  <mat-card-header class="card-header">
+    <mat-card-title>Name: {{client.username}}</mat-card-title>
+    <mat-card-subtitle>Email: {{client.email}}</mat-card-subtitle>
+    <mat-card-subtitle>Balance: {{client.balance}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content class="card-body">
+    <button mat-raised-button color="primary" (click)="openUpdateClientDialog()">Update</button>
+  </mat-card-content>
+</mat-card>
