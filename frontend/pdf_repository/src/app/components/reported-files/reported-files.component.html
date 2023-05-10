@@ -1,0 +1,30 @@
+<mat-card class="card" *ngFor="let pdf of pdfList">
+  <mat-card-header class="card-header">
+    <mat-card-subtitle>{{pdf.ownersName}}</mat-card-subtitle>
+    <mat-card-title>{{pdf.name}}</mat-card-title>
+    <mat-card-title *ngIf="pdf.numberOfEvaluations > 0">
+      <mat-icon *ngIf="pdf.evaluationMean < 1">star_outline</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 1 && pdf.evaluationMean < 2">star_half</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 2">star</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean < 3">star_outline</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 3 && pdf.evaluationMean < 4">star_half</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 4">star</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean < 5">star_outline</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 5 && pdf.evaluationMean < 6">star_half</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 6">star</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean < 7">star_outline</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 7 && pdf.evaluationMean < 8">star_half</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 8">star</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean < 9">star_outline</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 9 && pdf.evaluationMean < 10">star_half</mat-icon>
+      <mat-icon *ngIf="pdf.evaluationMean >= 10">star</mat-icon>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content class="card-body">
+    <p>{{pdf.description}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="primary" (click)="download(pdf)">Download</button>
+  </mat-card-actions>
+</mat-card>
