@@ -8,13 +8,13 @@ public abstract class User {
 	private String username;
 	private String password;
 	private String email;
-	private UpdatePasswordCode code;
+	private PasswordUpdateCode code;
 	
 	public User(Long id, String username, String password, String email) {
 		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.email = email;
+		this.setUsername(username);
+		this.setPassword(password);
+		this.setEmail(email);
 		this.code = null;
 	}
 
@@ -31,7 +31,7 @@ public abstract class User {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	private void setUsername(String username) {
 		if(username.equals("") || username == null) {
 			throw new InvalidEmptyOrNullUserFieldException("username");
 		}
@@ -47,15 +47,20 @@ public abstract class User {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	private void setPassword(String password) {
 		this.password = password;
 	}
 
 	public String getEmail() {
 		return email;
 	}
+	
+	public void updatePassword(String code, String password) {
+		this.validatePasswordUpdateCode(code);
+		this.setPassword(password);
+	}
 
-	public void setEmail(String email) {
+	private void setEmail(String email) {
 		if(email.equals("") || email == null) {
 			throw new InvalidEmptyOrNullUserFieldException("email");
 		}
@@ -63,15 +68,15 @@ public abstract class User {
 		this.email = email;
 	}
 
-	public void setUpdatePasswordCode(UpdatePasswordCode code) {
+	public void setPasswordUpdateCode(PasswordUpdateCode code) {
 		this.code = code;
 	}
 
-	public UpdatePasswordCode getUpdatePasswordCode() {
+	public PasswordUpdateCode getPasswordUpdateCode() {
 		return code;
 	}
 	
-	public void validateUpdatePasswordCode(String code) {
+	public void validatePasswordUpdateCode(String code) {
 		if(code == null) {
 			throw new InvalidUpdatePasswordCodeException();
 		}
@@ -79,8 +84,8 @@ public abstract class User {
 		this.code.validateCode(code);
 	}
 
-	public String newUpdatePasswordCode() {
-		code = new UpdatePasswordCode();
+	public String newPasswordUpdateCode() {
+		code = new PasswordUpdateCode();
 		return code.getCode();
 	}
 }

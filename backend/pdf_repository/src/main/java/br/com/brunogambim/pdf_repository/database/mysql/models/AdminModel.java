@@ -12,7 +12,7 @@ public class AdminModel extends UserModel{
 	
 	public AdminModel(Admin admin) {
 		this(admin.getId(), admin.getUsername(), admin.getPassword(), admin.getEmail(),
-				new UpdatePasswordCodeModel(admin.getUpdatePasswordCode()));
+				new UpdatePasswordCodeModel(admin.getPasswordUpdateCode()));
 	}
 	
 	public AdminModel(Long id, String username, String password, String email, UpdatePasswordCodeModel codeModel) {
@@ -20,6 +20,8 @@ public class AdminModel extends UserModel{
 	}
 
 	public User toEntity() {
-		return new Admin(getId(), getUsername(), getPassword(), getEmail());
+		Admin admin = new Admin(getId(), getUsername(), getPassword(), getEmail());
+		admin.setPasswordUpdateCode(this.getCode().toEntity());
+		return admin;
 	}
 }

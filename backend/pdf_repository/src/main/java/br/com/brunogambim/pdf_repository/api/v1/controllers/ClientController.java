@@ -29,9 +29,9 @@ import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordE
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.FindClientInfoUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SaveNewClientUseCase;
-import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SendUpdatePasswordCodeUseCase;
+import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SendPasswordUpdateCodeUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientInfoUseCase;
-import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientPasswordUseCase;
+import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateUserPasswordUseCase;
 
 @RestController
 @RequestMapping(value = "/v1/clients")
@@ -70,7 +70,7 @@ public class ClientController {
 	
 	@RequestMapping(value = "/updatePasswordCode", method = RequestMethod.POST)
 	public ResponseEntity<Void> sendUpdatePasswordCode(@RequestBody UpdatePasswordCodeDTO dto){
-		SendUpdatePasswordCodeUseCase useCase = new SendUpdatePasswordCodeUseCase(userRepository,
+		SendPasswordUpdateCodeUseCase useCase = new SendPasswordUpdateCodeUseCase(userRepository,
 				emailSenderGateway);
 		useCase.execute(dto.getEmail());
 		return ResponseEntity.noContent().build();
@@ -86,7 +86,7 @@ public class ClientController {
 	
 	@RequestMapping(value = "/password", method = RequestMethod.PUT)
 	public ResponseEntity<Void> updateClientPassword(@RequestBody UpdateClientPasswordDTO dto){
-		UpdateClientPasswordUseCase useCase = new UpdateClientPasswordUseCase(userRepository, encripterGateway);
+		UpdateUserPasswordUseCase useCase = new UpdateUserPasswordUseCase(userRepository, encripterGateway);
 		useCase.execute(dto.getEmail(), dto.getPassword(), dto.getCode());
 		return ResponseEntity.noContent().build();
 	}

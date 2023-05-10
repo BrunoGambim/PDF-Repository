@@ -16,7 +16,7 @@ public class FindUserRoleByEmailUseCase {
 	}
 	
 	public UserRoles execute(Long userId, String email) {
-		User user = this.userRepository.findUserEmail(email);
+		User user = this.userRepository.findUserByEmail(email);
 		if(userId != user.getId()) {
 			authorizationPolicy.CheckIsAdminAuthorization(userId);
 		}

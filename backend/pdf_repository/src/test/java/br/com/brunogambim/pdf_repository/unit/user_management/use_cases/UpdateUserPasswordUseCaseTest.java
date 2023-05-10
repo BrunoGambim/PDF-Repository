@@ -16,10 +16,10 @@ import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.InvalidUpdatePasswordCodeException;
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
-import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientPasswordUseCase;
+import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateUserPasswordUseCase;
 
-public class UpdateClientPasswordUseCaseTest {
-	private UpdateClientPasswordUseCase useCase;
+public class UpdateUserPasswordUseCaseTest {
+	private UpdateUserPasswordUseCase useCase;
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private PasswordEncripterGateway passwordEncriptGateway = Mockito.mock(PasswordEncripterGateway.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
@@ -29,14 +29,14 @@ public class UpdateClientPasswordUseCaseTest {
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
-		useCase = new UpdateClientPasswordUseCase(userRepository, passwordEncriptGateway);
+		useCase = new UpdateUserPasswordUseCase(userRepository, passwordEncriptGateway);
 		when(passwordEncriptGateway.encript("789012")).thenReturn("210987");
 		Client client = new Client(1L, "user", "654321", "user@mail.com", 15);
-		code = client.newUpdatePasswordCode();
+		code = client.newPasswordUpdateCode();
 		when(userRepository.isAdmin(1L)).thenReturn(false);
 		when(userRepository.isAdmin(2L)).thenReturn(true);
 		when(userRepository.isAdmin(3L)).thenReturn(false);		
-		when(userRepository.findClientByEmail("user@mail.com")).thenReturn(client);
+		when(userRepository.findUserByEmail("user@mail.com")).thenReturn(client);
 	}
 	
 	
