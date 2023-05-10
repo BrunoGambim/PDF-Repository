@@ -16,13 +16,13 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePol
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFStatus;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
-import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.AuthorizeToSavePDFFileUseCase;
+import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.ValidatePDFFileUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.UnauthorizedUserException;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 
-public class AuthorizePDFFileSavingUseCaseTest {
-	private AuthorizeToSavePDFFileUseCase useCase;
+public class ValidatePDFFileUseCaseTest {
+	private ValidatePDFFileUseCase useCase;
 	private PDFRepository pdfRepository = Mockito.mock(PDFRepository.class);
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
@@ -31,7 +31,7 @@ public class AuthorizePDFFileSavingUseCaseTest {
 	void initUseCase() {
 		when(managementParametersRepository.findParameters())
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
-		useCase = new AuthorizeToSavePDFFileUseCase(pdfRepository, userRepository);
+		useCase = new ValidatePDFFileUseCase(pdfRepository, userRepository);
 		when(userRepository.isAdmin(1L)).thenReturn(false);
 		when(userRepository.isAdmin(2L)).thenReturn(true);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);

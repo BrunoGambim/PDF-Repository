@@ -22,4 +22,16 @@ export class ReportedFilesComponent {
   download(pdf: PDFModel){
     PDFConverter.createPDFLink(pdf).click()
   }
+
+  deletePDF(id: number){
+    this.pdfService.deletePDF(id).subscribe(res => {
+      this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
+    })
+  }
+
+  validatePDF(id: number){
+    this.pdfService.validatePDF(id).subscribe(res => {
+      this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
+    });
+  }
 }

@@ -7,40 +7,46 @@ import java.util.Map;
 
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.Evaluation;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 
 @Entity(name = "evaluations")
 public class EvaluationModel {
-	@EmbeddedId
-	private EvaluationId id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@MapsId("evaluatorId")
+	@ManyToOne
 	@JoinColumn(name = "evaluator_id")
 	private ClientModel evaluator;
+	
+	@ManyToOne
+	@JoinColumn(name = "pdf_id")
+	private PDFModel pdf;
 	
 	private double value;
 	
 	public EvaluationModel() {
 	}
 
-	public EvaluationModel(Evaluation evaluation, Long pdfId) {
-		this(evaluation.getValue(), new ClientModel(evaluation.getEvaluator()), pdfId);
+	public EvaluationModel(Evaluation evaluation, PDFModel pdf) {
+		this(evaluation.getId(), evaluation.getValue(), new ClientModel(evaluation.getEvaluator()), pdf);
 	}
 
-	public EvaluationModel(double value, ClientModel evaluator, Long pdfId) {
+	public EvaluationModel(Long id, double value, ClientModel evaluator, PDFModel pdf) {
+		System.out.println(evaluator.getId());
 		this.evaluator = evaluator;
 		this.value = value;
-		this.id = new EvaluationId(evaluator.getId(), pdfId);
+		this.pdf = pdf;
+		this.id = id;
 	}
 	
-	public static List<EvaluationModel> evaluationCollectionToEvaluationModelList(Collection<Evaluation> evaluations, Long pdfId) {
-		return evaluations.stream().map(evaluation -> new EvaluationModel(evaluation, pdfId)).toList();
+	public static List<EvaluationModel> evaluationCollectionToEvaluationModelList(Collection<Evaluation> evaluations, PDFModel pdf) {
+		return evaluations.stream().map(evaluation -> new EvaluationModel(evaluation, pdf)).toList();
 	}
 	
 	public static Map<Long, Evaluation> evaluationModelListToEvaluationMap(List<EvaluationModel> evaluations, PDFSizePolicy sizePolicy) {
@@ -52,14 +58,14 @@ public class EvaluationModel {
 	}
 	
 	public Evaluation toEntity() {
-		return new Evaluation(value, this.getEvaluator().toEntity());
+		return new Evaluation(this.getId() , this.getValue(), this.getEvaluator().toEntity());
 	}
 
-	public EvaluationId getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(EvaluationId id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -77,5 +83,13 @@ public class EvaluationModel {
 	
 	public void setValue(double value) {
 		this.value = value;
+	}
+
+	public PDFModel getPdf() {
+		return pdf;
+	}
+
+	public void setPdf(PDFModel pdf) {
+		this.pdf = pdf;
 	}
 }

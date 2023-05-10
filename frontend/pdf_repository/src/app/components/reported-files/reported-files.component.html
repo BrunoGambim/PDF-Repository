@@ -26,5 +26,7 @@
   </mat-card-content>
   <mat-card-actions>
     <button mat-button color="primary" (click)="download(pdf)">Download</button>
+    <button mat-button color="accent" (click)="validatePDF(pdf.id)">Validate</button>
+    <button mat-button color="warn" (click)="deletePDF(pdf.id)">Delete</button>
   </mat-card-actions>
 </mat-card>

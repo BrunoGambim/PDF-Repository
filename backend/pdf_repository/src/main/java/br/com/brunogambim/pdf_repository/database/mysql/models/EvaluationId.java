@@ -1,5 +1,6 @@
 package br.com.brunogambim.pdf_repository.database.mysql.models;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
@@ -8,6 +9,7 @@ public class EvaluationId {
 	@Column(name = "evaluator_id")
 	private Long evaluatorId;
 	@Column(name = "pdf_id")
+	@Nullable
 	private Long pdfId;
 	
 	public EvaluationId() {

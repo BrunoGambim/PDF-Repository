@@ -33,7 +33,6 @@ public class DeletePDFFileUseCase {
 			userRepository.save(client);
 			owner.refound(transaction.getPrice());
 		}
-
 		this.userRepository.save(owner);
 		this.pdfRepository.delete(pdfId);
 	}

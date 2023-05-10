@@ -152,7 +152,11 @@ public class PDF {
 	}
 	
 	public void addEvaluation(Client client, double value) {
-		this.evaluations.put(client.getId(), new Evaluation(value, client));
+		if(this.evaluations.containsKey(client.getId())) {
+			this.evaluations.get(client.getId()).setValue(value);
+		} else {
+			this.evaluations.put(client.getId(), new Evaluation(value, client));
+		}
 	}
 	
 	public double getEvaluationMean() {

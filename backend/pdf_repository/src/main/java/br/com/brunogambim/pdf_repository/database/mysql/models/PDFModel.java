@@ -18,7 +18,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 
 @Entity(name = "pdfs")
@@ -44,7 +43,6 @@ public class PDFModel {
 	private LocalDateTime createdAt;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-	@MapsId("pdfId")
 	@JoinColumn(name = "pdf_id")
 	private List<EvaluationModel> evaluations  = new ArrayList<EvaluationModel>();
 	
@@ -53,19 +51,18 @@ public class PDFModel {
 	
 	public PDFModel(PDF pdf) {
 		this(pdf.getId(), pdf.getName(), pdf.getDescription(), pdf.getSize(), pdf.getData(),
-				EvaluationModel.evaluationCollectionToEvaluationModelList(pdf.getEvaluations().values(), pdf.getId()), 
 				pdf.getStatus().getCode(), new ClientModel(pdf.getOwner()),
 				pdf.getCreatedAt(), ClientModel.modelListFromEntityList(pdf.getCanBeAccessedBy()));
+		this.setEvaluations(EvaluationModel.evaluationCollectionToEvaluationModelList(pdf.getEvaluations().values(), this));
 	}
 	
 	public PDFModel(Long id, String name, String description, int size, byte[] data,
-			List<EvaluationModel> evaluations, int status, ClientModel owner, LocalDateTime createdAt, List<ClientModel> canBeAccessedBy) {
+			int status, ClientModel owner, LocalDateTime createdAt, List<ClientModel> canBeAccessedBy) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.size = size;
 		this.data = data;
-		this.evaluations = evaluations;
 		this.status = status;
 		this.createdAt = createdAt;
 		this.owner = owner;
