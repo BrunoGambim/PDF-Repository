@@ -24,7 +24,8 @@ export class ClientService {
       email: client.email,
       username: client.username
     }
-    return this.httpClient.put<ClientModel>(`${API_CONFIG.baseURL}/${API_CONFIG.clientPath}/${client.id}`, dto)
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.clientPath}/${client.id}`, dto,
+    { observe: 'response', responseType: 'text' })
   }
 
   saveClient(client: ClientModel) {

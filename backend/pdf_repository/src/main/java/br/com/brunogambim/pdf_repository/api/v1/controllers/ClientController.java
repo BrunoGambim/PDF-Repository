@@ -32,6 +32,7 @@ import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SaveNewC
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SendPasswordUpdateCodeUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientInfoUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateUserPasswordUseCase;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(value = "/v1/clients")
@@ -42,15 +43,17 @@ public class ClientController {
 	private EmailSenderGateway emailSenderGateway;
 	private PDFRepository pdfRepository;
 	private PDFTransactionRepository transactionRepository;
+	private AuthenticationService authenticationService;
 	
 	@Autowired
-	public ClientController(UserRepository userRepository, PasswordEncripterGateway encripterGateway, 
+	public ClientController(UserRepository userRepository, PasswordEncripterGateway encripterGateway, AuthenticationService authenticationService,
 			EmailSenderGateway emailSenderGateway, PDFTransactionRepository transactionRepository, PDFRepository pdfRepository) {
 		this.userRepository = userRepository;
 		this.encripterGateway = encripterGateway;
 		this.emailSenderGateway = emailSenderGateway;
 		this.transactionRepository = transactionRepository;
 		this.pdfRepository = pdfRepository;
+		this.authenticationService = authenticationService;
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -77,10 +80,11 @@ public class ClientController {
 	}
 	
 	@RequestMapping(value = "/{clientId}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> updateClient(@PathVariable Long clientId, @RequestBody UpdateClientDTO dto){
+	public ResponseEntity<Void> updateClient(HttpServletResponse httpResponse, @PathVariable Long clientId, @RequestBody UpdateClientDTO dto){
 		UpdateClientInfoUseCase useCase = new UpdateClientInfoUseCase(userRepository, pdfRepository);
 		Long userId = AuthenticationService.authenticatedId();
 		useCase.execute(userId, clientId, dto.getUsername(), dto.getEmail());
+		authenticationService.regenerateToken(httpResponse, dto.getEmail());
 		return ResponseEntity.noContent().build();
 	}
 	

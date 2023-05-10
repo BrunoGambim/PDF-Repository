@@ -27,6 +27,12 @@ public class AuthenticationService {
 		httpResponse.addHeader("access-control-expose-headers","Authorization");
 	}
 	
+	public void regenerateToken(HttpServletResponse httpResponse, String email) {
+		String jwtToken = this.jwtUtil.generateToken(email);
+		httpResponse.addHeader("Authorization","Bearer " + jwtToken);
+		httpResponse.addHeader("access-control-expose-headers","Authorization");
+	}
+	
 	public static Optional<UserSS> authenticated() {
 		try {
 			return Optional.of((UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
