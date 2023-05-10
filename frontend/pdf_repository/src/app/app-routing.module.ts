@@ -11,6 +11,7 @@ import { SaveNewClientComponent } from './components/save-new-client/save-new-cl
 import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { ReportedFilesComponent } from './components/reported-files/reported-files.component';
+import { WaitingForValidationFilesComponent } from './components/waiting-for-validation-files/waiting-for-validation-files.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: 'recoverPassword', component: RecoverPasswordComponent},
   {path: 'updatePassword', component: UpdatePasswordComponent},
   {path: 'reportedPDFs', component: ReportedFilesComponent},
+  {path: 'waitingForValidationPDFs', component: WaitingForValidationFilesComponent},
 ];
 
 @NgModule({

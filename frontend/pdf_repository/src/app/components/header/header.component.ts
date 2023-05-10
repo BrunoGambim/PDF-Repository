@@ -57,4 +57,8 @@ export class HeaderComponent {
   reportedPDFs(){
     this.router.navigate(['reportedPDFs'])
   }
+
+  waitingForValidationPDFs(){
+    this.router.navigate(['waitingForValidationPDFs'])
+  }
 }

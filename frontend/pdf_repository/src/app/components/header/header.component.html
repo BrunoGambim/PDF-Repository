@@ -17,6 +17,9 @@
   <button *ngIf="state == 3" mat-stroked-button class="navbar-button" (click)="reportedPDFs()">
     <span>Reported PDFs</span>
   </button>
+  <button *ngIf="state == 3" mat-stroked-button class="navbar-button" (click)="waitingForValidationPDFs()">
+    <span>Waiting For Validation PDFs</span>
+  </button>
   <button *ngIf="state == 1" mat-stroked-button class="navbar-button" (click)="login()">
     <mat-icon>login</mat-icon>
     <span>Login</span>

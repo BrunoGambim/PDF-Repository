@@ -60,6 +60,10 @@ export class PdfService {
     return this.httpClient.get<PDFModel[]>(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${API_CONFIG.reportedPDFsPath}`)
   }
 
+  getWaitingForValidationPDFs(){
+    return this.httpClient.get<PDFModel[]>(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${API_CONFIG.waitingForValidation}`)
+  }
+
   validatePDF(id: number) {
     return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.validatePDFPath}`,{})
   }

@@ -11,5 +11,6 @@ export const API_CONFIG = {
   clientPath: "clients",
   passwordUpdateCodePath: "updatePasswordCode",
   updatePasswordPath: "password",
-  validatePDFPath: "validate"
+  validatePDFPath: "validate",
+  waitingForValidation:"waitingForValidation",
 }

@@ -4,15 +4,15 @@ import { PdfService } from 'src/app/services/pdf/pdf.service';
 import { PDFConverter } from 'src/app/utils/PDFConverter';
 
 @Component({
-  selector: 'app-reported-files',
-  templateUrl: './reported-files.component.html',
-  styleUrls: ['./reported-files.component.css']
+  selector: 'app-waiting-for-validation-files',
+  templateUrl: './waiting-for-validation-files.component.html',
+  styleUrls: ['./waiting-for-validation-files.component.css']
 })
-export class ReportedFilesComponent {
+export class WaitingForValidationFilesComponent {
   pdfList: PDFModel[] = []
 
   constructor(private pdfService: PdfService){
-    pdfService.getReportedPDFs().subscribe(pdfs => {
+    pdfService.getWaitingForValidationPDFs().subscribe(pdfs => {
       this.pdfList = pdfs
     })
   }

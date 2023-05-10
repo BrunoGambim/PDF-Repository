@@ -33,6 +33,7 @@ import { SaveNewClientComponent } from './components/save-new-client/save-new-cl
 import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { ReportedFilesComponent } from './components/reported-files/reported-files.component';
+import { WaitingForValidationFilesComponent } from './components/waiting-for-validation-files/waiting-for-validation-files.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ReportedFilesComponent } from './components/reported-files/reported-fil
     SaveNewClientComponent,
     RecoverPasswordComponent,
     UpdatePasswordComponent,
-    ReportedFilesComponent
+    ReportedFilesComponent,
+    WaitingForValidationFilesComponent
   ],
   imports: [
     BrowserModule,
