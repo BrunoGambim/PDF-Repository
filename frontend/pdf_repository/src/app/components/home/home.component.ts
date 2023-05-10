@@ -38,6 +38,8 @@ export class HomeComponent {
     if(localuser != null){
       this.userEmail = localuser.email
     }
+
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   getPDFs(){
@@ -52,7 +54,7 @@ export class HomeComponent {
 
   purchase(pdf: PDFModel){
     this.pdfService.purchasePDF(pdf.id).subscribe(res => {
-      //TODO reload page
+      this.router.navigate([''])
     })
   }
 
@@ -79,11 +81,5 @@ export class HomeComponent {
         }
       })
     })
-  }
-
-  validatePDF(id: number){
-    this.pdfService.validatePDF(id).subscribe(res => {
-      this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
-    });
   }
 }
