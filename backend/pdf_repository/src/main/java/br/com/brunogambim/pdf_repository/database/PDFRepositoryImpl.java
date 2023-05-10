@@ -15,12 +15,17 @@ import br.com.brunogambim.pdf_repository.database.exceptions.ObjectNotFoundExcep
 import br.com.brunogambim.pdf_repository.database.mysql.models.ClientModel;
 import br.com.brunogambim.pdf_repository.database.mysql.models.PDFModel;
 import br.com.brunogambim.pdf_repository.database.mysql.repositories.JPAPDFRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 @Service
 public class PDFRepositoryImpl implements PDFRepository{
 	
 	private JPAPDFRepository jpaPDFRepository;
 	private PDFSizePolicy pdfSizePolicy;
+	
+	@PersistenceContext
+    private EntityManager em;
 	
 	@Autowired
 	public PDFRepositoryImpl(JPAPDFRepository jpaPDFRepository,

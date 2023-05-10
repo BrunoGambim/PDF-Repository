@@ -24,7 +24,7 @@ export class PdfService {
   }
 
   reportPDFs(id: number) {
-    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.reportPDFPath}`,{})
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.reportedPDFsPath}`,{})
   }
 
   deletePDF(id: number) {
@@ -49,10 +49,22 @@ export class PdfService {
     return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}`, formData)
   }
 
-  evaluatePDF(pdfId: number, evaluationValue: number) {
+  evaluatePDF(id: number, evaluationValue: number) {
     let dto: EvaluationDTO = {
       evaluationValue: evaluationValue
     }
-    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${pdfId}/${API_CONFIG.pdfEvaluationPath}`, dto)
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.pdfEvaluationPath}`, dto)
+  }
+
+  getReportedPDFs(){
+    return this.httpClient.get<PDFModel[]>(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${API_CONFIG.reportedPDFsPath}`)
+  }
+
+  getWaitingForValidationPDFs(){
+    return this.httpClient.get<PDFModel[]>(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${API_CONFIG.waitingForValidation}`)
+  }
+
+  validatePDF(id: number) {
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}/${id}/${API_CONFIG.validatePDFPath}`,{})
   }
 }

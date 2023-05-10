@@ -22,7 +22,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFInfo;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFTransactionRepository;
-import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.AuthorizeToSavePDFFileUseCase;
+import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.ValidatePDFFileUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.DeletePDFFileUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.EvaluatePDFFileUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFFilesThatAnUserHasAccessUseCase;
@@ -55,9 +55,9 @@ public class PDFController {
 		this.transactionRepository = transactionRepository;
 	}
 	
-	@RequestMapping(value = "/{pdfId}/authorizeToSave", method = RequestMethod.PUT)
-	public ResponseEntity<Void> authorizeToSavePDFFile(@PathVariable Long pdfId){
-		AuthorizeToSavePDFFileUseCase useCase = new AuthorizeToSavePDFFileUseCase(pdfRepository, userRepository);
+	@RequestMapping(value = "/{pdfId}/validate", method = RequestMethod.PUT)
+	public ResponseEntity<Void> validatePDFFile(@PathVariable Long pdfId){
+		ValidatePDFFileUseCase useCase = new ValidatePDFFileUseCase(pdfRepository, userRepository);
 		Long userId = AuthenticationService.authenticatedId();
 		useCase.execute(userId, pdfId);
 		return ResponseEntity.noContent().build();

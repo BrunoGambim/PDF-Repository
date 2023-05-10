@@ -53,4 +53,12 @@ export class HeaderComponent {
   perfil(){
     this.router.navigate(['perfil'])
   }
+
+  reportedPDFs(){
+    this.router.navigate(['reportedPDFs'])
+  }
+
+  waitingForValidationPDFs(){
+    this.router.navigate(['waitingForValidationPDFs'])
+  }
 }

@@ -6,9 +6,11 @@ export const API_CONFIG = {
   ownedPDFsPath: "pdfs/owned",
   purchasedPDFsPath: "pdfs/hasAccess",
   hasAccessPath: "hasAccess",
-  reportPDFPath: "reported",
+  reportedPDFsPath: "reported",
   pdfEvaluationPath: "evaluation",
   clientPath: "clients",
   passwordUpdateCodePath: "updatePasswordCode",
   updatePasswordPath: "password",
+  validatePDFPath: "validate",
+  waitingForValidation:"waitingForValidation",
 }

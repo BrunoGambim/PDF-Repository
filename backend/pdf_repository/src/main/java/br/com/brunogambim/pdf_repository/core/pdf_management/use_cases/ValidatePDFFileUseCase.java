@@ -6,11 +6,11 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRep
 import br.com.brunogambim.pdf_repository.core.user_management.entities.AuthorizationPolicy;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 
-public class AuthorizeToSavePDFFileUseCase {
+public class ValidatePDFFileUseCase {
 	private PDFRepository pdfRepository;
 	private AuthorizationPolicy authorizationPolicy;
 
-	public AuthorizeToSavePDFFileUseCase(PDFRepository pdfRepository, UserRepository userRepository) {
+	public ValidatePDFFileUseCase(PDFRepository pdfRepository, UserRepository userRepository) {
 		this.pdfRepository = pdfRepository;
 		this.authorizationPolicy = new AuthorizationPolicy(userRepository, pdfRepository);
 	}
