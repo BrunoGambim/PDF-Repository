@@ -18,10 +18,12 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFMan
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFInfoByNameUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
+import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 
 public class FindPDFInfoByNameUseCaseTest {
 	private FindPDFInfoByNameUseCase useCase;
 	private PDFRepository pdfRepository = Mockito.mock(PDFRepository.class);
+	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private PDFManagementParametersRepository managementParametersRepository = Mockito.mock(PDFManagementParametersRepository.class);
 	private PDFPricingPolicy pricingPolicy; 
 	private List<PDF> pdfList;
@@ -32,7 +34,7 @@ public class FindPDFInfoByNameUseCaseTest {
 		when(managementParametersRepository.findParameters())
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
 		this.pricingPolicy = new PDFPricingPolicy(managementParametersRepository);
-		useCase = new FindPDFInfoByNameUseCase(pdfRepository, managementParametersRepository);
+		useCase = new FindPDFInfoByNameUseCase(pdfRepository, managementParametersRepository, userRepository);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository), client);
@@ -54,6 +56,7 @@ public class FindPDFInfoByNameUseCaseTest {
 		pdfList2 = Arrays.asList(pdf5, pdf6, pdf7, pdf8);
 		when(pdfRepository.findPDFFilesByNameContains("name")).thenReturn(pdfList);
 		when(pdfRepository.findPDFFilesByNameContains("2name")).thenReturn(pdfList2);
+		when(userRepository.isAdmin(1L)).thenReturn(false);
 	}
 	
 	

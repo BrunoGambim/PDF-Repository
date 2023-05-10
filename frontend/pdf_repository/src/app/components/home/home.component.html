@@ -42,10 +42,10 @@
   </mat-card-content>
   <mat-card-actions>
     <button *ngIf="pdf.data != null" mat-button color="primary" (click)="download(pdf)">Download</button>
-    <button *ngIf="pdf.data != null && pdf.ownersEmail != userEmail" mat-button color="accent" (click)="openEvaluateDialog(pdf)">Evaluate</button>
-    <button mat-button *ngIf="pdf.data != null && pdf.ownersEmail != userEmail && pdf.status != 'REPORTED'" color="warn" (click)="reportPDF(pdf.id)">Report</button>
+    <button *ngIf="state != 3 && pdf.data != null && pdf.ownersEmail != userEmail" mat-button color="accent" (click)="openEvaluateDialog(pdf)">Evaluate</button>
+    <button mat-button *ngIf="state != 3 && pdf.data != null && pdf.ownersEmail != userEmail && pdf.status != 'REPORTED'" color="warn" (click)="reportPDF(pdf.id)">Report</button>
     <button *ngIf="pdf.data == null" mat-button color="primary" (click)="purchase(pdf)">Purchase</button>
     <button *ngIf="pdf.ownersEmail == userEmail" mat-button color="accent" (click)="updatePDF(pdf)">Update</button>
-    <button *ngIf="pdf.ownersEmail == userEmail" mat-button color="warn" (click)="deletePDF(pdf.id)">Delete</button>
+    <button *ngIf="pdf.ownersEmail == userEmail || state == 3" mat-button color="warn" (click)="deletePDF(pdf.id)">Delete</button>
   </mat-card-actions>
 </mat-card>

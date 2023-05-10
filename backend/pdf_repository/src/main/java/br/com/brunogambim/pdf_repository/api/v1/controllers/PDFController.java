@@ -111,11 +111,13 @@ public class PDFController {
 			@RequestParam(value="ownersName", required = false, defaultValue = "false") boolean ownersName){
 		Long userId = AuthenticationService.authenticatedId();
 		if(ownersName) {
-			FindPDFInfoByOwnerNameUseCase useCase = new FindPDFInfoByOwnerNameUseCase(pdfRepository, pdfManagementParametersRepository);
+			FindPDFInfoByOwnerNameUseCase useCase = new FindPDFInfoByOwnerNameUseCase(pdfRepository, pdfManagementParametersRepository,
+					userRepository);
 			List<PDFInfo> pdfs = useCase.execute(userId, name);
 			return ResponseEntity.ok(pdfs);
 		}
-		FindPDFInfoByNameUseCase useCase = new FindPDFInfoByNameUseCase(pdfRepository, pdfManagementParametersRepository);
+		FindPDFInfoByNameUseCase useCase = new FindPDFInfoByNameUseCase(pdfRepository, pdfManagementParametersRepository,
+				userRepository);
 		List<PDFInfo> pdfs = useCase.execute(userId, name);
 		return ResponseEntity.ok(pdfs);
 	}

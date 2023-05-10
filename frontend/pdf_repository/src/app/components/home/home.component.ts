@@ -7,6 +7,8 @@ import { UpdatePDFService } from 'src/app/services/pdf/update-pdf.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { EvaluatePDFComponent } from '../evaluate-pdf/evaluate-pdf.component';
+import { AuthenticationState } from 'src/app/models/authentication_state';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -19,12 +21,19 @@ export class HomeComponent {
   name: string = ""
   ownersName: boolean = false
   userEmail: string = ""
+  state: AuthenticationState
 
-  constructor(private pdfService: PdfService, userStorageService: UserStorageService,
+  constructor(private pdfService: PdfService, userStorageService: UserStorageService, authService: AuthService,
     private updatePDFService: UpdatePDFService, private router: Router, private dialog: MatDialog){
+    this.state = AuthenticationState.UNAUTHENTICATED
+    authService.getRole().subscribe(state => {
+      this.state = state
+    })
+
     pdfService.getPDFs("",false).subscribe(pdfs => {
       this.pdfList = pdfs
     })
+
     let localuser = userStorageService.getLocalUser()
     if(localuser != null){
       this.userEmail = localuser.email
@@ -70,5 +79,11 @@ export class HomeComponent {
         }
       })
     })
+  }
+
+  validatePDF(id: number){
+    this.pdfService.validatePDF(id).subscribe(res => {
+      this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
+    });
   }
 }
