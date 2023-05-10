@@ -69,22 +69,22 @@ public class PDFRepositoryImpl implements PDFRepository{
 
 	@Override
 	public List<PDF> findPDFFilesByNameContains(String name) {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByNameContains(name), pdfSizePolicy);
+		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByNameContainsAndStatus(name, PDFStatus.VALIDATED.getCode()), pdfSizePolicy);
 	}
 
 	@Override
 	public List<PDF> findPDFFilesByOwnerNameContains(String name) {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByOwnerUsenameContains(name), pdfSizePolicy);
+		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByOwnerUsernameContainsAndStatus(name, PDFStatus.VALIDATED.getCode()), pdfSizePolicy);
 	}
 
 	@Override
 	public List<PDF> findPDFFilesThatCanBeAccessedBy(Long id) {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findPDFFilesThatCanBeAccessedBy(id), pdfSizePolicy);
+		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findPDFFilesThatCanBeAccessedBy(id, PDFStatus.VALIDATED.getCode()), pdfSizePolicy);
 	}
 
 	@Override
 	public List<PDF> findPDFilesOwnedBy(Long id) {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByOwnerId(id), pdfSizePolicy);
+		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByOwnerIdAndStatus(id, PDFStatus.VALIDATED.getCode()), pdfSizePolicy);
 	}
 
 }
