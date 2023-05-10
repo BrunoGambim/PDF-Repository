@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ClientService } from 'src/app/services/client/client.service';
-import { UpdateClientPasswordService } from 'src/app/services/client/update-client-password.service';
+import { UpdateUserPasswordService } from 'src/app/services/user/update-user-password.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-update-password',
@@ -13,9 +13,9 @@ export class UpdatePasswordComponent {
   password: string = ''
   code: string = ''
 
-  constructor(private updateClientPasswordService: UpdateClientPasswordService, private router: Router,
-    private clientService: ClientService){
-      let email = updateClientPasswordService.popEmail()
+  constructor(private updateUserPasswordService: UpdateUserPasswordService, private router: Router,
+    private userService: UserService){
+      let email = updateUserPasswordService.popEmail()
       if(email == null ){
         router.navigate([''])
       }else{
@@ -24,7 +24,7 @@ export class UpdatePasswordComponent {
   }
 
   updatePassword(){
-    this.clientService.updatePassword(this.email, this.code, this.password).subscribe(res =>{
+    this.userService.updatePassword(this.email, this.code, this.password).subscribe(res =>{
       this.router.navigate(['login'])
     })
   }
