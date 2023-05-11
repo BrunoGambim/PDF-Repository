@@ -2,7 +2,7 @@ package br.com.brunogambim.pdf_repository.database.mysql.models;
 
 import java.time.LocalDateTime;
 
-import br.com.brunogambim.pdf_repository.core.user_management.entities.UpdatePasswordCode;
+import br.com.brunogambim.pdf_repository.core.user_management.entities.PasswordUpdateCode;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
@@ -13,7 +13,7 @@ public class UpdatePasswordCodeModel {
 	public UpdatePasswordCodeModel() {
 	}
 	
-	public UpdatePasswordCodeModel(UpdatePasswordCode code) {
+	public UpdatePasswordCodeModel(PasswordUpdateCode code) {
 		if(code != null) {
 			this.code = code.getCode();
 			this.createdAt = code.getCreatedAt();
@@ -25,8 +25,8 @@ public class UpdatePasswordCodeModel {
 		this.createdAt = createdAt;
 	}
 	
-	public UpdatePasswordCode toEntity() {
-		return new UpdatePasswordCode(code, createdAt);
+	public PasswordUpdateCode toEntity() {
+		return new PasswordUpdateCode(code, createdAt);
 	}
 
 	public String getCode() {

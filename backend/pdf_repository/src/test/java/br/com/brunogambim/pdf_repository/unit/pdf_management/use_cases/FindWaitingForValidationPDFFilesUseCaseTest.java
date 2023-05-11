@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.mockito.Mockito;
 
+import br.com.brunogambim.pdf_repository.core.pdf_management.adapters.PageAdapter;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFManagementParameters;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricingPolicy;
@@ -49,14 +50,14 @@ public class FindWaitingForValidationPDFFilesUseCaseTest {
 		PDF pdf4 = new PDF(4L,"name4", "desc4", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository), client);
 		pdfList = Arrays.asList(pdf, pdf2, pdf3, pdf4);
-		when(pdfRepository.findAllWaitingForValidationPDFs()).thenReturn(pdfList);
+		when(pdfRepository.findAllWaitingForValidationPDFs(1, 1)).thenReturn(new PageAdapter<PDF>(pdfList, 1, 1, 1));
 	}
 	
 	
 	@Test
 	void methodAreCalledWithAdmin() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithData(pricingPolicy).getId()).toList();
-		List<Long> result = useCase.execute(1L).stream().map(pdfInfo -> pdfInfo.getId()).toList();
+		List<Long> result = useCase.execute(1L, 1, 1).getItems().stream().map(pdfInfo -> pdfInfo.getId()).toList();
 		assertThat(result).isEqualTo(idList);
 		assertThat(result.size()).isEqualTo(4);
 	}
@@ -64,7 +65,7 @@ public class FindWaitingForValidationPDFFilesUseCaseTest {
 	@Test
 	void unauthorizedToSeeReportedPDFFiles() {	
 		assertThatThrownBy(() -> {
-			useCase.execute(2L);
+			useCase.execute(2L, 1, 1);
 		}).isInstanceOf(UnauthorizedUserException.class);
 	}
 }

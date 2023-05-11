@@ -14,8 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.brunogambim.pdf_repository.api.v1.dtos.CreateClientDTO;
 import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdateClientDTO;
-import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdateClientPasswordDTO;
-import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdatePasswordCodeDTO;
 import br.com.brunogambim.pdf_repository.api.v1.security.servicies.AuthenticationService;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.AllClientsTransactionReport;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.ClientTransactionReport;
@@ -24,14 +22,12 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFTra
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.GenerateAllClientsTransactionReportUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.GenerateClientTransactionReportUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.ClientInfo;
-import br.com.brunogambim.pdf_repository.core.user_management.gateways.EmailSenderGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.FindClientInfoUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SaveNewClientUseCase;
-import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SendUpdatePasswordCodeUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientInfoUseCase;
-import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientPasswordUseCase;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(value = "/v1/clients")
@@ -39,18 +35,18 @@ public class ClientController {
 
 	private UserRepository userRepository;
 	private PasswordEncripterGateway encripterGateway;
-	private EmailSenderGateway emailSenderGateway;
 	private PDFRepository pdfRepository;
 	private PDFTransactionRepository transactionRepository;
+	private AuthenticationService authenticationService;
 	
 	@Autowired
-	public ClientController(UserRepository userRepository, PasswordEncripterGateway encripterGateway, 
-			EmailSenderGateway emailSenderGateway, PDFTransactionRepository transactionRepository, PDFRepository pdfRepository) {
+	public ClientController(UserRepository userRepository, PasswordEncripterGateway encripterGateway, AuthenticationService authenticationService,
+			PDFTransactionRepository transactionRepository, PDFRepository pdfRepository) {
 		this.userRepository = userRepository;
 		this.encripterGateway = encripterGateway;
-		this.emailSenderGateway = emailSenderGateway;
 		this.transactionRepository = transactionRepository;
 		this.pdfRepository = pdfRepository;
+		this.authenticationService = authenticationService;
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -68,26 +64,12 @@ public class ClientController {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@RequestMapping(value = "/updatePasswordCode", method = RequestMethod.POST)
-	public ResponseEntity<Void> sendUpdatePasswordCode(@RequestBody UpdatePasswordCodeDTO dto){
-		SendUpdatePasswordCodeUseCase useCase = new SendUpdatePasswordCodeUseCase(userRepository,
-				emailSenderGateway);
-		useCase.execute(dto.getEmail());
-		return ResponseEntity.noContent().build();
-	}
-	
 	@RequestMapping(value = "/{clientId}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> updateClient(@PathVariable Long clientId, @RequestBody UpdateClientDTO dto){
+	public ResponseEntity<Void> updateClient(HttpServletResponse httpResponse, @PathVariable Long clientId, @RequestBody UpdateClientDTO dto){
 		UpdateClientInfoUseCase useCase = new UpdateClientInfoUseCase(userRepository, pdfRepository);
 		Long userId = AuthenticationService.authenticatedId();
 		useCase.execute(userId, clientId, dto.getUsername(), dto.getEmail());
-		return ResponseEntity.noContent().build();
-	}
-	
-	@RequestMapping(value = "/password", method = RequestMethod.PUT)
-	public ResponseEntity<Void> updateClientPassword(@RequestBody UpdateClientPasswordDTO dto){
-		UpdateClientPasswordUseCase useCase = new UpdateClientPasswordUseCase(userRepository, encripterGateway);
-		useCase.execute(dto.getEmail(), dto.getPassword(), dto.getCode());
+		authenticationService.regenerateToken(httpResponse, dto.getEmail());
 		return ResponseEntity.noContent().build();
 	}
 	

@@ -7,6 +7,9 @@ import { UpdatePDFService } from 'src/app/services/pdf/update-pdf.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { EvaluatePDFComponent } from '../evaluate-pdf/evaluate-pdf.component';
+import { AuthenticationState } from 'src/app/models/authentication_state';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-home',
@@ -19,22 +22,45 @@ export class HomeComponent {
   name: string = ""
   ownersName: boolean = false
   userEmail: string = ""
+  state: AuthenticationState
 
-  constructor(private pdfService: PdfService, userStorageService: UserStorageService,
+  totalElements: number = 0
+  pageSize: number = 0
+  pageIndex: number = 0
+
+  constructor(private pdfService: PdfService, userStorageService: UserStorageService, authService: AuthService,
     private updatePDFService: UpdatePDFService, private router: Router, private dialog: MatDialog){
-    pdfService.getPDFs("",false).subscribe(pdfs => {
-      this.pdfList = pdfs
-    })
+    this.state = authService.getAuthState()
+
+    pdfService.getPDFs("", false, this.pageIndex).subscribe({next: (res) => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
+    }, error: () => {}})
+
     let localuser = userStorageService.getLocalUser()
     if(localuser != null){
       this.userEmail = localuser.email
     }
   }
 
+  handlePageEvent(e: PageEvent) {
+    this.pdfService.getPDFs("", false, e.pageIndex).subscribe({next: (res) => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
+    }, error: () => {}})
+  }
+
   getPDFs(){
-    this.pdfService.getPDFs(this.name, this.ownersName).subscribe(pdfs => {
-      this.pdfList = pdfs
-    })
+    this.pdfService.getPDFs(this.name, this.ownersName, this.pageIndex).subscribe({next: (res) => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
+    }, error: () => {}})
   }
 
   download(pdf: PDFModel){
@@ -42,15 +68,19 @@ export class HomeComponent {
   }
 
   purchase(pdf: PDFModel){
-    this.pdfService.purchasePDF(pdf.id).subscribe(res => {
-      //TODO reload page
-    })
+    this.pdfService.purchasePDF(pdf.id)
+    .subscribe({next: () => {
+      this.pdfService.getPDFById(pdf.id).subscribe({next: (res) => {
+        pdf.data = res.data
+      }, error: () => {}})
+    }, error: () => {}})
   }
 
   deletePDF(id: number){
-    this.pdfService.deletePDF(id).subscribe(res => {
+    this.pdfService.deletePDF(id).subscribe({next: () => {
       this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
-    })
+      this.totalElements = this.totalElements - 1
+    }, error: () => {}})
   }
 
   updatePDF(pdf: PDFModel){
@@ -60,15 +90,22 @@ export class HomeComponent {
 
   openEvaluateDialog(pdf: PDFModel){
     const dialogRef = this.dialog.open(EvaluatePDFComponent, {data: pdf.id});
+    dialogRef.afterClosed().subscribe({next: () => {
+      this.pdfService.getPDFById(pdf.id).subscribe({next: (res) => {
+        pdf.numberOfEvaluations = res.numberOfEvaluations
+        pdf.evaluationMean = res.evaluationMean
+        this.pdfList = this.pdfList
+      }, error: () => {}})
+    }, error: () => {}})
   }
 
   reportPDF(id: number) {
-    this.pdfService.reportPDFs(id).subscribe(res => {
+    this.pdfService.reportPDFs(id).subscribe({next: () => {
       this.pdfList.forEach(pdf => {
         if(pdf.id == id){
           pdf.status = "REPORTED"
         }
       })
-    })
+    }, error: () => {}})
   }
 }

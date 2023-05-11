@@ -12,19 +12,19 @@ import org.mockito.Mockito;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.EmailSenderGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
-import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SendUpdatePasswordCodeUseCase;
+import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SendPasswordUpdateCodeUseCase;
 
-public class SendUpdatePasswordCodeUseCaseTest {
-	private SendUpdatePasswordCodeUseCase useCase;
+public class SendPasswordUpdateCodeUseCaseTest {
+	private SendPasswordUpdateCodeUseCase useCase;
 	private UserRepository userRepository = Mockito.mock(UserRepository.class);
 	private EmailSenderGateway emailSenderGateway = Mockito.mock(EmailSenderGateway.class);
 	Client client;
 	
 	@BeforeEach
 	void initUseCase() {
-		useCase = new SendUpdatePasswordCodeUseCase(userRepository, emailSenderGateway);
+		useCase = new SendPasswordUpdateCodeUseCase(userRepository, emailSenderGateway);
 		client = new Client(1L, "user", "654321", "user@mail.com", 15);
-		when(userRepository.findClientByEmail("user@mail.com")).thenReturn(client);
+		when(userRepository.findUserByEmail("user@mail.com")).thenReturn(client);
 	}
 	
 	

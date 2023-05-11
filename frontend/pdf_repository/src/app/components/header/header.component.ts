@@ -16,13 +16,10 @@ export class HeaderComponent {
 
   constructor(private router: Router, private authService: AuthService){
     this.state = AuthenticationState.UNAUTHENTICATED
-    authService.getRole().subscribe(state => {
-      this.state = state
-    })
-
-    authService.getRoleUpdates().subscribe(state => {
-      this.state = state
-    })
+    authService.getAuthStateUpdates().subscribe({next: (res) => {
+      this.state = res
+    }, error: () => {}})
+    authService.updateAuthState()
   }
 
   login(){

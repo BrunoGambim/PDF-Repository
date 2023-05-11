@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import br.com.brunogambim.pdf_repository.core.pdf_management.adapters.PageAdapter;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFStatus;
@@ -75,8 +78,10 @@ public class PDFModel {
 				ClientModel.modelListToEntityMap(canBeAccessedBy));
 	}
 	
-	public static List<PDF> pdfModelListToEntityList(List<PDFModel> pdfModelList, PDFSizePolicy pdfSizePolicy) {
-		return pdfModelList.stream().map(pdfModel -> pdfModel.toEntity(pdfSizePolicy)).toList();
+	public static PageAdapter<PDF> pdfModelPageToEntityPage(Page<PDFModel> pdfModelPage, PDFSizePolicy pdfSizePolicy) {
+		return new PageAdapter<PDF>(
+				pdfModelPage.stream().map(pdfModel -> pdfModel.toEntity(pdfSizePolicy)).toList()
+				, pdfModelPage.getNumber(), pdfModelPage.getSize(), pdfModelPage.getTotalElements());
 	}
 	
 	public static List<PDFModel> pdfModelListFromEntityList(List<PDF> pdfList){

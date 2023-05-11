@@ -4,8 +4,8 @@ import br.com.brunogambim.pdf_repository.core.user_management.entities.Admin;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 
 public enum Roles {
-	ADMIN(1, "ROLE_ADMIN"),
-	CLIENT(2, "ROLE_CLIENT");
+	ADMIN(1, "ADMIN"),
+	CLIENT(2, "CLIENT");
 
 	private int code;
 	private String description;
@@ -21,6 +21,10 @@ public enum Roles {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public String getSSDescription() {
+		return "ROLE_" + description;
 	}
 	
 	public static Roles fromClass(Object user) {

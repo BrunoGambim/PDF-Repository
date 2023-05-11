@@ -8,5 +8,5 @@ public interface UserRepository {
 	public Client findClient(Long id);
 	public Client findClientByEmail(String email);
 	public boolean isAdmin(Long id);
-	public User findUserEmail(String email);
+	public User findUserByEmail(String email);
 }

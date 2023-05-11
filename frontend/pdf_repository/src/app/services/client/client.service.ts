@@ -24,7 +24,8 @@ export class ClientService {
       email: client.email,
       username: client.username
     }
-    return this.httpClient.put<ClientModel>(`${API_CONFIG.baseURL}/${API_CONFIG.clientPath}/${client.id}`, dto)
+    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.clientPath}/${client.id}`, dto,
+    { observe: 'response', responseType: 'text' })
   }
 
   saveClient(client: ClientModel) {
@@ -34,21 +35,5 @@ export class ClientService {
       username: client.username,
     }
     return this.httpClient.post(`${API_CONFIG.baseURL}/${API_CONFIG.clientPath}`, dto)
-  }
-
-  sendPasswordUpdateCode(email: string) {
-    let dto: EmailDTO = {
-      email: email,
-    }
-    return this.httpClient.post(`${API_CONFIG.baseURL}/${API_CONFIG.clientPath}/${API_CONFIG.passwordUpdateCodePath}`, dto)
-  }
-
-  updatePassword(email: string, code: string, password: string) {
-    let dto: UpdatePasswordDTO = {
-      email: email,
-      code: code,
-      password: password,
-    }
-    return this.httpClient.put(`${API_CONFIG.baseURL}/${API_CONFIG.clientPath}/${API_CONFIG.updatePasswordPath}`, dto)
   }
 }

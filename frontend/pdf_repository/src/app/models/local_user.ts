@@ -1,4 +1,4 @@
 export interface LocalUser {
-  token: String
+  role: String
   email: string
 }

@@ -34,6 +34,9 @@ import { RecoverPasswordComponent } from './components/recover-password/recover-
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { ReportedFilesComponent } from './components/reported-files/reported-files.component';
 import { WaitingForValidationFilesComponent } from './components/waiting-for-validation-files/waiting-for-validation-files.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,8 @@ import { WaitingForValidationFilesComponent } from './components/waiting-for-val
     RecoverPasswordComponent,
     UpdatePasswordComponent,
     ReportedFilesComponent,
-    WaitingForValidationFilesComponent
+    WaitingForValidationFilesComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -69,9 +73,10 @@ import { WaitingForValidationFilesComponent } from './components/waiting-for-val
     MatDividerModule,
     MatRadioModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    MatPaginatorModule
   ],
-  providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider],
+  providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider, ErrorInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

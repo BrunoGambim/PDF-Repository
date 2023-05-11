@@ -3,9 +3,6 @@ package br.com.brunogambim.pdf_repository.unit.pdf_management.use_cases;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,8 +43,6 @@ public class ReportPDFFileUseCaseTest {
 				new PDFSizePolicy(managementParametersRepository), owner);
 		pdf.addToCanBeAccessedByList(hasAccess);
 		when(pdfRepository.find(1L)).thenReturn(pdf);
-		when(pdfRepository.findPDFFilesThatCanBeAccessedBy(2L)).thenReturn(Arrays.asList(pdf));
-		when(pdfRepository.findPDFFilesThatCanBeAccessedBy(1L)).thenReturn(new ArrayList<PDF>());
 	}
 	
 	

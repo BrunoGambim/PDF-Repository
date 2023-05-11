@@ -61,8 +61,8 @@ export class EvaluatePDFComponent {
   }
 
   evaluatePDF(){
-    this.pdfService.evaluatePDF(this.pdfId, this.evaluationValue).subscribe(res => {
+    this.pdfService.evaluatePDF(this.pdfId, this.evaluationValue).subscribe({next: () => {
       this.dialogRef.close()
-    })
+    }, error: () => {}})
   }
 }

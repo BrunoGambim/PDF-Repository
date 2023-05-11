@@ -17,7 +17,7 @@ public class ClientModel extends UserModel{
 	
 	public ClientModel(Client client) {
 		this(client.getId(), client.getUsername(), client.getPassword(), client.getEmail(),
-				new UpdatePasswordCodeModel(client.getUpdatePasswordCode()),
+				new UpdatePasswordCodeModel(client.getPasswordUpdateCode()),
 				client.getBalance());
 	}
 	
@@ -43,7 +43,7 @@ public class ClientModel extends UserModel{
 		Client client = new Client(getId(), getUsername(), getPassword(), getEmail(),
 				balance);
 		if(this.getCode() != null) {
-			client.setUpdatePasswordCode(this.getCode().toEntity());
+			client.setPasswordUpdateCode(this.getCode().toEntity());
 		}
 		return client;
 	}

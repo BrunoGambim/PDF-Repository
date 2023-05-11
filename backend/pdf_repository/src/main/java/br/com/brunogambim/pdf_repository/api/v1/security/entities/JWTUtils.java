@@ -17,9 +17,10 @@ public class JWTUtils {
 	@Value("${jwt.expiration}")
 	private Integer expiration;
 	
-	public String generateToken(String username) {
+	public String generateToken(String username, String role) {
+		JWTSubject subject = new JWTSubject(username, role);
 		return Jwts.builder()
-				.setSubject(username)
+				.setSubject(subject.toString())
 				.setExpiration(new Date(System.currentTimeMillis() + expiration))
 				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
 				.compact();
@@ -28,10 +29,9 @@ public class JWTUtils {
 	public boolean isValidToken(String token) {
 		Claims claims = getClaims(token);
 		if(claims != null) {
-			String username = claims.getSubject();
 			Date expirationDate = claims.getExpiration();
 			Date now = new Date(System.currentTimeMillis());
-			if(username != null && expirationDate != null && now.before(expirationDate)) {
+			if(claims.getSubject() != null && expirationDate != null && now.before(expirationDate)) {
 				return true;
 			}
 		}
@@ -48,9 +48,10 @@ public class JWTUtils {
 
 	public String getUsername(String token) {
 		Claims claims = getClaims(token);
-		if(claims != null) {
-			return claims.getSubject();
+		if(claims == null || claims.getSubject() == null) {
+			return null;
 		}
-		return null;
+		JWTSubject subject = JWTSubject.fromString(claims.getSubject());
+		return subject.getEmail();
 	}
 }

@@ -1,7 +1,6 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.use_cases;
 
-import java.util.List;
-
+import br.com.brunogambim.pdf_repository.core.pdf_management.adapters.PageAdapter;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFInfo;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricingPolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
@@ -21,9 +20,9 @@ public class FindWaitingForValidationPDFFilesUseCase {
 		this.pdfPricingPolicy = new PDFPricingPolicy(pdfManagementParametersRepository);
 	}
 	
-	public List<PDFInfo> execute(Long userId) {
+	public PageAdapter<PDFInfo> execute(Long userId, Integer pageIndex, Integer pageSize) {
 		this.authorizationPolicy.CheckIsAdminAuthorization(userId);
-		return this.pdfRepository.findAllWaitingForValidationPDFs()
-				.stream().map(pdf -> pdf.getPDFInfoWithData(pdfPricingPolicy)).toList();
+		return this.pdfRepository.findAllWaitingForValidationPDFs(pageIndex, pageSize)
+				.mapTo(pdf -> pdf.getPDFInfoWithData(pdfPricingPolicy));
 	}
 }

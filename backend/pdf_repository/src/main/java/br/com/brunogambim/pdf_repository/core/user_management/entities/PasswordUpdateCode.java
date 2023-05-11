@@ -6,18 +6,18 @@ import java.util.Random;
 
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.InvalidUpdatePasswordCodeException;
 
-public class UpdatePasswordCode {
+public class PasswordUpdateCode {
 	private String code;
 	private LocalDateTime createdAt;
 	private static int MAX_PERIOD = 5 * 60 * 1000;
 	private static int CODE_LENGTH = 8;
 	
-	public UpdatePasswordCode() {
+	public PasswordUpdateCode() {
 		this.code = generateRandomCode();
 		this.createdAt = LocalDateTime.now();
 	}
 	
-	public UpdatePasswordCode(String code, LocalDateTime createdAt) {
+	public PasswordUpdateCode(String code, LocalDateTime createdAt) {
 		this.code = code;
 		this.createdAt = createdAt;
 	}
