@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PdfService } from 'src/app/services/pdf/pdf.service';
 import { UpdatePDFService } from 'src/app/services/pdf/update-pdf.service';
 import { UserStorageService } from 'src/app/services/storage/user-storage.service';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { ERROR_MESSAGE } from 'src/app/config/error.config';
 
 @Component({
   selector: 'app-update-pdf',
@@ -16,7 +19,7 @@ export class UpdatePDFComponent {
   file: File | null = null
 
   constructor(private pdfService: PdfService, updatePDFService: UpdatePDFService,
-    private router: Router, userStorageService: UserStorageService){
+    private router: Router, userStorageService: UserStorageService, private dialog: MatDialog){
       let pdf = updatePDFService.popPDF()
       if(pdf == null || userStorageService.getLocalUser() == null || userStorageService.getLocalUser()?.email != pdf.ownersEmail){
         router.navigate([''])
@@ -35,10 +38,23 @@ export class UpdatePDFComponent {
   }
 
   updatePDF(){
-    if(this.file != null){
-      this.pdfService.updatePDF(this.pdfID, this.file, this.description).subscribe(res =>{
-        this.router.navigate([''])
-      })
+    if(!this.validateFormFields()){
+      if(this.file != null){
+        this.pdfService.updatePDF(this.pdfID, this.file, this.description).subscribe(res =>{
+          this.router.navigate([''])
+        })
+      }
     }
+  }
+
+  private validateFormFields(){
+    if(this.file == null){
+      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoFileSelected})
+      return false
+    } else if(this.description == ''){
+      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoDescriptionProvided})
+      return false
+    }
+    return true
   }
 }

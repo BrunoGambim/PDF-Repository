@@ -34,6 +34,7 @@ import { RecoverPasswordComponent } from './components/recover-password/recover-
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { ReportedFilesComponent } from './components/reported-files/reported-files.component';
 import { WaitingForValidationFilesComponent } from './components/waiting-for-validation-files/waiting-for-validation-files.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { WaitingForValidationFilesComponent } from './components/waiting-for-val
     RecoverPasswordComponent,
     UpdatePasswordComponent,
     ReportedFilesComponent,
-    WaitingForValidationFilesComponent
+    WaitingForValidationFilesComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,

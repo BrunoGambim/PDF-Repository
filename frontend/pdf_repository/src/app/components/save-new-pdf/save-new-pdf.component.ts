@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PdfService } from 'src/app/services/pdf/pdf.service';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { ERROR_MESSAGE } from 'src/app/config/error.config';
 
 @Component({
   selector: 'app-save-new-pdf',
@@ -12,7 +15,8 @@ export class SaveNewPDFComponent {
   description: string = '';
   file: File | null = null
 
-  constructor(private pdfService: PdfService, private router: Router){
+  constructor(private pdfService: PdfService, private router: Router,
+    private dialog: MatDialog){
   }
 
   onFileSelected(event: Event){
@@ -24,10 +28,21 @@ export class SaveNewPDFComponent {
   }
 
   savePDF(){
-    if(this.file != null){
+    if(this.file != null && !this.validateFormFields()){
       this.pdfService.savePDF(this.file, this.description).subscribe(res =>{
         this.router.navigate([''])
       })
     }
+  }
+
+  private validateFormFields(){
+    if(this.file == null){
+      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoFileSelected})
+      return false
+    } else if(this.description == ''){
+      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoDescriptionProvided})
+      return false
+    }
+    return true
   }
 }
