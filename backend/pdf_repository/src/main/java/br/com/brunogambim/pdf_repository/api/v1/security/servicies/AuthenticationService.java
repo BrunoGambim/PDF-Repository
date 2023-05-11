@@ -22,13 +22,14 @@ public class AuthenticationService {
 	
 	public void refreshToken(HttpServletResponse httpResponse) {
 		UserSS user = (UserSS) authenticated().orElseThrow(() -> new UnauthorizedUserException());
-		String jwtToken = this.jwtUtil.generateToken(user.getUsername());
+		String jwtToken = this.jwtUtil.generateToken(user.getUsername(), user.getRole());
 		httpResponse.addHeader("Authorization","Bearer " + jwtToken);
 		httpResponse.addHeader("access-control-expose-headers","Authorization");
 	}
 	
 	public void regenerateToken(HttpServletResponse httpResponse, String email) {
-		String jwtToken = this.jwtUtil.generateToken(email);
+		UserSS user = (UserSS) authenticated().orElseThrow(() -> new UnauthorizedUserException());
+		String jwtToken = this.jwtUtil.generateToken(email, user.getRole());
 		httpResponse.addHeader("Authorization","Bearer " + jwtToken);
 		httpResponse.addHeader("access-control-expose-headers","Authorization");
 	}

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import jwtDecode from 'jwt-decode';
 import { STORAGE_KEYS } from 'src/app/config/storage_keys.config';
 import { LocalUser } from 'src/app/models/local_user';
 
@@ -10,15 +11,23 @@ export class UserStorageService {
   constructor() { }
 
   getLocalUser(): LocalUser | null {
-    let user = localStorage.getItem(STORAGE_KEYS.localUser)
-    if(user == null){
+    let token = localStorage.getItem(STORAGE_KEYS.token)
+    if(token == null){
       return null
-    } else {
-      return JSON.parse(user)
+    }
+    let tokenSub = jwtDecode<any>(token).sub
+    return JSON.parse(tokenSub)
+  }
+
+  setToken(token: string | null) {
+    if(token != null){
+      localStorage.setItem(STORAGE_KEYS.token, token)
+    }else {
+      localStorage.removeItem(STORAGE_KEYS.token)
     }
   }
 
-  setLocalUser(user: LocalUser | null) {
-    localStorage.setItem(STORAGE_KEYS.localUser, JSON.stringify(user))
+  getToken(): String | null {
+    return localStorage.getItem(STORAGE_KEYS.token)
   }
 }

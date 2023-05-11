@@ -25,10 +25,7 @@ export class HomeComponent {
 
   constructor(private pdfService: PdfService, userStorageService: UserStorageService, authService: AuthService,
     private updatePDFService: UpdatePDFService, private router: Router, private dialog: MatDialog){
-    this.state = AuthenticationState.UNAUTHENTICATED
-    authService.getRole().subscribe(state => {
-      this.state = state
-    })
+    this.state = authService.getAuthState()
 
     pdfService.getPDFs("",false).subscribe(pdfs => {
       this.pdfList = pdfs

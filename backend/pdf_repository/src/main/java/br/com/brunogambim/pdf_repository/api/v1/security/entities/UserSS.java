@@ -34,10 +34,14 @@ public class UserSS implements UserDetails {
 	public Long getId() {
 		return this.id;
 	}
+	
+	public String getRole() {
+		return this.role.getDescription();
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Arrays.asList(new SimpleGrantedAuthority(role.getDescription()));
+		return Arrays.asList(new SimpleGrantedAuthority(role.getSSDescription()));
 	}
 
 	@Override

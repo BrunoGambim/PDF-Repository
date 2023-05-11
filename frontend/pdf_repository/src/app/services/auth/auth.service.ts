@@ -15,10 +15,10 @@ import { AuthenticationState } from 'src/app/models/authentication_state';
 })
 export class AuthService {
 
-  state: Subject<AuthenticationState>
+  stateSubject: Subject<AuthenticationState>
 
   constructor(private httpClient: HttpClient, private userStorageService: UserStorageService) {
-    this.state = new Subject<AuthenticationState>()
+    this.stateSubject = new Subject<AuthenticationState>()
   }
 
   authenticate(email: string, password: string){
@@ -26,51 +26,40 @@ export class AuthService {
       email: email,
       password: password
     }
-    return this.httpClient.post(API_CONFIG.loginURL, dto,{ observe: 'response', responseType: 'text' })
+    return this.httpClient.post(API_CONFIG.loginURL, dto, { observe: 'response', responseType: 'text' })
   }
 
   successfulLogin(authHeader: string | null){
     if(authHeader != null){
       let token = authHeader.substring(TOKEN_PREFIX_SIZE)
-      let user: LocalUser = {
-        token: token,
-        email: jwtDecode<any>(token).sub
-      }
-      this.userStorageService.setLocalUser(user)
-      this.updateRoles()
+      this.userStorageService.setToken(token)
+      this.updateAuthState()
     }
   }
 
-  getRole(){
+  getAuthState(): AuthenticationState{
     let user = this.userStorageService.getLocalUser()
     if(user == null){
-      return new Observable<AuthenticationState>((subscriber) => {
-        subscriber.next(AuthenticationState.UNAUTHENTICATED)
-      })
-    } else {
-      return this.httpClient.get<UserRoleDTO>(`${API_CONFIG.baseURL}/${API_CONFIG.userRolePath}?email=${user.email}`)
-        .pipe<AuthenticationState>(map(dto => {
-          if(dto.role == API_ROLES.admin){
-            return AuthenticationState.ADMIN
-          }else{
-            return AuthenticationState.CLIENT
-          }
-        }))
+      return AuthenticationState.UNAUTHENTICATED
     }
+
+    if(user.role == 'ADMIN'){
+      return AuthenticationState.ADMIN
+    }
+
+    return AuthenticationState.CLIENT
   }
 
-  getRoleUpdates(){
-    return this.state
+  getAuthStateUpdates(){
+    return this.stateSubject
   }
 
-  private updateRoles(){
-    this.getRole().subscribe(res => {
-      this.state.next(res)
-    })
+  updateAuthState(){
+    this.stateSubject.next(this.getAuthState())
   }
 
   logout(){
-    this.userStorageService.setLocalUser(null)
-    this.updateRoles()
+    this.userStorageService.setToken(null)
+    this.updateAuthState()
   }
 }
