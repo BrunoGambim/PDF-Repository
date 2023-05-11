@@ -5,6 +5,7 @@ import { PDFModel } from 'src/app/models/pdf';
 import { PdfService } from 'src/app/services/pdf/pdf.service';
 import { PDFConverter } from 'src/app/utils/PDFConverter';
 import { EvaluatePDFComponent } from '../evaluate-pdf/evaluate-pdf.component';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-purchased-pdfs',
@@ -17,10 +18,26 @@ export class PurchasedPDFsComponent {
   name: string = ""
   ownersName: boolean = false
 
+  totalElements: number = 0
+  pageSize: number = 0
+  pageIndex: number = 0
+
   constructor(private pdfService: PdfService, private router: Router,
     private dialog: MatDialog){
-    pdfService.getPurchasedPDFs().subscribe(pdfs => {
-      this.pdfList = pdfs
+    pdfService.getPurchasedPDFs(this.pageIndex).subscribe(res => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
+    })
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.pdfService.getPurchasedPDFs(e.pageIndex).subscribe(res => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
     })
   }
 

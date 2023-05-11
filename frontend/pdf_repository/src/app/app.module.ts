@@ -35,6 +35,7 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
 import { ReportedFilesComponent } from './components/reported-files/reported-files.component';
 import { WaitingForValidationFilesComponent } from './components/waiting-for-validation-files/waiting-for-validation-files.component';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
     MatDividerModule,
     MatRadioModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    MatPaginatorModule
   ],
   providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider],
   bootstrap: [AppComponent]

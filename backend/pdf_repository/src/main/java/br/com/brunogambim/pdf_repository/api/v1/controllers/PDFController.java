@@ -1,7 +1,6 @@
 package br.com.brunogambim.pdf_repository.api.v1.controllers;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.brunogambim.pdf_repository.api.v1.dtos.EvaluatePDFFileDTO;
 import br.com.brunogambim.pdf_repository.api.v1.security.servicies.AuthenticationService;
+import br.com.brunogambim.pdf_repository.core.pdf_management.adapters.PageAdapter;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFInfo;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
@@ -89,20 +89,24 @@ public class PDFController {
 	}
 	
 	@RequestMapping(value = "/hasAccess", method = RequestMethod.GET)
-	public ResponseEntity<List<PDFInfo>> findPDFFilesThatAnUserHasAccess(){
+	public ResponseEntity<PageAdapter<PDFInfo>> findPDFFilesThatAnUserHasAccess(
+			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+			@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex){
 		FindPDFFilesThatAnUserHasAccessUseCase useCase = new FindPDFFilesThatAnUserHasAccessUseCase(pdfRepository,
 				pdfManagementParametersRepository);
 		Long userId = AuthenticationService.authenticatedId();
-		List<PDFInfo> pdfs = useCase.execute(userId);
+		PageAdapter<PDFInfo> pdfs = useCase.execute(userId, pageIndex, pageSize);
 		return ResponseEntity.ok(pdfs);
 	}
 	
 	@RequestMapping(value = "/owned", method = RequestMethod.GET)
-	public ResponseEntity<List<PDFInfo>> findPDFFilesThatAnUserOwns(){
+	public ResponseEntity<PageAdapter<PDFInfo>> findPDFFilesThatAnUserOwns(
+			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+			@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex){
 		FindPDFFilesThatAnUserOwnsUseCase useCase = new FindPDFFilesThatAnUserOwnsUseCase(pdfRepository,
 				pdfManagementParametersRepository);
 		Long userId = AuthenticationService.authenticatedId();
-		List<PDFInfo> pdfs = useCase.execute(userId);
+		PageAdapter<PDFInfo> pdfs = useCase.execute(userId, pageIndex, pageSize);
 		return ResponseEntity.ok(pdfs);
 	}
 	
@@ -116,37 +120,43 @@ public class PDFController {
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<List<PDFInfo>> findPDFInfoByName(
+	public ResponseEntity<PageAdapter<PDFInfo>> findPDFInfoByName(
 			@RequestParam(name = "name", defaultValue = "") String name,
-			@RequestParam(value="ownersName", required = false, defaultValue = "false") boolean ownersName){
+			@RequestParam(value="ownersName", required = false, defaultValue = "false") boolean ownersName,
+			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+			@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex){
 		Long userId = AuthenticationService.authenticatedId();
 		if(ownersName) {
 			FindPDFInfoByOwnerNameUseCase useCase = new FindPDFInfoByOwnerNameUseCase(pdfRepository, pdfManagementParametersRepository,
 					userRepository);
-			List<PDFInfo> pdfs = useCase.execute(userId, name);
+			PageAdapter<PDFInfo> pdfs = useCase.execute(userId, name, pageIndex, pageSize);
 			return ResponseEntity.ok(pdfs);
 		}
 		FindPDFInfoByNameUseCase useCase = new FindPDFInfoByNameUseCase(pdfRepository, pdfManagementParametersRepository,
 				userRepository);
-		List<PDFInfo> pdfs = useCase.execute(userId, name);
+		PageAdapter<PDFInfo> pdfs = useCase.execute(userId, name, pageIndex, pageSize);
 		return ResponseEntity.ok(pdfs);
 	}
 
 	@RequestMapping(value = "/reported", method = RequestMethod.GET)
-	public ResponseEntity<List<PDFInfo>> findReportedPDFFiles(){
+	public ResponseEntity<PageAdapter<PDFInfo>> findReportedPDFFiles(
+			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+			@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex){
 		FindReportedPDFFilesUseCase useCase = new FindReportedPDFFilesUseCase(pdfRepository, userRepository, 
 				pdfManagementParametersRepository);
 		Long userId = AuthenticationService.authenticatedId();
-		List<PDFInfo> pdfs = useCase.execute(userId);
+		PageAdapter<PDFInfo> pdfs = useCase.execute(userId, pageIndex, pageSize);
 		return ResponseEntity.ok(pdfs);
 	}
 	
 	@RequestMapping(value = "/waitingForValidation", method = RequestMethod.GET)
-	public ResponseEntity<List<PDFInfo>> findWaitingForValidationPDFFiles(){
+	public ResponseEntity<PageAdapter<PDFInfo>> findWaitingForValidationPDFFiles(
+			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+			@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex){
 		FindWaitingForValidationPDFFilesUseCase useCase = new FindWaitingForValidationPDFFilesUseCase(pdfRepository, userRepository,
 				pdfManagementParametersRepository);
 		Long userId = AuthenticationService.authenticatedId();
-		List<PDFInfo> pdfs = useCase.execute(userId);
+		PageAdapter<PDFInfo> pdfs = useCase.execute(userId, pageIndex, pageSize);
 		return ResponseEntity.ok(pdfs);
 	}
 	

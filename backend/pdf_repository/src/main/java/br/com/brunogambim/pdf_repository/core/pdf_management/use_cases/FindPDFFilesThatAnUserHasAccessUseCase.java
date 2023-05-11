@@ -1,7 +1,6 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.use_cases;
 
-import java.util.List;
-
+import br.com.brunogambim.pdf_repository.core.pdf_management.adapters.PageAdapter;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFInfo;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricingPolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
@@ -17,8 +16,8 @@ public class FindPDFFilesThatAnUserHasAccessUseCase {
 		this.pdfPricingPolicy = new PDFPricingPolicy(pdfManagementParametersRepository);
 	}
 	
-	public List<PDFInfo> execute(Long id) {
-		return this.pdfRepository.findPDFFilesThatCanBeAccessedBy(id)
-				.stream().map(pdf -> pdf.getPDFInfoWithData(pdfPricingPolicy)).toList();
+	public PageAdapter<PDFInfo> execute(Long id, Integer pageIndex, Integer pageSize) {
+		return this.pdfRepository.findPDFFilesThatCanBeAccessedBy(id, pageIndex, pageSize)
+				.mapTo(pdf -> pdf.getPDFInfoWithData(pdfPricingPolicy));
 	}
 }

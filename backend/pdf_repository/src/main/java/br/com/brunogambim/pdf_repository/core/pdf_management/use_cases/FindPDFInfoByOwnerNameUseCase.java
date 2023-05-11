@@ -1,7 +1,6 @@
 package br.com.brunogambim.pdf_repository.core.pdf_management.use_cases;
 
-import java.util.List;
-
+import br.com.brunogambim.pdf_repository.core.pdf_management.adapters.PageAdapter;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFInfo;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFPricingPolicy;
@@ -21,14 +20,14 @@ public class FindPDFInfoByOwnerNameUseCase {
 		this.userRepository = userRepository;
 	}
 	
-	public List<PDFInfo> execute(Long userId, String name) {
-		List<PDF> pdfList = this.pdfRepository.findPDFFilesByOwnerNameContains(name);
+	public PageAdapter<PDFInfo> execute(Long userId, String name, Integer pageIndex, Integer pageSize) {
+		PageAdapter<PDF> pdfList = this.pdfRepository.findPDFFilesByOwnerNameContains(name, pageIndex, pageSize);
 		if(userId == null) {
-			return pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy)).toList();
+			return pdfList.mapTo(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy));
 		}else if(this.userRepository.isAdmin(userId)) {
-			return pdfList.stream().map(pdf -> pdf.getPDFInfoWithData(pricingPolicy)).toList();
+			return pdfList.mapTo(pdf -> pdf.getPDFInfoWithData(pricingPolicy));
 		}else {
-			return pdfList.stream().map(pdf -> pdf.getPDFInfo(userId, pricingPolicy)).toList();
+			return pdfList.mapTo(pdf -> pdf.getPDFInfo(userId, pricingPolicy));
 		}
 	}
 }

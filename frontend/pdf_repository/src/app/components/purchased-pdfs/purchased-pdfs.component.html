@@ -30,3 +30,11 @@
     <button mat-button *ngIf="pdf.status != 'REPORTED'" color="warn" (click)="reportPDF(pdf.id)">Report</button>
   </mat-card-actions>
 </mat-card>
+<mat-paginator #paginator *ngIf="pageSize < totalElements"
+  (page)="handlePageEvent($event)"
+  [length]="totalElements"
+  [pageSize]="pageSize"
+  [hidePageSize]="true"
+  [pageIndex]="pageIndex"
+  aria-label="Select page">
+</mat-paginator>

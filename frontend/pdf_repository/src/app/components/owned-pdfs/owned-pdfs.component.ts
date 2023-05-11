@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { PDFModel } from 'src/app/models/pdf';
 import { PdfService } from 'src/app/services/pdf/pdf.service';
@@ -15,10 +16,26 @@ export class OwnedPDFsComponent {
   name: string = ""
   ownersName: boolean = false
 
+  totalElements: number = 0
+  pageSize: number = 0
+  pageIndex: number = 0
+
   constructor(private pdfService: PdfService, private updatePDFService: UpdatePDFService,
     private router: Router){
-    pdfService.getOwnedPDFs().subscribe(pdfs => {
-      this.pdfList = pdfs
+    pdfService.getOwnedPDFs(this.pageIndex).subscribe(res => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
+    })
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.pdfService.getOwnedPDFs(e.pageIndex).subscribe(res => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
     })
   }
 

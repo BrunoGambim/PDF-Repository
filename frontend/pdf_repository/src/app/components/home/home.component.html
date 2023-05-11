@@ -49,3 +49,12 @@
     <button *ngIf="pdf.ownersEmail == userEmail || state == 3" mat-button color="warn" (click)="deletePDF(pdf.id)">Delete</button>
   </mat-card-actions>
 </mat-card>
+<mat-paginator #paginator *ngIf="pageSize < totalElements"
+  (page)="handlePageEvent($event)"
+  [length]="totalElements"
+  [pageSize]="pageSize"
+  [hidePageSize]="true"
+  [pageIndex]="pageIndex"
+  aria-label="Select page">
+</mat-paginator>
+

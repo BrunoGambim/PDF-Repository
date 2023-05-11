@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EvaluatePDFComponent } from '../evaluate-pdf/evaluate-pdf.component';
 import { AuthenticationState } from 'src/app/models/authentication_state';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-home',
@@ -23,12 +24,19 @@ export class HomeComponent {
   userEmail: string = ""
   state: AuthenticationState
 
+  totalElements: number = 0
+  pageSize: number = 0
+  pageIndex: number = 0
+
   constructor(private pdfService: PdfService, userStorageService: UserStorageService, authService: AuthService,
     private updatePDFService: UpdatePDFService, private router: Router, private dialog: MatDialog){
     this.state = authService.getAuthState()
 
-    pdfService.getPDFs("",false).subscribe(pdfs => {
-      this.pdfList = pdfs
+    pdfService.getPDFs("", false, this.pageIndex).subscribe(res => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
     })
 
     let localuser = userStorageService.getLocalUser()
@@ -37,9 +45,21 @@ export class HomeComponent {
     }
   }
 
+  handlePageEvent(e: PageEvent) {
+    this.pdfService.getPDFs("", false, e.pageIndex).subscribe(res => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
+    })
+  }
+
   getPDFs(){
-    this.pdfService.getPDFs(this.name, this.ownersName).subscribe(pdfs => {
-      this.pdfList = pdfs
+    this.pdfService.getPDFs(this.name, this.ownersName, this.pageIndex).subscribe(res => {
+      this.pdfList = res.items
+      this.totalElements = res.totalElements
+      this.pageIndex = res.pageIndex
+      this.pageSize = res.pageSize
     })
   }
 

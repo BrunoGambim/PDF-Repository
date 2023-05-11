@@ -1,11 +1,12 @@
 package br.com.brunogambim.pdf_repository.database;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import br.com.brunogambim.pdf_repository.core.pdf_management.adapters.PageAdapter;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFSizePolicy;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFStatus;
@@ -57,34 +58,51 @@ public class PDFRepositoryImpl implements PDFRepository{
 	}
 
 	@Override
-	public List<PDF> findAllReportedPDFs() {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByStatus(PDFStatus.REPORTED.getCode()), pdfSizePolicy);
-	}
-
-	@Override
-	public List<PDF> findAllWaitingForValidationPDFs() {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByStatus(PDFStatus.WAITING_FOR_ADMIN_VALIDATION.getCode()),
+	public PageAdapter<PDF> findAllReportedPDFs(Integer pageIndex, Integer pageSize) {
+		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
+		return PDFModel.pdfModelPageToEntityPage(
+				this.jpaPDFRepository.findByStatus(PDFStatus.REPORTED.getCode(), pageRequest),
 				pdfSizePolicy);
 	}
 
 	@Override
-	public List<PDF> findPDFFilesByNameContains(String name) {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByNameContainsAndStatus(name, PDFStatus.VALIDATED.getCode()), pdfSizePolicy);
+	public PageAdapter<PDF> findAllWaitingForValidationPDFs(Integer pageIndex, Integer pageSize) {
+		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
+		return PDFModel.pdfModelPageToEntityPage(
+				this.jpaPDFRepository.findByStatus(PDFStatus.WAITING_FOR_ADMIN_VALIDATION.getCode(), pageRequest),
+				pdfSizePolicy);
 	}
 
 	@Override
-	public List<PDF> findPDFFilesByOwnerNameContains(String name) {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByOwnerUsernameContainsAndStatus(name, PDFStatus.VALIDATED.getCode()), pdfSizePolicy);
+	public PageAdapter<PDF> findPDFFilesByNameContains(String name, Integer pageIndex, Integer pageSize) {
+		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
+		return PDFModel.pdfModelPageToEntityPage(
+				this.jpaPDFRepository.findByNameContainsAndStatus(name, PDFStatus.VALIDATED.getCode(), pageRequest),
+				pdfSizePolicy);
 	}
 
 	@Override
-	public List<PDF> findPDFFilesThatCanBeAccessedBy(Long id) {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findPDFFilesThatCanBeAccessedBy(id, PDFStatus.VALIDATED.getCode()), pdfSizePolicy);
+	public PageAdapter<PDF> findPDFFilesByOwnerNameContains(String name, Integer pageIndex, Integer pageSize) {
+		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
+		return PDFModel.pdfModelPageToEntityPage(
+				this.jpaPDFRepository.findByOwnerUsernameContainsAndStatus(name, PDFStatus.VALIDATED.getCode(), pageRequest),
+				pdfSizePolicy);
 	}
 
 	@Override
-	public List<PDF> findPDFilesOwnedBy(Long id) {
-		return PDFModel.pdfModelListToEntityList(this.jpaPDFRepository.findByOwnerIdAndStatus(id, PDFStatus.VALIDATED.getCode()), pdfSizePolicy);
+	public PageAdapter<PDF> findPDFFilesThatCanBeAccessedBy(Long id, Integer pageIndex, Integer pageSize) {
+		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
+		return PDFModel.pdfModelPageToEntityPage(
+				this.jpaPDFRepository.findByStatusAndCanBeAccessedBy_Id(PDFStatus.VALIDATED.getCode(), id, pageRequest),
+				pdfSizePolicy);
+	}
+
+	@Override
+	public PageAdapter<PDF> findPDFilesOwnedBy(Long id, Integer pageIndex, Integer pageSize) {
+		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
+		return PDFModel.pdfModelPageToEntityPage(
+				this.jpaPDFRepository.findByOwnerIdAndStatus(id, PDFStatus.VALIDATED.getCode(), pageRequest),
+				pdfSizePolicy);
 	}
 
 }

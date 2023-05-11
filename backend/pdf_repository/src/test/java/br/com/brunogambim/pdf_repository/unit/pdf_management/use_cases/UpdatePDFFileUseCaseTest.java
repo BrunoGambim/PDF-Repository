@@ -3,9 +3,6 @@ package br.com.brunogambim.pdf_repository.unit.pdf_management.use_cases;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,10 +47,6 @@ public class UpdatePDFFileUseCaseTest {
 		when(pdfRepository.find(1L)).thenReturn(pdf);
 		when(userRepository.findClient(1L)).thenReturn(owner);
 		when(userRepository.findClient(2L)).thenReturn(hasAccess);
-		when(pdfRepository.findPDFilesOwnedBy(1L)).thenReturn(Arrays.asList(pdf));
-		when(pdfRepository.findPDFilesOwnedBy(2L)).thenReturn(new ArrayList<PDF>());
-		when(pdfRepository.findPDFFilesThatCanBeAccessedBy(2L)).thenReturn(Arrays.asList(pdf));
-		when(pdfRepository.findPDFFilesThatCanBeAccessedBy(1L)).thenReturn(new ArrayList<PDF>());
 	}
 	
 	

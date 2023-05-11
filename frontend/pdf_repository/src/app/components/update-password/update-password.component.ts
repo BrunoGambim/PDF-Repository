@@ -16,7 +16,7 @@ export class UpdatePasswordComponent {
   password: string = ''
   code: string = ''
 
-  constructor(private updateUserPasswordService: UpdateUserPasswordService, private router: Router,
+  constructor(updateUserPasswordService: UpdateUserPasswordService, private router: Router,
     private userService: UserService, private dialog: MatDialog){
       let email = updateUserPasswordService.popEmail()
       if(email == null ){

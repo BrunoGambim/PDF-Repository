@@ -99,7 +99,7 @@ public class FindPDFInfoByIdUseCaseTest {
 		assertThat(pdf.getOwnersEmail()).isEqualTo("user@mail.com");
 		assertThat(pdf.getData()).isNotNull();
 		
-		pdf = useCase.execute(3L, 2L);
+		pdf = useCase.execute(1L, 2L);
 		assertThat(pdf.getId()).isEqualTo(2L);
 		assertThat(pdf.getDescription()).isEqualTo("desc2");
 		assertThat(pdf.getName()).isEqualTo("name2");

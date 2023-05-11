@@ -14,4 +14,5 @@ export const API_CONFIG = {
   updatePasswordPath: "password",
   validatePDFPath: "validate",
   waitingForValidation:"waitingForValidation",
+  pageSize: 10
 }

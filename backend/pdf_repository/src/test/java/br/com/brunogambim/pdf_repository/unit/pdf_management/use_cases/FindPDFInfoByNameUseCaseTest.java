@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.mockito.Mockito;
 
+import br.com.brunogambim.pdf_repository.core.pdf_management.adapters.PageAdapter;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDF;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFInfo;
 import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFManagementParameters;
@@ -56,8 +57,8 @@ public class FindPDFInfoByNameUseCaseTest {
 				new PDFSizePolicy(managementParametersRepository), client3);
 		pdfList = Arrays.asList(pdf, pdf2, pdf3, pdf4);
 		pdfList2 = Arrays.asList(pdf5, pdf6, pdf7, pdf8);
-		when(pdfRepository.findPDFFilesByNameContains("name")).thenReturn(pdfList);
-		when(pdfRepository.findPDFFilesByNameContains("2name")).thenReturn(pdfList2);
+		when(pdfRepository.findPDFFilesByNameContains("name", 1, 1)).thenReturn(new PageAdapter<PDF>(pdfList, 1, 1, 1));
+		when(pdfRepository.findPDFFilesByNameContains("2name", 1, 1)).thenReturn(new PageAdapter<PDF>(pdfList2, 1, 1, 1));
 		when(userRepository.isAdmin(1L)).thenReturn(false);
 		when(userRepository.isAdmin(2L)).thenReturn(true);
 	}
@@ -67,7 +68,7 @@ public class FindPDFInfoByNameUseCaseTest {
 	void shouldReturnTheCorrectListLoggedOut() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
 		List<Long> idList2 = pdfList2.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
-		List<PDFInfo> pdfs = useCase.execute(null, "name");
+		List<PDFInfo> pdfs = useCase.execute(null, "name", 1, 1).getItems();
 		for(PDFInfo pdf: pdfs) {
 			assertThat(pdf.getData()).isNull();
 		}
@@ -76,7 +77,7 @@ public class FindPDFInfoByNameUseCaseTest {
 		assertThat(resultIds).isEqualTo(idList);
 		assertThat(resultIds.size()).isEqualTo(4);
 		
-		pdfs = useCase.execute(null, "2name");
+		pdfs = useCase.execute(null, "2name", 1, 1).getItems();
 		for(PDFInfo pdf: pdfs) {
 			assertThat(pdf.getData()).isNull();
 		}
@@ -90,7 +91,7 @@ public class FindPDFInfoByNameUseCaseTest {
 	void shouldReturnTheCorrectListWithAdmin() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
 		List<Long> idList2 = pdfList2.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
-		List<PDFInfo> pdfs = useCase.execute(2L, "name");
+		List<PDFInfo> pdfs = useCase.execute(2L, "name", 1, 1).getItems();
 		for(PDFInfo pdf: pdfs) {
 			assertThat(pdf.getData()).isNotNull();
 		}
@@ -99,7 +100,7 @@ public class FindPDFInfoByNameUseCaseTest {
 		assertThat(resultIds).isEqualTo(idList);
 		assertThat(resultIds.size()).isEqualTo(4);
 		
-		pdfs = useCase.execute(2L, "2name");
+		pdfs = useCase.execute(2L, "2name", 1, 1).getItems();
 		for(PDFInfo pdf: pdfs) {
 			assertThat(pdf.getData()).isNotNull();
 		}
@@ -112,7 +113,7 @@ public class FindPDFInfoByNameUseCaseTest {
 	@Test
 	void shouldReturnTheCorrectListWithClient() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
-		List<PDFInfo> pdfs = useCase.execute(1L, "name");
+		List<PDFInfo> pdfs = useCase.execute(1L, "name", 1, 1).getItems();
 		for(PDFInfo pdf: pdfs) {
 			if(pdf.getOwnersName().equals("user")) {
 				assertThat(pdf.getData()).isNotNull();
@@ -125,7 +126,7 @@ public class FindPDFInfoByNameUseCaseTest {
 		assertThat(resultIds).isEqualTo(idList);
 		assertThat(resultIds.size()).isEqualTo(4);
 		
-		pdfs = useCase.execute(3L, "name");
+		pdfs = useCase.execute(3L, "name", 1, 1).getItems();
 		for(PDFInfo pdf: pdfs) {
 			if(pdf.getOwnersName().equals("user3")) {
 				assertThat(pdf.getData()).isNotNull();
