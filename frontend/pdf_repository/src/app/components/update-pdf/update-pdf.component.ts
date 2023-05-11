@@ -38,7 +38,7 @@ export class UpdatePDFComponent {
   }
 
   updatePDF(){
-    if(!this.validateFormFields()){
+    if(this.validateFormFields()){
       if(this.file != null){
         this.pdfService.updatePDF(this.pdfID, this.file, this.description).subscribe(res =>{
           this.router.navigate([''])

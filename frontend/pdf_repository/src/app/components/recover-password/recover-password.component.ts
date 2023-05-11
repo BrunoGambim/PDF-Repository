@@ -19,7 +19,7 @@ export class RecoverPasswordComponent {
   }
 
   sendPassordRecoverMessage(){
-    if(!this.validateFormFields()){
+    if(this.validateFormFields()){
       this.userService.sendPasswordUpdateCode(this.email).subscribe(res => {
         this.updateUSerPasswordService.putEmail(this.email)
         this.router.navigate(['updatePassword'])

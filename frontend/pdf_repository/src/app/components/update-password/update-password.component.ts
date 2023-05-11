@@ -27,7 +27,7 @@ export class UpdatePasswordComponent {
   }
 
   updatePassword(){
-    if(!this.validateFormFields()){
+    if(this.validateFormFields()){
       this.userService.updatePassword(this.email, this.code, this.password).subscribe(res =>{
         this.router.navigate(['login'])
       })

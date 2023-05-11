@@ -26,7 +26,7 @@ export class SaveNewClientComponent {
   }
 
   saveClient(){
-    if(!this.validateFormFields()){
+    if(this.validateFormFields()){
       this.clientService.saveClient(this.client).subscribe(res => {
         this.router.navigate(['login'])
       })

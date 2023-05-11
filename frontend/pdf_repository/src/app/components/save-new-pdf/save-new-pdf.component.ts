@@ -28,7 +28,7 @@ export class SaveNewPDFComponent {
   }
 
   savePDF(){
-    if(this.file != null && !this.validateFormFields()){
+    if(this.validateFormFields() && this.file != null){
       this.pdfService.savePDF(this.file, this.description).subscribe(res =>{
         this.router.navigate([''])
       })

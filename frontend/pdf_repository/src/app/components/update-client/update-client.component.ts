@@ -19,7 +19,7 @@ export class UpdateClientComponent {
   }
 
   update(){
-    if(!this.validateFormFields()){
+    if(this.validateFormFields()){
       this.clientService.updateClient(this.client).subscribe(res =>{
         this.authService.successfulLogin(res.headers.get(AUTHORIZATION_HEADER))
         this.dialogRef.close()

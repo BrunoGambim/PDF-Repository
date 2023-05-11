@@ -20,7 +20,7 @@ export class LoginComponent {
   }
 
   login(){
-    if(!this.validateFormFields()){
+    if(this.validateFormFields()){
       this.authService.authenticate(this.email, this.password).subscribe( res => {
         this.authService.successfulLogin(res.headers.get(AUTHORIZATION_HEADER))
         this.router.navigate([''])
