@@ -32,12 +32,12 @@ export class HomeComponent {
     private updatePDFService: UpdatePDFService, private router: Router, private dialog: MatDialog){
     this.state = authService.getAuthState()
 
-    pdfService.getPDFs("", false, this.pageIndex).subscribe(res => {
+    pdfService.getPDFs("", false, this.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements
       this.pageIndex = res.pageIndex
       this.pageSize = res.pageSize
-    })
+    }, error: () => {}})
 
     let localuser = userStorageService.getLocalUser()
     if(localuser != null){
@@ -46,21 +46,21 @@ export class HomeComponent {
   }
 
   handlePageEvent(e: PageEvent) {
-    this.pdfService.getPDFs("", false, e.pageIndex).subscribe(res => {
+    this.pdfService.getPDFs("", false, e.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements
       this.pageIndex = res.pageIndex
       this.pageSize = res.pageSize
-    })
+    }, error: () => {}})
   }
 
   getPDFs(){
-    this.pdfService.getPDFs(this.name, this.ownersName, this.pageIndex).subscribe(res => {
+    this.pdfService.getPDFs(this.name, this.ownersName, this.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements
       this.pageIndex = res.pageIndex
       this.pageSize = res.pageSize
-    })
+    }, error: () => {}})
   }
 
   download(pdf: PDFModel){
@@ -69,17 +69,18 @@ export class HomeComponent {
 
   purchase(pdf: PDFModel){
     this.pdfService.purchasePDF(pdf.id)
-    .subscribe(res => {
-      this.pdfService.getPDFById(pdf.id).subscribe(res => {
+    .subscribe({next: () => {
+      this.pdfService.getPDFById(pdf.id).subscribe({next: (res) => {
         pdf.data = res.data
-      })
-    })
+      }, error: () => {}})
+    }, error: () => {}})
   }
 
   deletePDF(id: number){
-    this.pdfService.deletePDF(id).subscribe(res => {
+    this.pdfService.deletePDF(id).subscribe({next: () => {
       this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
-    })
+      this.totalElements = this.totalElements - 1
+    }, error: () => {}})
   }
 
   updatePDF(pdf: PDFModel){
@@ -89,22 +90,22 @@ export class HomeComponent {
 
   openEvaluateDialog(pdf: PDFModel){
     const dialogRef = this.dialog.open(EvaluatePDFComponent, {data: pdf.id});
-    dialogRef.afterClosed().subscribe(res => {
-      this.pdfService.getPDFById(pdf.id).subscribe(res => {
+    dialogRef.afterClosed().subscribe({next: () => {
+      this.pdfService.getPDFById(pdf.id).subscribe({next: (res) => {
         pdf.numberOfEvaluations = res.numberOfEvaluations
         pdf.evaluationMean = res.evaluationMean
         this.pdfList = this.pdfList
-      })
-    })
+      }, error: () => {}})
+    }, error: () => {}})
   }
 
   reportPDF(id: number) {
-    this.pdfService.reportPDFs(id).subscribe(res => {
+    this.pdfService.reportPDFs(id).subscribe({next: () => {
       this.pdfList.forEach(pdf => {
         if(pdf.id == id){
           pdf.status = "REPORTED"
         }
       })
-    })
+    }, error: () => {}})
   }
 }

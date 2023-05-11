@@ -40,19 +40,19 @@ export class UpdatePDFComponent {
   updatePDF(){
     if(this.validateFormFields()){
       if(this.file != null){
-        this.pdfService.updatePDF(this.pdfID, this.file, this.description).subscribe(res =>{
+        this.pdfService.updatePDF(this.pdfID, this.file, this.description).subscribe({next: () => {
           this.router.navigate([''])
-        })
+        }, error: () => {}})
       }
     }
   }
 
   private validateFormFields(){
     if(this.file == null){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoFileSelected})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoFileSelected, navigateToHomeOnClose:false}})
       return false
     } else if(this.description == ''){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoDescriptionProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoDescriptionProvided, navigateToHomeOnClose:false}})
       return false
     }
     return true

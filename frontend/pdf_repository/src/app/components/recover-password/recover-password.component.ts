@@ -20,16 +20,16 @@ export class RecoverPasswordComponent {
 
   sendPassordRecoverMessage(){
     if(this.validateFormFields()){
-      this.userService.sendPasswordUpdateCode(this.email).subscribe(res => {
+      this.userService.sendPasswordUpdateCode(this.email).subscribe({next: () => {
         this.updateUSerPasswordService.putEmail(this.email)
         this.router.navigate(['updatePassword'])
-      })
+      }, error: () => {}})
     }
   }
 
   private validateFormFields(){
     if(this.email == ''){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoEmailProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoEmailProvided, navigateToHomeOnClose:false}})
       return false
     }
     return true

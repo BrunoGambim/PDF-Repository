@@ -21,10 +21,10 @@ export class LoginComponent {
 
   login(){
     if(this.validateFormFields()){
-      this.authService.authenticate(this.email, this.password).subscribe( res => {
+      this.authService.authenticate(this.email, this.password).subscribe({next: (res) => {
         this.authService.successfulLogin(res.headers.get(AUTHORIZATION_HEADER))
         this.router.navigate([''])
-      })
+      }, error: () => {}})
     }
   }
 
@@ -34,10 +34,10 @@ export class LoginComponent {
 
   private validateFormFields(){
     if(this.email == ""){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoEmailProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoEmailProvided, navigateToHomeOnClose:false}})
       return false
     }else if(this.password == ""){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoPasswordProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoPasswordProvided, navigateToHomeOnClose:false}})
       return false
     }
     return true

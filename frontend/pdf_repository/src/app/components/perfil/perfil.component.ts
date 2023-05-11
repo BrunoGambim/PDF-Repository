@@ -29,16 +29,13 @@ export class PerfilComponent {
     if(user == null){
       router.navigate([''])
     } else {
-      clientService.findClient(user.email).subscribe(res => {
+      clientService.findClient(user.email).subscribe({next: (res) => {
         this.client = res
-      },
-      err => {
-        router.navigate([''])
-      })
+      }, error: () => { router.navigate(['']) }})
     }
   }
 
   openUpdateClientDialog(){
-    const dialogRef = this.dialog.open(UpdateClientComponent, {data: this.client});
+    this.dialog.open(UpdateClientComponent, {data: this.client});
   }
 }

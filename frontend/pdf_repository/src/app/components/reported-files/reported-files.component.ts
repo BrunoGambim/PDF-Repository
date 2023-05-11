@@ -17,21 +17,21 @@ export class ReportedFilesComponent {
   pageIndex: number = 0
 
   constructor(private pdfService: PdfService){
-    pdfService.getReportedPDFs(this.pageIndex).subscribe(res => {
+    pdfService.getReportedPDFs(this.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements
       this.pageIndex = res.pageIndex
       this.pageSize = res.pageSize
-    })
+    }, error: () => {}})
   }
 
   handlePageEvent(e: PageEvent) {
-    this.pdfService.getReportedPDFs(e.pageIndex).subscribe(res => {
+    this.pdfService.getReportedPDFs(e.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements
       this.pageIndex = res.pageIndex
       this.pageSize = res.pageSize
-    })
+    }, error: () => {}})
   }
 
   download(pdf: PDFModel){
@@ -39,14 +39,14 @@ export class ReportedFilesComponent {
   }
 
   deletePDF(id: number){
-    this.pdfService.deletePDF(id).subscribe(res => {
+    this.pdfService.deletePDF(id).subscribe({next: () => {
       this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
-    })
+    }, error: () => {}})
   }
 
   validatePDF(id: number){
-    this.pdfService.validatePDF(id).subscribe(res => {
+    this.pdfService.validatePDF(id).subscribe({next: () => {
       this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
-    });
+    }, error: () => {}});
   }
 }

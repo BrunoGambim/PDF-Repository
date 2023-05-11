@@ -24,31 +24,31 @@ export class PurchasedPDFsComponent {
 
   constructor(private pdfService: PdfService, private router: Router,
     private dialog: MatDialog){
-    pdfService.getPurchasedPDFs(this.pageIndex).subscribe(res => {
+    pdfService.getPurchasedPDFs(this.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements
       this.pageIndex = res.pageIndex
       this.pageSize = res.pageSize
-    })
+    }, error: () => {}})
   }
 
   handlePageEvent(e: PageEvent) {
-    this.pdfService.getPurchasedPDFs(e.pageIndex).subscribe(res => {
+    this.pdfService.getPurchasedPDFs(e.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements
       this.pageIndex = res.pageIndex
       this.pageSize = res.pageSize
-    })
+    }, error: () => {}})
   }
 
   reportPDF(id: number) {
-    this.pdfService.reportPDFs(id).subscribe(res => {
+    this.pdfService.reportPDFs(id).subscribe({next: () => {
       this.pdfList.forEach(pdf => {
         if(pdf.id == id){
           pdf.status = "REPORTED"
         }
       })
-    })
+    }, error: () => {}})
   }
 
   download(pdf: PDFModel){
@@ -57,12 +57,12 @@ export class PurchasedPDFsComponent {
 
   openEvaluateDialog(pdf: PDFModel){
     const dialogRef = this.dialog.open(EvaluatePDFComponent, {data: pdf.id});
-    dialogRef.afterClosed().subscribe(res => {
-      this.pdfService.getPDFById(pdf.id).subscribe(res => {
+    dialogRef.afterClosed().subscribe({next: () => {
+      this.pdfService.getPDFById(pdf.id).subscribe({next: (res) => {
         pdf.numberOfEvaluations = res.numberOfEvaluations
         pdf.evaluationMean = res.evaluationMean
         this.pdfList = this.pdfList
-      })
-    })
+      }, error: () => {}})
+    }, error: () => {}})
   }
 }

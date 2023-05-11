@@ -27,21 +27,21 @@ export class SaveNewClientComponent {
 
   saveClient(){
     if(this.validateFormFields()){
-      this.clientService.saveClient(this.client).subscribe(res => {
+      this.clientService.saveClient(this.client).subscribe({next: () => {
         this.router.navigate(['login'])
-      })
+      }, error: () => {}})
     }
   }
 
   private validateFormFields(){
     if(this.client.username == ""){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoUsernameProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoUsernameProvided, navigateToHomeOnClose:false}})
       return false
     }else if(this.client.email == ""){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoEmailProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoEmailProvided, navigateToHomeOnClose:false}})
       return false
     }else if(this.client.password == ""){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoPasswordProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoPasswordProvided, navigateToHomeOnClose:false}})
       return false
     }
     return true

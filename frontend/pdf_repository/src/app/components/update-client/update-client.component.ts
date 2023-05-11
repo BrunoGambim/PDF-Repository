@@ -20,19 +20,19 @@ export class UpdateClientComponent {
 
   update(){
     if(this.validateFormFields()){
-      this.clientService.updateClient(this.client).subscribe(res =>{
+      this.clientService.updateClient(this.client).subscribe({next: (res) => {
         this.authService.successfulLogin(res.headers.get(AUTHORIZATION_HEADER))
         this.dialogRef.close()
-      })
+      }, error: () => {}})
     }
   }
 
   private validateFormFields(){
     if(this.client.username == ""){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoUsernameProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoUsernameProvided, navigateToHomeOnClose:false}})
       return false
     }else if(this.client.email == ""){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoEmailProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoEmailProvided, navigateToHomeOnClose:false}})
       return false
     }
     return true

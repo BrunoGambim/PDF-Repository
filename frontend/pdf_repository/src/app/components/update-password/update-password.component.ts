@@ -28,18 +28,18 @@ export class UpdatePasswordComponent {
 
   updatePassword(){
     if(this.validateFormFields()){
-      this.userService.updatePassword(this.email, this.code, this.password).subscribe(res =>{
+      this.userService.updatePassword(this.email, this.code, this.password).subscribe({next: () => {
         this.router.navigate(['login'])
-      })
+      }, error: () => {}})
     }
   }
 
   private validateFormFields(){
     if(this.password == ''){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoPasswordProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoPasswordProvided, navigateToHomeOnClose:false}})
       return false
     } else if(this.code == ''){
-      this.dialog.open(ErrorDialogComponent,{data: ERROR_MESSAGE.NoCodeProvided})
+      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoCodeProvided, navigateToHomeOnClose:false}})
       return false
     }
     return true

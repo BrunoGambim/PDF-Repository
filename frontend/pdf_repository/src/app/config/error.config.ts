@@ -5,4 +5,6 @@ export const ERROR_MESSAGE = {
   NoEmailProvided: "A email must be provided!",
   NoPasswordProvided: "A password must be provided!",
   NoCodeProvided: "A code must be provided!",
+  Error403: "Session expired",
+  DefaultError: "An unexpected error occurred",
 }

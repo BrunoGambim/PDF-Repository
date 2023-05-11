@@ -36,6 +36,7 @@ import { ReportedFilesComponent } from './components/reported-files/reported-fil
 import { WaitingForValidationFilesComponent } from './components/waiting-for-validation-files/waiting-for-validation-files.component';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDialogModule,
     MatPaginatorModule
   ],
-  providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider],
+  providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider, ErrorInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

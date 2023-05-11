@@ -22,27 +22,28 @@ export class OwnedPDFsComponent {
 
   constructor(private pdfService: PdfService, private updatePDFService: UpdatePDFService,
     private router: Router){
-    pdfService.getOwnedPDFs(this.pageIndex).subscribe(res => {
+    pdfService.getOwnedPDFs(this.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements
       this.pageIndex = res.pageIndex
       this.pageSize = res.pageSize
-    })
+    }, error: () => {}})
   }
 
   handlePageEvent(e: PageEvent) {
-    this.pdfService.getOwnedPDFs(e.pageIndex).subscribe(res => {
+    this.pdfService.getOwnedPDFs(e.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements
       this.pageIndex = res.pageIndex
       this.pageSize = res.pageSize
-    })
+    }, error: () => {}})
   }
 
   deletePDF(id: number){
-    this.pdfService.deletePDF(id).subscribe(res => {
+    this.pdfService.deletePDF(id).subscribe({next: () => {
+      this.totalElements = this.totalElements - 1
       this.pdfList = this.pdfList.filter(pdf => pdf.id != id)
-    })
+    }, error: () => {}})
   }
 
   download(pdf: PDFModel){
