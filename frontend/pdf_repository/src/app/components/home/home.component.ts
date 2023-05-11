@@ -68,6 +68,9 @@ export class HomeComponent {
 
   openEvaluateDialog(pdf: PDFModel){
     const dialogRef = this.dialog.open(EvaluatePDFComponent, {data: pdf.id});
+    dialogRef.afterClosed().subscribe(res => {
+      this.router.navigate([''])
+    })
   }
 
   reportPDF(id: number) {

@@ -40,14 +40,14 @@ public abstract class User {
 	}
 
 	public String getPassword() {
-		if(password.equals("") || password == null) {
-			throw new InvalidEmptyOrNullUserFieldException("password");
-		}
-		
 		return password;
 	}
 
 	private void setPassword(String password) {
+		if(password.equals("") || password == null) {
+			throw new InvalidEmptyOrNullUserFieldException("password");
+		}
+		
 		this.password = password;
 	}
 

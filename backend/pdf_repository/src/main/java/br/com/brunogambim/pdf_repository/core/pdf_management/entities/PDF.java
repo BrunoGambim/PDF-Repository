@@ -100,6 +100,10 @@ public class PDF {
 	}
 
 	public void setStatus(PDFStatus status) {
+		if(status == null) {
+			throw new InvalidEmptyOrNullFileFieldException("status");
+		}
+		
 		this.status = status;
 	}
 	
