@@ -27,6 +27,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.DeletePDF
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.EvaluatePDFFileUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFFilesThatAnUserHasAccessUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFFilesThatAnUserOwnsUseCase;
+import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFInfoByIdUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFInfoByNameUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindPDFInfoByOwnerNameUseCase;
 import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.FindReportedPDFFilesUseCase;
@@ -103,6 +104,15 @@ public class PDFController {
 		Long userId = AuthenticationService.authenticatedId();
 		List<PDFInfo> pdfs = useCase.execute(userId);
 		return ResponseEntity.ok(pdfs);
+	}
+	
+	@RequestMapping(value = "/{pdfId}", method = RequestMethod.GET)
+	public ResponseEntity<PDFInfo> findPDFInfoById(@PathVariable Long pdfId){
+		Long userId = AuthenticationService.authenticatedId();
+		FindPDFInfoByIdUseCase useCase = new FindPDFInfoByIdUseCase(pdfRepository, pdfManagementParametersRepository,
+				userRepository);
+		PDFInfo pdf = useCase.execute(userId, pdfId);
+		return ResponseEntity.ok(pdf);
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)

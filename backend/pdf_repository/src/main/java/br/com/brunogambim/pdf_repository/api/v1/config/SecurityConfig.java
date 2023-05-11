@@ -47,7 +47,8 @@ public class SecurityConfig {
 	
 	private static final String[] PUBLIC_MATCHERS_GET = {
 		"/v1/clients/*",
-		"/v1/pdfs"
+		"/v1/pdfs",
+		"/v1/pdfs/*"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_POST = {

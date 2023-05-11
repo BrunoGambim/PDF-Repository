@@ -35,8 +35,6 @@ export class HomeComponent {
     if(localuser != null){
       this.userEmail = localuser.email
     }
-
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   getPDFs(){
@@ -50,8 +48,11 @@ export class HomeComponent {
   }
 
   purchase(pdf: PDFModel){
-    this.pdfService.purchasePDF(pdf.id).subscribe(res => {
-      this.router.navigate([''])
+    this.pdfService.purchasePDF(pdf.id)
+    .subscribe(res => {
+      this.pdfService.getPDFById(pdf.id).subscribe(res => {
+        pdf.data = res.data
+      })
     })
   }
 
@@ -69,7 +70,11 @@ export class HomeComponent {
   openEvaluateDialog(pdf: PDFModel){
     const dialogRef = this.dialog.open(EvaluatePDFComponent, {data: pdf.id});
     dialogRef.afterClosed().subscribe(res => {
-      this.router.navigate([''])
+      this.pdfService.getPDFById(pdf.id).subscribe(res => {
+        pdf.numberOfEvaluations = res.numberOfEvaluations
+        pdf.evaluationMean = res.evaluationMean
+        this.pdfList = this.pdfList
+      })
     })
   }
 
