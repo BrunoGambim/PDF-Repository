@@ -39,6 +39,7 @@
   <mat-divider></mat-divider>
   <mat-card-content class="card-body">
     <p>{{pdf.description}}</p>
+    <p>Price: {{pdf.price}}</p>
   </mat-card-content>
   <mat-card-actions>
     <button *ngIf="pdf.data != null" mat-button color="primary" (click)="download(pdf)">Download</button>
