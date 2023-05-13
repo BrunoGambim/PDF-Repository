@@ -3,6 +3,7 @@ package br.com.brunogambim.pdf_repository.core.user_management.use_cases;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.AuthorizationPolicy;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
+import br.com.brunogambim.pdf_repository.core.user_management.exceptions.EmailIsAlreadyBeingUsedException;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 
 public class UpdateClientInfoUseCase {
@@ -17,6 +18,9 @@ public class UpdateClientInfoUseCase {
 	public void execute(Long userId, Long clientId, String username, String email) {
 		if(userId != clientId) {
 			authorizationPolicy.CheckIsAdminAuthorization(userId);
+		}
+		if(userRepository.emailIsBeingUsed(email)) {
+			throw new EmailIsAlreadyBeingUsedException();
 		}
 		Client oldData = this.userRepository.findClient(clientId);
 		

@@ -46,14 +46,14 @@ public class AuthorizationPolicyTest {
 	}
 	
 	@Test
-	void checkAdmin() {
+	void policyExecutedWithAdmin() {
 		policy.CheckIsAdminAuthorization(3L);
 		policy.CheckIsAdminOrHasAccessAuthorization(3L,1L);
 		policy.CheckIsAdminOrOwnerAuthorization(3L,1L);
 	}
 	
 	@Test
-	void checkOwner() {
+	void policyExecutedWithOwner() {
 		policy.CheckIsAdminOrOwnerAuthorization(1L,1L);
 		
 		assertThatThrownBy(() -> {
@@ -66,7 +66,7 @@ public class AuthorizationPolicyTest {
 	}
 	
 	@Test
-	void checkUserThatHasAccess() {
+	void policyExecutedWithUserThatHasAccess() {
 		policy.CheckIsAdminOrHasAccessAuthorization(1L,2L);
 		
 		assertThatThrownBy(() -> {

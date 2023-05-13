@@ -27,7 +27,7 @@ public class PDFPricingPolicyTest {
 	}
 	
 	@Test
-	void smallFileWithFewEvaluations() {
+	void policyExecutedWithSmallFileWithFewEvaluations() {
 		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2},
 				new PDFSizePolicy(managementParametersRepository), owner);
@@ -57,7 +57,7 @@ public class PDFPricingPolicyTest {
 	}
 	
 	@Test
-	void smalFileWithEnoughtEvaluationsAndLowEvaluationsMean() {
+	void policyExecutedWithSmalFileWithEnoughtEvaluationsAndLowEvaluationsMean() {
 		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2},
 				new PDFSizePolicy(managementParametersRepository), owner);
@@ -87,7 +87,7 @@ public class PDFPricingPolicyTest {
 	}
 	
 	@Test
-	void smallFileWithEnoughtEvaluationsAndEnoughtEvaluationsMean() {
+	void policyExecutedWithSmallFileWithEnoughtEvaluationsAndEnoughtEvaluationsMean() {
 		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2},
 				new PDFSizePolicy(managementParametersRepository), owner);
@@ -117,7 +117,7 @@ public class PDFPricingPolicyTest {
 	}
 	
 	@Test
-	void bigFileWithFewEvaluations() {
+	void policyExecutedWithBigFileWithFewEvaluations() {
 		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository), owner);
@@ -147,7 +147,7 @@ public class PDFPricingPolicyTest {
 	}
 	
 	@Test
-	void bigFileWithEnoughtEvaluationsAndLowEvaluationsMean() {
+	void policyExecutedWithBigFileWithEnoughtEvaluationsAndLowEvaluationsMean() {
 		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository), owner);
@@ -177,7 +177,7 @@ public class PDFPricingPolicyTest {
 	}
 	
 	@Test
-	void bigFileWithEnoughtEvaluationsAndEnoughtEvaluationsMean() {
+	void policyExecutedWithBigFileWithEnoughtEvaluationsAndEnoughtEvaluationsMean() {
 		Client owner = new Client(20L, "owner", "123456","owner@mail.com", 30);
 		PDF pdf = new PDF(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4},
 				new PDFSizePolicy(managementParametersRepository), owner);

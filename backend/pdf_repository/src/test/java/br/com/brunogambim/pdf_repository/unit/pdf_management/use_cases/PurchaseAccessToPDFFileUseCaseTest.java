@@ -65,7 +65,7 @@ public class PurchaseAccessToPDFFileUseCaseTest {
 	
 	
 	@Test
-	void repositoryMethodAreCalledWithTheCorrectParameterWithABigFile() {
+	void useCaseExecutedWithABigFile() {
 		ArgumentCaptor<Client> clientCaptor = ArgumentCaptor.forClass(Client.class);
 		useCase.execute(1L, 1L);
 	
@@ -112,7 +112,7 @@ public class PurchaseAccessToPDFFileUseCaseTest {
 	}
 	
 	@Test
-	void repositoryMethodAreCalledWithTheCorrectParameterWithASmallFile() {
+	void useCaseExecutedWithASmallFile() {
 		ArgumentCaptor<Client> clientCaptor = ArgumentCaptor.forClass(Client.class);
 		useCase.execute(1L, 5L);
 		
@@ -158,14 +158,14 @@ public class PurchaseAccessToPDFFileUseCaseTest {
 	}
 	
 	@Test
-	void userAlreadyHasAccessToThePDF() {
+	void useCaseExecutedWithUserThatHasAccessToThePDF() {
 		assertThatThrownBy(() -> {
 			useCase.execute(1L,4L);
 		}).isInstanceOf(UserAlreadyHasAccessToPDFException.class);
 	}
 	
 	@Test
-	void insufficientBalance() {
+	void useCaseExecutedWithUserWithInsufficientBalance() {
 		assertThatThrownBy(() -> {
 			useCase.execute(2L,1L);
 		}).isInstanceOf(InsufficientBalanceException.class);

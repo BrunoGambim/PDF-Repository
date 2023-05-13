@@ -14,6 +14,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PDFManagem
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
+import br.com.brunogambim.pdf_repository.core.user_management.exceptions.EmailIsAlreadyBeingUsedException;
 import br.com.brunogambim.pdf_repository.core.user_management.exceptions.UnauthorizedUserException;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.UpdateClientInfoUseCase;
@@ -36,11 +37,12 @@ public class UpdateClientInfoUseCaseTest {
 		when(userRepository.isAdmin(2L)).thenReturn(true);
 		when(userRepository.isAdmin(3L)).thenReturn(false);		
 		when(userRepository.findClient(1L)).thenReturn(client);
+		when(userRepository.emailIsBeingUsed("user2@mail.com")).thenReturn(true);
 	}
 	
 	
 	@Test
-	void methodCalledWithClient() {
+	void useCaseExecutedWithClient() {
 		useCase.execute(1L, 1L,"user","user@mail.com");
 	
 		verify(userRepository).save(argThat( x -> {
@@ -56,7 +58,7 @@ public class UpdateClientInfoUseCaseTest {
 	}
 	
 	@Test
-	void methodCalledWithAdmin() {
+	void useCaseExecutedWithAdmin() {
 		useCase.execute(2L, 1L,"user","user@mail.com");
 	
 		verify(userRepository).save(argThat( x -> {
@@ -72,9 +74,16 @@ public class UpdateClientInfoUseCaseTest {
 	}
 	
 	@Test
-	void unauthorizedToUpdateClient() {	
+	void useCaseExecutedWithUnauthorizedUser() {	
 		assertThatThrownBy(() -> {
 			useCase.execute(3L, 1L,"user","user@mail.com");
 		}).isInstanceOf(UnauthorizedUserException.class);
+	}
+	
+	@Test
+	void useCaseExecutedWithInvalidEmail() {
+		assertThatThrownBy(() -> {
+			useCase.execute(1L,1L,"user","user2@mail.com");
+		}).isInstanceOf(EmailIsAlreadyBeingUsedException.class);
 	}
 }

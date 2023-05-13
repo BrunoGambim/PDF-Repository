@@ -15,12 +15,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.brunogambim.pdf_repository.api.v1.dtos.CreateClientDTO;
 import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdateClientDTO;
 import br.com.brunogambim.pdf_repository.api.v1.security.servicies.AuthenticationService;
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.AllClientsTransactionReport;
-import br.com.brunogambim.pdf_repository.core.pdf_management.entities.ClientTransactionReport;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFTransactionRepository;
-import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.GenerateAllClientsTransactionReportUseCase;
-import br.com.brunogambim.pdf_repository.core.pdf_management.use_cases.GenerateClientTransactionReportUseCase;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.ClientInfo;
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
@@ -36,7 +32,6 @@ public class ClientController {
 	private UserRepository userRepository;
 	private PasswordEncripterGateway encripterGateway;
 	private PDFRepository pdfRepository;
-	private PDFTransactionRepository transactionRepository;
 	private AuthenticationService authenticationService;
 	
 	@Autowired
@@ -44,7 +39,6 @@ public class ClientController {
 			PDFTransactionRepository transactionRepository, PDFRepository pdfRepository) {
 		this.userRepository = userRepository;
 		this.encripterGateway = encripterGateway;
-		this.transactionRepository = transactionRepository;
 		this.pdfRepository = pdfRepository;
 		this.authenticationService = authenticationService;
 	}
@@ -71,21 +65,5 @@ public class ClientController {
 		useCase.execute(userId, clientId, dto.getUsername(), dto.getEmail());
 		authenticationService.regenerateToken(httpResponse, dto.getEmail());
 		return ResponseEntity.noContent().build();
-	}
-	
-	@RequestMapping(value = "/transactionReport", method = RequestMethod.GET)
-	public ResponseEntity<AllClientsTransactionReport> generateAllClientsTransactionReport(){
-		GenerateAllClientsTransactionReportUseCase useCase = new GenerateAllClientsTransactionReportUseCase(userRepository, transactionRepository, pdfRepository);
-		Long userId = AuthenticationService.authenticatedId();
-		AllClientsTransactionReport report = useCase.execute(userId);
-		return ResponseEntity.ok(report);
-	}
-	
-	@RequestMapping(value = "/{clientId}/transactionReport", method = RequestMethod.GET)
-	public ResponseEntity<ClientTransactionReport> generateClientTransactionReport(@PathVariable Long clientId){
-		GenerateClientTransactionReportUseCase useCase = new GenerateClientTransactionReportUseCase(userRepository, transactionRepository, pdfRepository);
-		Long userId = AuthenticationService.authenticatedId();
-		ClientTransactionReport report = useCase.execute(userId, clientId);
-		return ResponseEntity.ok(report);
 	}
 }

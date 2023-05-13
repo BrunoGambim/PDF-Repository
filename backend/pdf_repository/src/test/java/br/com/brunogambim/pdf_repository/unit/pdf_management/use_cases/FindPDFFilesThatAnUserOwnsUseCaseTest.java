@@ -71,7 +71,7 @@ public class FindPDFFilesThatAnUserOwnsUseCaseTest {
 	
 	
 	@Test
-	void methodAreCalledWithNormaluser() {
+	void useCaseExecutedWithNormaluser() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithData(pricingPolicy).getId()).toList();
 		List<Long> idList2 = pdfList2.stream().map(pdf -> pdf.getPDFInfoWithData(pricingPolicy).getId()).toList();
 		List<Long> result = useCase.execute(1L, 1, 1).getItems().stream().map(pdfInfo -> pdfInfo.getId()).toList();

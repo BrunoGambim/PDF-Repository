@@ -41,7 +41,7 @@ public class UpdateUserPasswordUseCaseTest {
 	
 	
 	@Test
-	void methodCalledWithClient() {
+	void useCaseExecutedWithClient() {
 		useCase.execute("user@mail.com","789012", code);
 	
 		verify(userRepository).save(argThat( x -> {
@@ -57,7 +57,7 @@ public class UpdateUserPasswordUseCaseTest {
 	}
 	
 	@Test
-	void invalidaUpdatePasswordCode() {	
+	void useCaseExecutedWithInvalidaUpdatePasswordCode() {	
 		assertThatThrownBy(() -> {
 			useCase.execute("user@mail.com","789012", "123A42");
 		}).isInstanceOf(InvalidUpdatePasswordCodeException.class);

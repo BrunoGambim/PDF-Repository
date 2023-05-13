@@ -29,7 +29,7 @@ public class SendPasswordUpdateCodeUseCaseTest {
 	
 	
 	@Test
-	void methodCalledWithClient() {
+	void useCaseExecutedWithClient() {
 		useCase.execute("user@mail.com");
 	
 		verify(userRepository).save(argThat( x -> {

@@ -42,7 +42,7 @@ public class FindPDFInfoByIdUseCaseTest {
 	
 	
 	@Test
-	void shouldReturnTheCorrectListLoggedOut() {
+	void useCaseExecutedWithUserLoggedOut() {
 		PDFInfo pdf = useCase.execute(null, 1L);
 		assertThat(pdf.getId()).isEqualTo(1L);
 		assertThat(pdf.getDescription()).isEqualTo("desc");
@@ -65,7 +65,7 @@ public class FindPDFInfoByIdUseCaseTest {
 	}
 	
 	@Test
-	void shouldReturnTheCorrectListWithAdmin() {
+	void useCaseExecutedWithAdmin() {
 		PDFInfo pdf = useCase.execute(2L, 1L);
 		assertThat(pdf.getId()).isEqualTo(1L);
 		assertThat(pdf.getDescription()).isEqualTo("desc");
@@ -88,7 +88,7 @@ public class FindPDFInfoByIdUseCaseTest {
 	}
 	
 	@Test
-	void shouldReturnTheCorrectListWithClient() {
+	void useCaseExecutedWithClient() {
 		PDFInfo pdf = useCase.execute(1L, 1L);
 		assertThat(pdf.getId()).isEqualTo(1L);
 		assertThat(pdf.getDescription()).isEqualTo("desc");

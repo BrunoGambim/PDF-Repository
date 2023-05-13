@@ -9,4 +9,5 @@ public interface UserRepository {
 	public Client findClientByEmail(String email);
 	public boolean isAdmin(Long id);
 	public User findUserByEmail(String email);
+	public boolean emailIsBeingUsed(String email);
 }

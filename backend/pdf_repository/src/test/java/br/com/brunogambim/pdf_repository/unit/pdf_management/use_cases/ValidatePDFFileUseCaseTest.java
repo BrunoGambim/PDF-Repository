@@ -43,7 +43,7 @@ public class ValidatePDFFileUseCaseTest {
 	
 	
 	@Test
-	void repositoryMethodAreCalledWithAdmin() {
+	void useCaseExecutedWithAdmin() {
 		useCase.execute(2L, 1L);
 	
 		verify(pdfRepository).save(argThat( x -> {
@@ -59,7 +59,7 @@ public class ValidatePDFFileUseCaseTest {
 	}
 	
 	@Test
-	void unauthorizedToDeletePDf() {	
+	void useCaseExecutedWithUnauthorizedUser() {	
 		assertThatThrownBy(() -> {
 			useCase.execute(1L, 1L);
 		}).isInstanceOf(UnauthorizedUserException.class);
