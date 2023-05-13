@@ -11,6 +11,7 @@ import { ErrorDialogData } from 'src/app/models/error_dialog_data';
 export class ErrorDialogComponent {
   constructor(public dialogRef: MatDialogRef<ErrorDialogComponent>, private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: ErrorDialogData) {
+      console.log(data.message)
   }
 
   close(){
