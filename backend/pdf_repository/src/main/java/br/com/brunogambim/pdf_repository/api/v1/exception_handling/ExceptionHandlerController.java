@@ -6,6 +6,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -32,9 +33,6 @@ public class ExceptionHandlerController {
 				"Internal server error", httpServletRequest.getRequestURI());
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(standartError);
 	}
-	
-	
-	
 	
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandartError> objectNotFound(ObjectNotFoundException objectNotFoundException, 
@@ -118,9 +116,16 @@ public class ExceptionHandlerController {
 	
 	@ExceptionHandler(UnauthorizedUserException.class)
 	public ResponseEntity<StandartError> authorization(UnauthorizedUserException authorizationException, HttpServletRequest httpServletRequest){
-		StandartError standartError = new StandartError(System.currentTimeMillis(), HttpStatus.UNAUTHORIZED.value(), "Unauthorized",
+		StandartError standartError = new StandartError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Unauthorized",
 				authorizationException.getMessage(), httpServletRequest.getRequestURI());
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(standartError);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(standartError);
+	}
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<StandartError> accessDenied(AccessDeniedException accessDeniedException, HttpServletRequest httpServletRequest){
+		StandartError standartError = new StandartError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Unauthorized",
+				"Access Denied", httpServletRequest.getRequestURI());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(standartError);
 	}
 	
 	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
