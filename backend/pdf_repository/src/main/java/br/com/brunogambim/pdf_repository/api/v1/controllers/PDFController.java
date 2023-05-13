@@ -1,11 +1,12 @@
 package br.com.brunogambim.pdf_repository.api.v1.controllers;
 
 import java.io.IOException;
+import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.brunogambim.pdf_repository.api.v1.dtos.EvaluatePDFFileDTO;
 import br.com.brunogambim.pdf_repository.api.v1.security.servicies.AuthenticationService;
@@ -56,6 +58,7 @@ public class PDFController {
 		this.transactionRepository = transactionRepository;
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{pdfId}/validate", method = RequestMethod.PUT)
 	public ResponseEntity<Void> validatePDFFile(@PathVariable Long pdfId){
 		ValidatePDFFileUseCase useCase = new ValidatePDFFileUseCase(pdfRepository, userRepository);
@@ -138,6 +141,7 @@ public class PDFController {
 		return ResponseEntity.ok(pdfs);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/reported", method = RequestMethod.GET)
 	public ResponseEntity<PageAdapter<PDFInfo>> findReportedPDFFiles(
 			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
@@ -149,6 +153,7 @@ public class PDFController {
 		return ResponseEntity.ok(pdfs);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/waitingForValidation", method = RequestMethod.GET)
 	public ResponseEntity<PageAdapter<PDFInfo>> findWaitingForValidationPDFFiles(
 			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
@@ -174,8 +179,9 @@ public class PDFController {
 			@RequestParam(name = "description") String description) throws IOException{
 		SaveNewPDFFileUseCase useCase = new SaveNewPDFFileUseCase(userRepository, pdfManagementParametersRepository, pdfRepository);
 		Long userId = AuthenticationService.authenticatedId();
-		useCase.execute(userId, file.getOriginalFilename(), description, file.getContentType().split("/")[1], file.getBytes().length, file.getBytes());
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+		Long id = useCase.execute(userId, file.getOriginalFilename(), description, file.getContentType().split("/")[1], file.getBytes().length, file.getBytes());
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value = "/{pdfId}", method = RequestMethod.PUT)

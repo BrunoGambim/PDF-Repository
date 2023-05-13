@@ -38,7 +38,7 @@ public class EvaluatePDFFileUseCaseTest {
 	
 	
 	@Test
-	void evaluateAPDFFileWithNoEvaluations() {
+	void useCaseExecutedWithPDFWithNoEvaluations() {
 		Client owner = new Client(1L, "user", "123456","user@mail.com", 30);
 		PDF pdf =  new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2}, new PDFSizePolicy(managementParametersRepository), owner);
 		
@@ -66,7 +66,7 @@ public class EvaluatePDFFileUseCaseTest {
 	}
 	
 	@Test
-	void evaluateAPDFFileWithOneEvaluation() {
+	void useCaseExecutedWithPDFWithOneEvaluation() {
 		Client owner = new Client(1L, "user", "123456","user@mail.com", 30);
 		PDF pdf =  new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2}, new PDFSizePolicy(managementParametersRepository), owner);
 		Client client2 = new Client(2L, "user2", "123456","user2@mail.com", 30);
@@ -96,7 +96,7 @@ public class EvaluatePDFFileUseCaseTest {
 	}
 	
 	@Test
-	void invalidEvaluationValue() {
+	void useCaseExecutedWithInvalidEvaluationValue() {
 		Client owner = new Client(1L, "user", "123456","user@mail.com", 30);
 		PDF pdf =  new PDF(1L,"name", "desc", "pdf", 2, new byte[] {1,2}, new PDFSizePolicy(managementParametersRepository), owner);
 		when(pdfRepository.find(1L)).thenReturn(pdf);

@@ -65,7 +65,7 @@ public class FindPDFInfoByNameUseCaseTest {
 	
 	
 	@Test
-	void shouldReturnTheCorrectListLoggedOut() {
+	void useCaseExecutedWithUserLoggedOut() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
 		List<Long> idList2 = pdfList2.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
 		List<PDFInfo> pdfs = useCase.execute(null, "name", 1, 1).getItems();
@@ -88,7 +88,7 @@ public class FindPDFInfoByNameUseCaseTest {
 	}
 	
 	@Test
-	void shouldReturnTheCorrectListWithAdmin() {
+	void useCaseExecutedWithAdmin() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
 		List<Long> idList2 = pdfList2.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
 		List<PDFInfo> pdfs = useCase.execute(2L, "name", 1, 1).getItems();
@@ -111,7 +111,7 @@ public class FindPDFInfoByNameUseCaseTest {
 	}
 	
 	@Test
-	void shouldReturnTheCorrectListWithClient() {
+	void useCaseExecutedWithClient() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithoutData(pricingPolicy).getId()).toList();
 		List<PDFInfo> pdfs = useCase.execute(1L, "name", 1, 1).getItems();
 		for(PDFInfo pdf: pdfs) {

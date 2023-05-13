@@ -21,27 +21,9 @@ public class PDFTransactionRepositoryImpl implements PDFTransactionRepository{
 	}
 
 	@Override
-	public List<PurchasePDFAccessTransaction> findByBuyerId(Long id) {
-		return PurchasePDFAccessTransactionModel.modelListToEntityList(
-				this.jpaTransactionRepository.findByBuyerId(id));
-	}
-
-	@Override
-	public List<PurchasePDFAccessTransaction> findByOwnerId(Long id) {
-		return PurchasePDFAccessTransactionModel.modelListToEntityList(
-				this.jpaTransactionRepository.findByOwnerId(id));
-	}
-
-	@Override
 	public Long save(PurchasePDFAccessTransaction transaction) {
 		PurchasePDFAccessTransactionModel model = new PurchasePDFAccessTransactionModel(transaction);
 		return this.jpaTransactionRepository.save(model).getId();
-	}
-
-	@Override
-	public List<PurchasePDFAccessTransaction> findAll() {
-		return PurchasePDFAccessTransactionModel.modelListToEntityList(
-				this.jpaTransactionRepository.findAll());
 	}
 
 	@Override

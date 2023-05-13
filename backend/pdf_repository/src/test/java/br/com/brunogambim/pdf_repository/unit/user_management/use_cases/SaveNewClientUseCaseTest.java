@@ -6,10 +6,12 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.argThat;
 import org.mockito.Mockito;
 
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
+import br.com.brunogambim.pdf_repository.core.user_management.exceptions.EmailIsAlreadyBeingUsedException;
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 import br.com.brunogambim.pdf_repository.core.user_management.use_cases.SaveNewClientUseCase;
@@ -23,11 +25,12 @@ public class SaveNewClientUseCaseTest {
 	void initUseCase() {
 		useCase = new SaveNewClientUseCase(userRepository, passwordEncriptGateway);
 		when(passwordEncriptGateway.encript("123456")).thenReturn("654321");
+		when(userRepository.emailIsBeingUsed("user2@mail.com")).thenReturn(true);
 	}
 	
 	
 	@Test
-	void repositoryMethodAreCalledWithTheCorrectParameterWithABigFile() {
+	void useCaseExecutedWithValidParameters() {
 		useCase.execute("user","user@mail.com","123456");
 	
 		verify(userRepository).save(argThat( x -> {
@@ -41,5 +44,12 @@ public class SaveNewClientUseCaseTest {
 			return true;
 	    }));
 		
+	}
+	
+	@Test
+	void useCaseExecutedWithInvalidEmail() {
+		assertThatThrownBy(() -> {
+			useCase.execute("user","user2@mail.com","123456");
+		}).isInstanceOf(EmailIsAlreadyBeingUsedException.class);
 	}
 }

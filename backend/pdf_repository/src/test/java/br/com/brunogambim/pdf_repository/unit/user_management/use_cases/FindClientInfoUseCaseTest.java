@@ -27,7 +27,7 @@ public class FindClientInfoUseCaseTest {
 	
 	
 	@Test
-	void methodCalledWithNormalUser() {
+	void useCaseExecutedWithNormalUser() {
 		ClientInfo clientInfo = client.getClientInfo();
 		ClientInfo result = useCase.execute("user@mail.com");
 

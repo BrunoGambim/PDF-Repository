@@ -27,10 +27,16 @@ export class ErrorInterceptor implements HttpInterceptor {
         if(errorObj.error){
           errorObj = errorObj.error
         }
+        if(!errorObj.status){
+          errorObj = JSON.parse(error.error)
+        }
 
-        switch(error.status){
+        switch(errorObj.status){
           case 403:
             this.handle403()
+          break;
+          case 422:
+            this.handle422(errorObj.message)
           break;
           default:
             this.handleDefault()
@@ -46,9 +52,12 @@ export class ErrorInterceptor implements HttpInterceptor {
     this.authService.logout()
   }
 
+  private handle422(message: string){
+    this.dialog.open(ErrorDialogComponent, { data : {message: message, navigateToHomeOnClose:false}, disableClose: false })
+  }
+
   private handleDefault(){
     this.dialog.open(ErrorDialogComponent, { data : {data: {message: ERROR_MESSAGE.DefaultError, navigateToHomeOnClose:true}}, disableClose: true })
-    this.authService.logout()
   }
 }
 

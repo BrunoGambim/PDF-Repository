@@ -54,7 +54,7 @@ public class DeletePDFFileUseCaseTest {
 				new PurchasePDFAccessTransaction(client2, pdf, client, pricingPolicy),
 				new PurchasePDFAccessTransaction(client3, pdf, client, pricingPolicy)
 				);
-		when(transactionRepository.findAll()).thenReturn(transactions);
+		when(transactionRepository.findTransactionsByPdfId(1L)).thenReturn(transactions);
 		when(userRepository.findClient(1L)).thenReturn(client);
 		when(userRepository.findClient(3L)).thenReturn(client2);
 		when(userRepository.findClient(4L)).thenReturn(client3);
@@ -63,7 +63,7 @@ public class DeletePDFFileUseCaseTest {
 	
 	
 	@Test
-	void repositoryMethodAreCalledWithTheCorrectParameterWithTheOwner() {
+	void useCaseExecutedWithTheOwner() {
 		ArgumentCaptor<Client> clientCaptor = ArgumentCaptor.forClass(Client.class);
 		useCase.execute(1L, 1L);
 	
@@ -103,7 +103,7 @@ public class DeletePDFFileUseCaseTest {
 	}
 	
 	@Test
-	void repositoryMethodAreCalledWithTheCorrectParameterWithAnAdmin() {
+	void useCaseExecutedWithAnAdmin() {
 		ArgumentCaptor<Client> clientCaptor = ArgumentCaptor.forClass(Client.class);
 		useCase.execute(2L, 1L);
 	
@@ -143,7 +143,7 @@ public class DeletePDFFileUseCaseTest {
 	}
 	
 	@Test
-	void unauthorizedToDeletePDf() {	
+	void useCaseExecutedWithUnauthorizedUser() {	
 		assertThatThrownBy(() -> {
 			useCase.execute(3L, 1L);
 		}).isInstanceOf(UnauthorizedUserException.class);

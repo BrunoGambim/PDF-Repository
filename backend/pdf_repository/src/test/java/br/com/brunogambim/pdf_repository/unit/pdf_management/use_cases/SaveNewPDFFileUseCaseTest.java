@@ -39,7 +39,7 @@ public class SaveNewPDFFileUseCaseTest {
 	
 	
 	@Test
-	void repositoryMethodAreCalledWithTheCorrectParameterWithABigFile() {
+	void useCaseExecutedWithABigFile() {
 		useCase.execute(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3,4});
 	
 		verify(pdfRepository).save(argThat( x -> {
@@ -57,7 +57,7 @@ public class SaveNewPDFFileUseCaseTest {
 	}
 	
 	@Test
-	void repositoryMethodAreCalledWithTheCorrectParameterWithASmallFile() {
+	void useCaseExecutedWithASmallFile() {
 		useCase.execute(1L, "name", "desc", "pdf", 2, new byte[] {1,2});
 	
 		verify(pdfRepository).save(argThat( x -> {
@@ -74,7 +74,7 @@ public class SaveNewPDFFileUseCaseTest {
 	}
 	
 	@Test
-	void pdfInvalidFormat() {
+	void useCaseExecutedWithInvalidFormat() {
 		assertThatThrownBy(() -> {
 			useCase.execute(1L,"name", "desc", "jpg", 4, new byte[] {1,2,3,4});
 		}).isInstanceOf(InvalidFileFormatException.class);
@@ -85,7 +85,7 @@ public class SaveNewPDFFileUseCaseTest {
 	}
 	
 	@Test
-	void pdfInvalidDataSize() {
+	void useCaseExecutedWithInvalidDataSize() {
 		assertThatThrownBy(() -> {
 			useCase.execute(1L,"name", "desc", "pdf", 4, new byte[] {1,2,3});
 		}).isInstanceOf(InvalidFileDataSizeException.class);
@@ -100,7 +100,7 @@ public class SaveNewPDFFileUseCaseTest {
 	}
 	
 	@Test
-	void pdfEmptyOrNullFields() {
+	void useCaseExecutedWithEmptyOrNullFields() {
 		assertThatThrownBy(() -> {
 			useCase.execute(1L,"", "desc", "pdf", 4, new byte[] {1,2,3,4});
 		}).isInstanceOf(InvalidEmptyOrNullFileFieldException.class);

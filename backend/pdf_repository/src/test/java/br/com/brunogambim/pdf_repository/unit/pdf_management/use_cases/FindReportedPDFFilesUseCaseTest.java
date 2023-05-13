@@ -55,7 +55,7 @@ public class FindReportedPDFFilesUseCaseTest {
 	
 	
 	@Test
-	void methodAreCalledWithAdmin() {
+	void useCaseExecutedWithAdmin() {
 		List<Long> idList = pdfList.stream().map(pdf -> pdf.getPDFInfoWithData(pricingPolicy).getId()).toList();
 		List<Long> result = useCase.execute(1L, 1, 1).getItems().stream().map(pdfInfo -> pdfInfo.getId()).toList();
 		assertThat(result).isEqualTo(idList);
@@ -63,7 +63,7 @@ public class FindReportedPDFFilesUseCaseTest {
 	}
 	
 	@Test
-	void unauthorizedToSeeReportedPDFFiles() {	
+	void useCaseExecutedWithUnauthorizedUser() {	
 		assertThatThrownBy(() -> {
 			useCase.execute(2L, 1, 1);
 		}).isInstanceOf(UnauthorizedUserException.class);

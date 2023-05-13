@@ -106,4 +106,10 @@ public class UserRepositoryImpl implements UserRepository{
 	private static boolean userIsClient(UserModel user) {
 		return user.getClass() == ClientModel.class;
 	}
+
+
+	@Override
+	public boolean emailIsBeingUsed(String email) {
+		return !this.jpaUserRepository.findByEmail(email).isEmpty();
+	}
 }
