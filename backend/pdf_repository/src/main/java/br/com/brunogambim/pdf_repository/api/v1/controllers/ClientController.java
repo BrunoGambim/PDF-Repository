@@ -52,9 +52,8 @@ public class ClientController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public ResponseEntity<Void> postClient(@RequestBody CreateClientDTO dto){
 		SaveNewClientUseCase useCase = new SaveNewClientUseCase(userRepository, encripterGateway);
-		Long id = useCase.execute(dto.getUsername(), dto.getEmail(), dto.getPassword());
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(id).toUri();
+		useCase.execute(dto.getUsername(), dto.getEmail(), dto.getPassword());
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().queryParam("email", dto.getEmail()).build().toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	

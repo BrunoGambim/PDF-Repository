@@ -19,9 +19,9 @@ public class SaveNewPDFFileUseCase {
 		this.pdfRepository = pdfRepository;
 	}
 	
-	public void execute(Long userId, String name, String description, String format, int size, byte[] data) {
+	public Long execute(Long userId, String name, String description, String format, int size, byte[] data) {
 		Client client = this.userRepository.findClient(userId);
 		PDF pdf = new PDF(name, description, format, size, data, pdfSizePolicy, client);
-		this.pdfRepository.save(pdf);
+		return this.pdfRepository.save(pdf);
 	}
 }
