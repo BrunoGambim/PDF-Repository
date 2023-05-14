@@ -1,6 +1,6 @@
 export const API_CONFIG = {
   loginURL: "http://localhost:8080/login",
-  baseURL: "http://localhost:8080/v1",
+  baseURL: ((<any>window).env)["apiUrl"] + "/v1" || "http://localhost:8080/v1",
   pdfPath: "pdfs",
   userPath: "users",
   clientPath: "clients",
@@ -16,3 +16,4 @@ export const API_CONFIG = {
   waitingForValidation:"waitingForValidation",
   pageSize: 10
 }
+
