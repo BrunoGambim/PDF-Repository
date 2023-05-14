@@ -10,6 +10,7 @@ import { EvaluatePDFComponent } from '../evaluate-pdf/evaluate-pdf.component';
 import { AuthenticationState } from 'src/app/models/authentication_state';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { PageEvent } from '@angular/material/paginator';
+import { API_CONFIG } from 'src/app/config/api.config';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,6 @@ export class HomeComponent {
   constructor(private pdfService: PdfService, userStorageService: UserStorageService, authService: AuthService,
     private updatePDFService: UpdatePDFService, private router: Router, private dialog: MatDialog){
     this.state = authService.getAuthState()
-
     pdfService.getPDFs("", false, this.pageIndex).subscribe({next: (res) => {
       this.pdfList = res.items
       this.totalElements = res.totalElements

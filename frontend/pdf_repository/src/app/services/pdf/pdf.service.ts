@@ -13,6 +13,7 @@ export class PdfService {
   }
 
   getPDFs(name: string, ownersName:boolean, pageIndex: number) {
+    console.log(`${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}?name=${name}&ownersName=${ownersName}&pageSize=${API_CONFIG.pageSize}&pageIndex=${pageIndex}`)
     return this.httpClient.get<PageDTO<PDFModel>>(
       `${API_CONFIG.baseURL}/${API_CONFIG.pdfPath}?name=${name}&ownersName=${ownersName}&pageSize=${API_CONFIG.pageSize}&pageIndex=${pageIndex}`)
   }
