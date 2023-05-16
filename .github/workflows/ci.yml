@@ -17,6 +17,9 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
+        
+    - name: Set up MySQL Database
+      run: docker run -e MYSQL_PASSWORD=${{ ACTION_DB_PASSWORD }} -e MYSQL_DATABASE=pdf_repository_application -p 3306:3306 mysql:8.0.33
 
     - name: Set up JDK 18
       uses: actions/setup-java@v3
@@ -27,7 +30,11 @@ jobs:
         
     - name: Build with Maven
       working-directory: ./backend/pdf_repository
-      run: mvn clean package -DskipTests
+      env:
+        SPRING.DATASOURCE.URL: jdbc:mysql://localhost:3306/pdf_repository_application
+        SPRING.DATASOURCE.USERNAME: root
+        SPRING.DATASOURCE.PASSWORD: ${{ ACTION_DB_PASSWORD }}
+      run: mvn clean package
       
     - name: Docker Build Backend
       working-directory: ./backend/pdf_repository
