@@ -34,6 +34,7 @@ jobs:
       run: docker build -t brgambim/pdf-repository-backend .
       
     - name: Docker Push Backend
-      run: 
+      run: |
         docker tag ${{ secrets.DOCKER_USERNAME }}/pdf-repository-backend:latest ${{ secrets.DOCKER_USERNAME }}/pdf-repository-backend:${{ github.run_id }}
-       
+        docker run ${{ secrets.DOCKER_USERNAME }}/pdf-repository-backend
+        docker run ${{ secrets.DOCKER_USERNAME }}/pdf-repository-backend:${{ github.run_id }}
