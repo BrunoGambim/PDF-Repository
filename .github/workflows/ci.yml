@@ -33,7 +33,7 @@ jobs:
       env:
         SPRING.DATASOURCE.URL: jdbc:mysql://localhost:3306/pdf_repository_application
         SPRING.DATASOURCE.USERNAME: root
-        SPRING.DATASOURCE.PASSWORD: ${{ ACTION_DB_PASSWORD }}
+        SPRING.DATASOURCE.PASSWORD: ${{ secrets.ACTION_DB_PASSWORD }}
       run: mvn clean package
       
     - name: Docker Build Backend
