@@ -31,10 +31,20 @@ jobs:
       
     - name: Docker Build Backend
       working-directory: ./backend/pdf_repository
-      run: docker build -t brgambim/pdf-repository-backend .
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/pdf-repository-backend .
       
     - name: Docker Push Backend
       run: |
         docker tag ${{ secrets.DOCKER_USERNAME }}/pdf-repository-backend:latest ${{ secrets.DOCKER_USERNAME }}/pdf-repository-backend:${{ github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/pdf-repository-backend
         docker push ${{ secrets.DOCKER_USERNAME }}/pdf-repository-backend:${{ github.run_id }}
+        
+    - name: Docker Build Frontend
+      working-directory: ./frontend/pdf_repository
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/pdf-repository-frontend .
+      
+    - name: Docker Push Frontend
+      run: |
+        docker tag ${{ secrets.DOCKER_USERNAME }}/pdf-repository-frontend:latest ${{ secrets.DOCKER_USERNAME }}/pdf-repository-frontend:${{ github.run_id }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/pdf-repository-frontend
+        docker push ${{ secrets.DOCKER_USERNAME }}/pdf-repository-frontend:${{ github.run_id }}
