@@ -99,6 +99,16 @@ public class UserRepositoryImpl implements UserRepository{
 		}
 	}
 	
+	@Override
+	public boolean isClient(Long id) {
+		Optional<UserModel> userModel = this.jpaUserRepository.findById(id);
+		if(userModel.isEmpty()) {
+			return false;
+		} else {
+			return userIsClient(userModel.get());
+		}
+	}
+	
 	private static boolean userIsAdmin(UserModel user) {
 		return user.getClass() == AdminModel.class;
 	}

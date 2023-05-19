@@ -24,7 +24,7 @@ public class DeletePDFFileUseCase {
 	}
 	
 	public void execute(Long clientId, Long pdfId) {
-		this.authorizationPolicy.CheckIsAdminOrOwnerAuthorization(clientId, pdfId);
+		this.authorizationPolicy.checkIsAdminOrOwner(clientId, pdfId);
 		List<PurchasePDFAccessTransaction> transactions = this.transactionRepository.findTransactionsByPdfId(pdfId);
 		Client owner = pdfRepository.find(pdfId).getOwner();
 		for(PurchasePDFAccessTransaction transaction: transactions) {

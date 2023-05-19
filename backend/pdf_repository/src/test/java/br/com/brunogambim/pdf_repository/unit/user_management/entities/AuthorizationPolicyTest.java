@@ -47,34 +47,38 @@ public class AuthorizationPolicyTest {
 	
 	@Test
 	void policyExecutedWithAdmin() {
-		policy.CheckIsAdminAuthorization(3L);
-		policy.CheckIsAdminOrHasAccessAuthorization(3L,1L);
-		policy.CheckIsAdminOrOwnerAuthorization(3L,1L);
+		policy.checkIsAdmin(3L);
+		
+		policy.checkIsAdminOrOwner(3L,1L);
+		
+		assertThatThrownBy(() -> {
+			policy.checkClientHasAccess(3L,1L);
+		}).isInstanceOf(UnauthorizedUserException.class);
 	}
 	
 	@Test
 	void policyExecutedWithOwner() {
-		policy.CheckIsAdminOrOwnerAuthorization(1L,1L);
+		policy.checkIsAdminOrOwner(1L,1L);
 		
 		assertThatThrownBy(() -> {
-			policy.CheckIsAdminOrOwnerAuthorization(1L,2L);
+			policy.checkIsAdminOrOwner(1L,2L);
 		}).isInstanceOf(UnauthorizedUserException.class);
 		
 		assertThatThrownBy(() -> {
-			policy.CheckIsAdminOrOwnerAuthorization(2L,1L);
+			policy.checkIsAdminOrOwner(2L,1L);
 		}).isInstanceOf(UnauthorizedUserException.class);
 	}
 	
 	@Test
 	void policyExecutedWithUserThatHasAccess() {
-		policy.CheckIsAdminOrHasAccessAuthorization(1L,2L);
+		policy.checkClientHasAccess(1L,2L);
 		
 		assertThatThrownBy(() -> {
-			policy.CheckIsAdminOrHasAccessAuthorization(1L,1L);
+			policy.checkClientHasAccess(1L,1L);
 		}).isInstanceOf(UnauthorizedUserException.class);
 		
 		assertThatThrownBy(() -> {
-			policy.CheckIsAdminOrHasAccessAuthorization(2L,2L);
+			policy.checkClientHasAccess(2L,2L);
 		}).isInstanceOf(UnauthorizedUserException.class);
 	}
 }

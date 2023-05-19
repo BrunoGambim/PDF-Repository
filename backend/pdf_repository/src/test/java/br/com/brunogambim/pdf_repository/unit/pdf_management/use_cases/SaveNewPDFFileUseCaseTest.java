@@ -33,7 +33,7 @@ public class SaveNewPDFFileUseCaseTest {
 		.thenReturn(new PDFManagementParameters(5, 3, 5, 10, 3, 10, 9));
 		useCase = new SaveNewPDFFileUseCase(userRepository, managementParametersRepository, pdfRepository);
 		Client client = new Client(1L, "user", "123456","user@mail.com", 30);
-		
+		when(userRepository.isClient(1L)).thenReturn(true);
 		when(userRepository.findClient(1L)).thenReturn(client);
 	}
 	

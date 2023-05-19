@@ -45,23 +45,6 @@ public class ReportPDFFileUseCaseTest {
 		when(pdfRepository.find(1L)).thenReturn(pdf);
 	}
 	
-	
-	@Test
-	void useCaseExecutedWithAdmin() {
-		useCase.execute(3L, 1L);
-	
-		verify(pdfRepository).save(argThat( x -> {
-			assertThat(x).isNotNull();
-			assertThat(x.getId()).isEqualTo(1L);
-			assertThat(x.getName()).isEqualTo("name");
-			assertThat(x.getDescription()).isEqualTo("desc");
-			assertThat(x.getData()).isEqualTo(new byte[] {1,2,3,4});
-			assertThat(x.getSize()).isEqualTo(4);
-			assertThat(x.getStatus()).isEqualTo(PDFStatus.REPORTED);
-			return true;
-	    }));
-	}
-	
 	@Test
 	void repositoryMethodAreCalledWithUserThatHasAccess() {
 		useCase.execute(2L, 1L);

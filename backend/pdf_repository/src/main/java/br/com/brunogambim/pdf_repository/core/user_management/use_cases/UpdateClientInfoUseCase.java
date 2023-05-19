@@ -17,7 +17,7 @@ public class UpdateClientInfoUseCase {
 	
 	public void execute(Long userId, Long clientId, String username, String email) {
 		if(userId != clientId) {
-			authorizationPolicy.CheckIsAdminAuthorization(userId);
+			authorizationPolicy.checkIsAdmin(userId);
 		}
 		if(userRepository.emailIsBeingUsed(email)) {
 			throw new EmailIsAlreadyBeingUsedException();

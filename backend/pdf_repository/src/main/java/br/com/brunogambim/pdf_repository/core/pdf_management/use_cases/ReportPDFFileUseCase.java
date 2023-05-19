@@ -16,7 +16,7 @@ public class ReportPDFFileUseCase {
 	}
 	
 	public void execute(Long userId, Long pdfId) {
-		this.authorizationPolicy.CheckIsAdminOrHasAccessAuthorization(userId, pdfId);
+		this.authorizationPolicy.checkClientHasAccess(userId, pdfId);
 		PDF pdf = this.pdfRepository.find(pdfId);
 		pdf.setStatus(PDFStatus.REPORTED);
 		this.pdfRepository.save(pdf);

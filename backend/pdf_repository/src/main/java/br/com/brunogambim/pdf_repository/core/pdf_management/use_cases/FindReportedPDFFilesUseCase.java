@@ -21,7 +21,7 @@ public class FindReportedPDFFilesUseCase {
 	}
 	
 	public PageAdapter<PDFInfo> execute(Long userId, Integer pageIndex, Integer pageSize) {
-		this.authorizationPolicy.CheckIsAdminAuthorization(userId);
+		this.authorizationPolicy.checkIsAdmin(userId);
 		return this.pdfRepository.findAllReportedPDFs(pageIndex, pageSize)
 				.mapTo(pdf -> pdf.getPDFInfoWithData(pdfPricingPolicy));
 	}

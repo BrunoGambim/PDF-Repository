@@ -6,6 +6,7 @@ import br.com.brunogambim.pdf_repository.core.pdf_management.entities.PurchasePD
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFManagementParametersRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFRepository;
 import br.com.brunogambim.pdf_repository.core.pdf_management.repositories.PDFTransactionRepository;
+import br.com.brunogambim.pdf_repository.core.user_management.entities.AuthorizationPolicy;
 import br.com.brunogambim.pdf_repository.core.user_management.entities.Client;
 import br.com.brunogambim.pdf_repository.core.user_management.repositories.UserRepository;
 
@@ -14,6 +15,7 @@ public class PurchaseAccessToPDFFileUseCase {
 	private PDFRepository pdfRepository;
 	private PDFPricingPolicy pdfPricingPolicy;
 	private PDFTransactionRepository transactionRepository;
+	private AuthorizationPolicy authorizationPolicy;
 
 	public PurchaseAccessToPDFFileUseCase(UserRepository userRepository, PDFRepository pdfRepository,
 			PDFManagementParametersRepository managementParametersRepository,
@@ -22,14 +24,14 @@ public class PurchaseAccessToPDFFileUseCase {
 		this.userRepository = userRepository;
 		this.pdfPricingPolicy = new PDFPricingPolicy(managementParametersRepository);
 		this.transactionRepository = transactionRepository;
+		this.authorizationPolicy = new AuthorizationPolicy(userRepository, pdfRepository);
 	}
 	
 	public void execute(Long userId, Long pdfId) {
+		this.authorizationPolicy.checkIsClient(userId);
 		Client buyer = this.userRepository.findClient(userId);
 		PDF pdf = this.pdfRepository.find(pdfId);
 		Client owner = pdf.getOwner();
-		
-		
 		
 		PurchasePDFAccessTransaction transaction = new PurchasePDFAccessTransaction(buyer,pdf,owner, pdfPricingPolicy);
 		buyer.subtractBalance(transaction.getPrice());
