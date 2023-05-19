@@ -19,9 +19,12 @@ public class UpdateClientInfoUseCase {
 		if(userId != clientId) {
 			authorizationPolicy.checkIsAdmin(userId);
 		}
+		authorizationPolicy.checkIsClient(clientId);
+		
 		if(userRepository.emailIsBeingUsed(email)) {
 			throw new EmailIsAlreadyBeingUsedException();
 		}
+		
 		Client oldData = this.userRepository.findClient(clientId);
 		
 		Client result = new Client(clientId, username, oldData.getPassword(), email, oldData.getBalance());
