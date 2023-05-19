@@ -15,16 +15,14 @@ public class AuthorizationPolicy {
 		this.pdfRepository = pdfRepository;
 	}
 	
-	public void CheckIsAdminOrHasAccessAuthorization(Long userId, Long pdfId) {
+	public void checkClientHasAccess(Long userId, Long pdfId) {
 		PDF pdf = pdfRepository.find(pdfId);
-		if(!this.userRepository.isAdmin(userId)) {
-			if(!pdf.canBeAccessedBy(userId)) {
-				throw new UnauthorizedUserException();
-			}
+		if(!pdf.canBeAccessedBy(userId)) {
+			throw new UnauthorizedUserException();
 		}
 	}
 	
-	public void CheckIsAdminOrOwnerAuthorization(Long userId, Long pdfId) {
+	public void checkIsAdminOrOwner(Long userId, Long pdfId) {
 		PDF pdf = pdfRepository.find(pdfId);
 		if(!this.userRepository.isAdmin(userId)) {
 			if(pdf.getOwner().getId() != userId) {
@@ -33,8 +31,14 @@ public class AuthorizationPolicy {
 		}
 	}
 	
-	public void CheckIsAdminAuthorization(Long id) {
+	public void checkIsAdmin(Long id) {
 		if(!this.userRepository.isAdmin(id)) {
+			throw new UnauthorizedUserException();
+		}
+	}
+	
+	public void checkIsClient(Long id) {
+		if(!this.userRepository.isClient(id)) {
 			throw new UnauthorizedUserException();
 		}
 	}

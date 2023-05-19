@@ -18,7 +18,7 @@ public class EvaluatePDFFileUseCase {
 	}
 	
 	public void execute(Long userId, Long pdfId, double evaluationValue) {
-		this.authorizationPolicy.CheckIsAdminOrHasAccessAuthorization(userId, pdfId);
+		this.authorizationPolicy.checkClientHasAccess(userId, pdfId);
 		PDF pdf = this.pdfRepository.find(pdfId);
 		Client client = this.userRepository.findClient(userId);
 		pdf.addEvaluation(client, evaluationValue);

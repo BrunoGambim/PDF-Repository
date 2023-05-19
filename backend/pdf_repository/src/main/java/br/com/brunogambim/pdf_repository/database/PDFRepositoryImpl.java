@@ -77,7 +77,7 @@ public class PDFRepositoryImpl implements PDFRepository{
 	public PageAdapter<PDF> findPDFFilesByNameContains(String name, Integer pageIndex, Integer pageSize) {
 		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
 		return PDFModel.pdfModelPageToEntityPage(
-				this.jpaPDFRepository.findByNameContainsAndStatus(name, PDFStatus.VALIDATED.getCode(), pageRequest),
+				this.jpaPDFRepository.findByNameContainsAndStatusNot(name, PDFStatus.WAITING_FOR_ADMIN_VALIDATION.getCode(), pageRequest),
 				pdfSizePolicy);
 	}
 
@@ -85,7 +85,7 @@ public class PDFRepositoryImpl implements PDFRepository{
 	public PageAdapter<PDF> findPDFFilesByOwnerNameContains(String name, Integer pageIndex, Integer pageSize) {
 		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
 		return PDFModel.pdfModelPageToEntityPage(
-				this.jpaPDFRepository.findByOwnerUsernameContainsAndStatus(name, PDFStatus.VALIDATED.getCode(), pageRequest),
+				this.jpaPDFRepository.findByOwnerUsernameContainsAndStatusNot(name, PDFStatus.WAITING_FOR_ADMIN_VALIDATION.getCode(), pageRequest),
 				pdfSizePolicy);
 	}
 
@@ -93,7 +93,7 @@ public class PDFRepositoryImpl implements PDFRepository{
 	public PageAdapter<PDF> findPDFFilesThatCanBeAccessedBy(Long id, Integer pageIndex, Integer pageSize) {
 		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
 		return PDFModel.pdfModelPageToEntityPage(
-				this.jpaPDFRepository.findByStatusAndCanBeAccessedBy_Id(PDFStatus.VALIDATED.getCode(), id, pageRequest),
+				this.jpaPDFRepository.findByStatusNotAndCanBeAccessedBy_Id(PDFStatus.WAITING_FOR_ADMIN_VALIDATION.getCode(), id, pageRequest),
 				pdfSizePolicy);
 	}
 
@@ -101,7 +101,7 @@ public class PDFRepositoryImpl implements PDFRepository{
 	public PageAdapter<PDF> findPDFilesOwnedBy(Long id, Integer pageIndex, Integer pageSize) {
 		PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
 		return PDFModel.pdfModelPageToEntityPage(
-				this.jpaPDFRepository.findByOwnerIdAndStatus(id, PDFStatus.VALIDATED.getCode(), pageRequest),
+				this.jpaPDFRepository.findByOwnerIdAndStatusNot(id, PDFStatus.WAITING_FOR_ADMIN_VALIDATION.getCode(), pageRequest),
 				pdfSizePolicy);
 	}
 

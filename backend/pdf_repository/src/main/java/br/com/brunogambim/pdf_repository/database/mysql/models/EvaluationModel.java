@@ -38,7 +38,6 @@ public class EvaluationModel {
 	}
 
 	public EvaluationModel(Long id, double value, ClientModel evaluator, PDFModel pdf) {
-		System.out.println(evaluator.getId());
 		this.evaluator = evaluator;
 		this.value = value;
 		this.pdf = pdf;

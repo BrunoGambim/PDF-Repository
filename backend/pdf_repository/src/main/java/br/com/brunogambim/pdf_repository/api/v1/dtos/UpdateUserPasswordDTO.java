@@ -1,14 +1,14 @@
 package br.com.brunogambim.pdf_repository.api.v1.dtos;
 
-public class UpdateClientPasswordDTO {
+public class UpdateUserPasswordDTO {
 	private String email;
 	private String password;
 	private String code;
 	
-	public UpdateClientPasswordDTO() {
+	public UpdateUserPasswordDTO() {
 	}
 
-	public UpdateClientPasswordDTO(String password, String code, String email) {
+	public UpdateUserPasswordDTO(String password, String code, String email) {
 		super();
 		this.password = password;
 		this.code = code;

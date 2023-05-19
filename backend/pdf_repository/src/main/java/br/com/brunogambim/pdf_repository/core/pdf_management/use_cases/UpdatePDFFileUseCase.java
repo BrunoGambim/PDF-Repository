@@ -20,7 +20,7 @@ public class UpdatePDFFileUseCase {
 	}
 	
 	public void execute(Long userId, Long pdfId, String name, String description, String format, int size, byte[] data) {
-		this.authorizationPolicy.CheckIsAdminOrOwnerAuthorization(userId, pdfId);
+		this.authorizationPolicy.checkIsAdminOrOwner(userId, pdfId);
 		PDF pdf = this.pdfRepository.find(pdfId);
 		this.pdfRepository.save(new PDF(pdfId, name, description, format, size, data, pdfSizePolicy,
 				pdf.getOwner(), pdf.getEvaluations(), pdf.getCanBeAccessedBy()));

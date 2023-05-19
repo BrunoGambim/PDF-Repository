@@ -26,13 +26,13 @@ import br.com.brunogambim.pdf_repository.database.exceptions.ObjectNotFoundExcep
 @ControllerAdvice
 public class ExceptionHandlerController {
 	
-	@ExceptionHandler(Exception.class)
+	/*@ExceptionHandler(Exception.class)
 	public ResponseEntity<StandartError> defaultHandler(Exception exception, 
 			HttpServletRequest httpServletRequest){
 		StandartError standartError = new StandartError(System.currentTimeMillis(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error",
 				"Internal server error", httpServletRequest.getRequestURI());
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(standartError);
-	}
+	}*/
 	
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandartError> objectNotFound(ObjectNotFoundException objectNotFoundException, 

@@ -59,6 +59,8 @@ public class PurchaseAccessToPDFFileUseCaseTest {
 		when(pdfRepository.find(3L)).thenReturn(pdf3);
 		when(pdfRepository.find(4L)).thenReturn(pdf4);
 		when(pdfRepository.find(5L)).thenReturn(pdf5);
+		when(userRepository.isClient(1L)).thenReturn(true);
+		when(userRepository.isClient(2L)).thenReturn(true);
 		when(userRepository.findClient(1L)).thenReturn(client);
 		when(userRepository.findClient(2L)).thenReturn(client2);
 	}

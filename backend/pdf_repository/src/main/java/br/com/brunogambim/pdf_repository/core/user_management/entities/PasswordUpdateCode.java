@@ -35,7 +35,8 @@ public class PasswordUpdateCode {
 		return Integer.toString(random.nextInt() % 10);
 	}
 
-	public String getCode() {
+	@Override
+	public String toString() {
 		return code;
 	}
 	

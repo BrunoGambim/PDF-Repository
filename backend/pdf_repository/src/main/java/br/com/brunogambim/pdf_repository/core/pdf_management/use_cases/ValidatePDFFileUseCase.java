@@ -16,7 +16,7 @@ public class ValidatePDFFileUseCase {
 	}
 	
 	public void execute(Long userId, Long pdfId) {
-		this.authorizationPolicy.CheckIsAdminAuthorization(userId);
+		this.authorizationPolicy.checkIsAdmin(userId);
 		PDF pdf = this.pdfRepository.find(pdfId);
 		pdf.setStatus(PDFStatus.VALIDATED);
 		this.pdfRepository.save(pdf);

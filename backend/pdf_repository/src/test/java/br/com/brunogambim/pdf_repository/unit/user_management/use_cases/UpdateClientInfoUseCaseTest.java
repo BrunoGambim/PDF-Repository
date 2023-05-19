@@ -34,6 +34,7 @@ public class UpdateClientInfoUseCaseTest {
 		Client client = new Client(1L, "oldUser", "654321", "oldUserser@mail.com", 15);
 		
 		when(userRepository.isAdmin(1L)).thenReturn(false);
+		when(userRepository.isClient(1L)).thenReturn(true);	
 		when(userRepository.isAdmin(2L)).thenReturn(true);
 		when(userRepository.isAdmin(3L)).thenReturn(false);		
 		when(userRepository.findClient(1L)).thenReturn(client);

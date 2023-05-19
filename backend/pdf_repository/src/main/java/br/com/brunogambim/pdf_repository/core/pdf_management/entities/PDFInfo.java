@@ -13,6 +13,9 @@ public class PDFInfo {
 	private PDFStatus status;
 	private byte[] data;
 	
+	public PDFInfo() {
+	}
+	
 	public PDFInfo(Long id, String name, String description, int size, double evaluationMean,
 			int numberOfEvaluations, int price, String ownersName, PDFStatus status, String ownersEmail) {
 		this.id = id;
