@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdateClientPasswordDTO;
+import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdateUserPasswordDTO;
 import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdatePasswordCodeDTO;
 import br.com.brunogambim.pdf_repository.api.v1.security.servicies.AuthenticationService;
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.EmailSenderGateway;
@@ -36,7 +36,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/password", method = RequestMethod.PUT)
-	public ResponseEntity<Void> updateUserPassword(@RequestBody UpdateClientPasswordDTO dto){
+	public ResponseEntity<Void> updateUserPassword(@RequestBody UpdateUserPasswordDTO dto){
 		UpdateUserPasswordUseCase useCase = new UpdateUserPasswordUseCase(userRepository, encripterGateway);
 		useCase.execute(dto.getEmail(), dto.getPassword(), dto.getCode());
 		return ResponseEntity.noContent().build();

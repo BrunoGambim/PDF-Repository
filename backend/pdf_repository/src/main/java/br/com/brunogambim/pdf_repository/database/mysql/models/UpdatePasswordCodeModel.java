@@ -15,7 +15,7 @@ public class UpdatePasswordCodeModel {
 	
 	public UpdatePasswordCodeModel(PasswordUpdateCode code) {
 		if(code != null) {
-			this.code = code.getCode();
+			this.code = code.toString();
 			this.createdAt = code.getCreatedAt();
 		}
 	}

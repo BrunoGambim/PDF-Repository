@@ -86,6 +86,6 @@ public abstract class User {
 
 	public String newPasswordUpdateCode() {
 		code = new PasswordUpdateCode();
-		return code.getCode();
+		return code.toString();
 	}
 }

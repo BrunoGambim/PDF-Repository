@@ -44,13 +44,13 @@ public class ClientController {
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<ClientInfo> getClient(@RequestParam(name = "email") String email){
+	public ResponseEntity<ClientInfo> findClient(@RequestParam(name = "email") String email){
 		FindClientInfoUseCase useCase = new FindClientInfoUseCase(userRepository);
 		return ResponseEntity.ok(useCase.execute(email));
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<Void> postClient(@RequestBody CreateClientDTO dto){
+	public ResponseEntity<Void> createClient(@RequestBody CreateClientDTO dto){
 		SaveNewClientUseCase useCase = new SaveNewClientUseCase(userRepository, encripterGateway);
 		useCase.execute(dto.getUsername(), dto.getEmail(), dto.getPassword());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().queryParam("email", dto.getEmail()).build().toUri();

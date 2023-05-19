@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdateClientPasswordDTO;
+import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdateUserPasswordDTO;
 import br.com.brunogambim.pdf_repository.api.v1.dtos.UpdatePasswordCodeDTO;
 import br.com.brunogambim.pdf_repository.configs.TestConfigs;
 import br.com.brunogambim.pdf_repository.core.user_management.gateways.PasswordEncripterGateway;
@@ -85,7 +85,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
 	@Order(1)
 	public void updateUserPassword() {
 		String code = userRepository.findByEmail("2user@mail.com").get().getCode().getCode();
-		UpdateClientPasswordDTO dto = new UpdateClientPasswordDTO("654321",code,"2user@mail.com");
+		UpdateUserPasswordDTO dto = new UpdateUserPasswordDTO("654321",code,"2user@mail.com");
 		given().spec(specification)
 				.contentType(ContentType.JSON)
 				.body(dto)
@@ -98,7 +98,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
 			.isTrue();
 		
 		code = userRepository.findByEmail("admin2@mail.com").get().getCode().getCode();
-		dto = new UpdateClientPasswordDTO("654321",code,"admin2@mail.com");
+		dto = new UpdateUserPasswordDTO("654321",code,"admin2@mail.com");
 		given().spec(specification)
 			.contentType(ContentType.JSON)
 			.body(dto)
@@ -107,7 +107,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
 			.then()
 				.statusCode(204);
 		
-		assertThat(passwordEncoder.matches("65431", userRepository.findByEmail("admin2@mail.com").get().getPassword()))
+		assertThat(passwordEncoder.matches("654321", userRepository.findByEmail("admin2@mail.com").get().getPassword()))
 			.isTrue();
 	}
 }
