@@ -27,7 +27,7 @@ jobs:
         
     - name: Build with Maven
       working-directory: ./backend/pdf_repository
-      run: mvn clean package -DskipTests
+      run: mvn clean package
       
     - name: Docker Build Backend
       working-directory: ./backend/pdf_repository
