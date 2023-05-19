@@ -286,6 +286,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(8)
 	public void evaluatePDFFile() {
 		EvaluatePDFFileDTO eval = new EvaluatePDFFileDTO(8); 
+		Long id = userRepository.findByEmail("user@mail.com").get().getId();
 		given()
 				.spec(specification)
 				.body(eval)
@@ -298,7 +299,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 		assertThat(pdfRepository.findById(5L).get().getEvaluations().get(0).getValue())
 			.isEqualTo(8);
 		assertThat(pdfRepository.findById(5L).get().getEvaluations().get(0).getEvaluator().getId())
-			.isEqualTo(1L);
+			.isEqualTo(id);
 	}
 	
 	@Test
@@ -388,6 +389,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Test
 	@Order(12)
 	public void purchasePDFFileAccess() {
+		Long id = userRepository.findByEmail("user@mail.com").get().getId();
 		given().spec(specification)
 				.contentType(ContentType.JSON)
 				.when()
@@ -395,7 +397,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 				.then()
 					.statusCode(204);
 		assertThat(this.pdfRepository.findById(6L).get().getCanBeAccessedBy().stream().map(client -> client.getId()))
-			.contains(1L);
+			.contains(id);
 	}
 	
 	@Test
