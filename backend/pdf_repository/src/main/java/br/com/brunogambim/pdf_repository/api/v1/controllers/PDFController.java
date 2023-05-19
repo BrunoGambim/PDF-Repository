@@ -124,10 +124,10 @@ public class PDFController {
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<PageAdapter<PDFInfo>> findPDFInfoByName(
-			@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "name", required = false, defaultValue = "") String name,
 			@RequestParam(value="ownersName", required = false, defaultValue = "false") boolean ownersName,
-			@RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
-			@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex){
+			@RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(name = "pageIndex", required = false, defaultValue = "0") int pageIndex){
 		Long userId = AuthenticationService.authenticatedId();
 		if(ownersName) {
 			FindPDFInfoByOwnerNameUseCase useCase = new FindPDFInfoByOwnerNameUseCase(pdfRepository, pdfManagementParametersRepository,

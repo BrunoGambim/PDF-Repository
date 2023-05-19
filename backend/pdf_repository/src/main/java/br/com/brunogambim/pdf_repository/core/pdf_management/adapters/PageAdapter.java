@@ -9,6 +9,9 @@ public class PageAdapter<T> {
 	int pageSize;
 	long totalElements;
 	
+	public PageAdapter() {
+	}
+	
 	public PageAdapter(List<T> items, int pageIndex, int pageSize, long totalElements) {
 		this.items = items;
 		this.pageIndex = pageIndex;

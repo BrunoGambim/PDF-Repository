@@ -21,7 +21,9 @@ public class AdminModel extends UserModel{
 
 	public User toEntity() {
 		Admin admin = new Admin(getId(), getUsername(), getPassword(), getEmail());
-		admin.setPasswordUpdateCode(this.getCode().toEntity());
+		if(this.getCode() != null) {
+			admin.setPasswordUpdateCode(this.getCode().toEntity());
+		}
 		return admin;
 	}
 }

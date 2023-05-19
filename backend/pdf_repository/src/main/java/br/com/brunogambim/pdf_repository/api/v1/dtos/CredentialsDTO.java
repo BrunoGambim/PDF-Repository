@@ -11,6 +11,11 @@ public class CredentialsDTO implements Serializable {
 	public CredentialsDTO() {
 	}
 
+	public CredentialsDTO(String email, String password) {
+		this.email = email;
+		this.password = password;
+	}
+
 	public String getEmail() {
 		return email;
 	}
