@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UpdateUserPasswordService } from 'src/app/services/user/update-user-password.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
 import { ERROR_MESSAGE } from 'src/app/config/error.config';
 
 @Component({

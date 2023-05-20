@@ -11,7 +11,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { UserStorageService } from '../services/storage/user-storage.service';
 import { AuthService } from '../services/auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialogComponent } from '../components/error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../commons/error-dialog/error-dialog.component';
 import { ERROR_MESSAGE } from '../config/error.config';
 
 @Injectable()

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientModel } from 'src/app/models/client';
 import { ClientService } from 'src/app/services/client/client.service';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ERROR_MESSAGE } from 'src/app/config/error.config';
 

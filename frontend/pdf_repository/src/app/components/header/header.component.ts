@@ -36,26 +36,26 @@ export class HeaderComponent {
   }
 
   ownedPDFs(){
-    this.router.navigate(['ownedPDFs'])
+    this.router.navigate(['clients/ownedPDFs'])
   }
 
   purchasedPDFs(){
-    this.router.navigate(['purchasedPDFs'])
+    this.router.navigate(['clients/purchasedPDFs'])
   }
 
   saveNewPDF(){
-    this.router.navigate(['saveNewPDF'])
+    this.router.navigate(['clients/saveNewPDF'])
   }
 
   perfil(){
-    this.router.navigate(['perfil'])
+    this.router.navigate(['clients/perfil'])
   }
 
   reportedPDFs(){
-    this.router.navigate(['reportedPDFs'])
+    this.router.navigate(['admins/reportedPDFs'])
   }
 
   waitingForValidationPDFs(){
-    this.router.navigate(['waitingForValidationPDFs'])
+    this.router.navigate(['admins/waitingForValidationPDFs'])
   }
 }

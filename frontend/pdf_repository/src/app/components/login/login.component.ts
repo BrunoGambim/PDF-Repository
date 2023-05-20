@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { AUTHORIZATION_HEADER } from 'src/app/config/auth.config';
 import { Router } from '@angular/router';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
 import { ERROR_MESSAGE } from 'src/app/config/error.config';
 import { MatDialog } from '@angular/material/dialog';
 
