@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { PdfService } from 'src/app/services/pdf/pdf.service';
 import { UpdatePDFService } from 'src/app/services/pdf/update-pdf.service';
 import { UserStorageService } from 'src/app/services/storage/user-storage.service';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
 import { ERROR_MESSAGE } from 'src/app/config/error.config';
 
 @Component({

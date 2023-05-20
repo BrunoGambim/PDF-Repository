@@ -4,7 +4,7 @@ import { AUTHORIZATION_HEADER } from 'src/app/config/auth.config';
 import { ClientModel } from 'src/app/models/client';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ClientService } from 'src/app/services/client/client.service';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
 import { ERROR_MESSAGE } from 'src/app/config/error.config';
 
 @Component({

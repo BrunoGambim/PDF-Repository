@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PdfService } from 'src/app/services/pdf/pdf.service';
-import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
 import { ERROR_MESSAGE } from 'src/app/config/error.config';
 
 @Component({

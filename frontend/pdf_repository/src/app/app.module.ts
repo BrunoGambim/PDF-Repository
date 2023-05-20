@@ -8,7 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HomeComponent } from './components/home/home.component';
@@ -21,22 +21,14 @@ import { AuthService } from './services/auth/auth.service';
 import { LoginComponent } from './components/login/login.component';
 import { UserStorageService } from './services/storage/user-storage.service';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
-import { OwnedPDFsComponent } from './components/owned-pdfs/owned-pdfs.component';
-import { PurchasedPDFsComponent } from './components/purchased-pdfs/purchased-pdfs.component';
-import { SaveNewPDFComponent } from './components/save-new-pdf/save-new-pdf.component';
-import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component';
-import { EvaluatePDFComponent } from './components/evaluate-pdf/evaluate-pdf.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { PerfilComponent } from './components/perfil/perfil.component';
-import { UpdateClientComponent } from './components/update-client/update-client.component';
 import { SaveNewClientComponent } from './components/save-new-client/save-new-client.component';
 import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
-import { ReportedFilesComponent } from './components/reported-files/reported-files.component';
-import { WaitingForValidationFilesComponent } from './components/waiting-for-validation-files/waiting-for-validation-files.component';
-import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
+import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component';
+import { CommonsModule } from './commons/commons.module';
 
 @NgModule({
   declarations: [
@@ -44,19 +36,10 @@ import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
     HeaderComponent,
     HomeComponent,
     LoginComponent,
-    OwnedPDFsComponent,
-    PurchasedPDFsComponent,
-    SaveNewPDFComponent,
-    UpdatePDFComponent,
-    EvaluatePDFComponent,
-    PerfilComponent,
-    UpdateClientComponent,
     SaveNewClientComponent,
     RecoverPasswordComponent,
     UpdatePasswordComponent,
-    ReportedFilesComponent,
-    WaitingForValidationFilesComponent,
-    ErrorDialogComponent
+    UpdatePDFComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +49,6 @@ import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
     MatToolbarModule,
     MatIconModule,
     FormsModule,
-    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
@@ -74,7 +56,8 @@ import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
     MatRadioModule,
     HttpClientModule,
     MatDialogModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    CommonsModule
   ],
   providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider, ErrorInterceptorProvider],
   bootstrap: [AppComponent]

@@ -6,7 +6,7 @@ import { UserStorageService } from 'src/app/services/storage/user-storage.servic
 import { UpdatePDFService } from 'src/app/services/pdf/update-pdf.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { EvaluatePDFComponent } from '../evaluate-pdf/evaluate-pdf.component';
+import { EvaluatePDFComponent } from '../../client/evaluate-pdf/evaluate-pdf.component';
 import { AuthenticationState } from 'src/app/models/authentication_state';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { PageEvent } from '@angular/material/paginator';

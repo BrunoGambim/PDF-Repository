@@ -21,7 +21,7 @@ public class UpdateClientInfoUseCase {
 		}
 		authorizationPolicy.checkIsClient(clientId);
 		
-		if(userRepository.emailIsBeingUsed(email)) {
+		if(userRepository.emailIsBeingUsed(email) && userRepository.findClientByEmail(email).getId() != clientId) {
 			throw new EmailIsAlreadyBeingUsedException();
 		}
 		
