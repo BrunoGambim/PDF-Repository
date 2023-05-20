@@ -32,6 +32,7 @@ public class UpdateClientInfoUseCaseTest {
 		.thenReturn(new PDFManagementParameters(5, 3, 10, 5, 3, 10, 9));
 		useCase = new UpdateClientInfoUseCase(userRepository, pdfRepository);
 		Client client = new Client(1L, "oldUser", "654321", "oldUserser@mail.com", 15);
+		Client client2 = new Client(2L, "user2", "654321", "user2@mail.com", 15);
 		
 		when(userRepository.isAdmin(1L)).thenReturn(false);
 		when(userRepository.isClient(1L)).thenReturn(true);	
@@ -39,6 +40,7 @@ public class UpdateClientInfoUseCaseTest {
 		when(userRepository.isAdmin(3L)).thenReturn(false);		
 		when(userRepository.findClient(1L)).thenReturn(client);
 		when(userRepository.emailIsBeingUsed("user2@mail.com")).thenReturn(true);
+		when(userRepository.findClientByEmail("user2@mail.com")).thenReturn(client2);
 	}
 	
 	
