@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PdfService } from 'src/app/services/pdf/pdf.service';
-import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
-import { ERROR_MESSAGE } from 'src/app/config/error.config';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-save-new-pdf',
@@ -12,11 +10,14 @@ import { ERROR_MESSAGE } from 'src/app/config/error.config';
 })
 export class SaveNewPDFComponent {
   fileName: string = '';
-  description: string = '';
   file: File | null = null
 
-  constructor(private pdfService: PdfService, private router: Router,
-    private dialog: MatDialog){
+  savePDFForm = new FormGroup({
+    description: new FormControl('', [ ]),
+    pdfInput: new FormControl('', [  ]),
+  });
+
+  constructor(private pdfService: PdfService, private router: Router){
   }
 
   onFileSelected(event: Event){
@@ -25,24 +26,14 @@ export class SaveNewPDFComponent {
       this.file = (target.files as FileList)[0];
       this.fileName = this.file.name
     }
+    this.savePDFForm.get("pdfInput")?.setValue(this.file ? this.fileName: '')
   }
 
   savePDF(){
-    if(this.validateFormFields() && this.file != null){
-      this.pdfService.savePDF(this.file, this.description).subscribe({next: () => {
+    if(this.file != null){
+      this.pdfService.savePDF(this.file, this.savePDFForm.get("description")?.value as string).subscribe({next: () => {
         this.router.navigate([''])
       }, error: () => {}})
     }
-  }
-
-  private validateFormFields(){
-    if(this.file == null){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoFileSelected, navigateToHomeOnClose:false}})
-      return false
-    } else if(this.description == ''){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoDescriptionProvided, navigateToHomeOnClose:false}})
-      return false
-    }
-    return true
   }
 }

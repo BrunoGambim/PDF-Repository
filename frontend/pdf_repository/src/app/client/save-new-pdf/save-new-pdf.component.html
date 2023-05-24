@@ -1,17 +1,21 @@
 <mat-card class="save-pdf-card">
   <mat-card-content class="card-body">
-    <form class="save-pdf-form">
+    <form class="save-pdf-form" [formGroup]="savePDFForm">
       <mat-form-field appearance="outline" class="save-pdf-form-field">
         <mat-label>Description</mat-label>
-        <textarea matInput placeholder="Description" name="description" [(ngModel)]="description"></textarea>
+        <textarea matInput placeholder="Description" name="description" formControlName="description"></textarea>
+        <mat-error *ngIf="savePDFForm.get('description')?.touched && savePDFForm.get('description')?.hasError('required')">
+          Description is required!
+        </mat-error>
       </mat-form-field>
       <input #pdfInput hidden="true" type="file" onclick="this.value=null" accept="application/pdf" (change)="onFileSelected($event)">
+      <input type="hidden" name="pdfInput" formControlName="pdfInput" formControlName="pdfInput"/>
       <button mat-fab extended color="primary" class="pdf-form-button" (click)="pdfInput.click()">
         <mat-icon>attach_file</mat-icon>
         <span>Choose PDF File</span>
       </button>
-      <div class="file-status-container"><span class="file-status-text">{{fileName || "No file uploaded yet."}}</span></div>
-      <button mat-raised-button color="primary" class="pdf-form-button pdf-form-save-button" (click)="savePDF()">
+      <div class="file-status-container"><span class="file-status-text">{{fileName || "No file uploaded yet. File is required!"}}</span></div>
+      <button mat-raised-button color="primary" [disabled]="!savePDFForm.valid" class="pdf-form-button pdf-form-save-button" (click)="savePDF()">
         <span>Save</span>
       </button>
     </form>

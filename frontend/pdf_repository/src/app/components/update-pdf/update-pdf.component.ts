@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PdfService } from 'src/app/services/pdf/pdf.service';
 import { UpdatePDFService } from 'src/app/services/pdf/update-pdf.service';
 import { UserStorageService } from 'src/app/services/storage/user-storage.service';
-import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
-import { ERROR_MESSAGE } from 'src/app/config/error.config';
+
 
 @Component({
   selector: 'app-update-pdf',
@@ -14,18 +13,22 @@ import { ERROR_MESSAGE } from 'src/app/config/error.config';
 })
 export class UpdatePDFComponent {
   fileName: string = '';
-  description: string = '';
   pdfID: number = 0;
   file: File | null = null
 
+  updatePDFForm = new FormGroup({
+    description: new FormControl('', [ Validators.required ]),
+    pdfInput: new FormControl('', [ Validators.required ]),
+  });
+
   constructor(private pdfService: PdfService, updatePDFService: UpdatePDFService,
-    private router: Router, userStorageService: UserStorageService, private dialog: MatDialog){
+    private router: Router, userStorageService: UserStorageService){
       let pdf = updatePDFService.popPDF()
       if(pdf == null || userStorageService.getLocalUser() == null || userStorageService.getLocalUser()?.email != pdf.ownersEmail){
         router.navigate([''])
       }else{
         this.pdfID = pdf.id
-        this.description = pdf.description
+        this.updatePDFForm.get("description")?.setValue(pdf.description)
       }
   }
 
@@ -35,26 +38,14 @@ export class UpdatePDFComponent {
       this.file = (target.files as FileList)[0];
       this.fileName = this.file.name
     }
+    this.updatePDFForm.get("pdfInput")?.setValue(this.file ? this.fileName: '')
   }
 
   updatePDF(){
-    if(this.validateFormFields()){
-      if(this.file != null){
-        this.pdfService.updatePDF(this.pdfID, this.file, this.description).subscribe({next: () => {
-          this.router.navigate([''])
-        }, error: () => {}})
-      }
+    if(this.file != null){
+      this.pdfService.updatePDF(this.pdfID, this.file, this.updatePDFForm.get("description")?.value as string).subscribe({next: () => {
+        this.router.navigate([''])
+      }, error: () => {}})
     }
-  }
-
-  private validateFormFields(){
-    if(this.file == null){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoFileSelected, navigateToHomeOnClose:false}})
-      return false
-    } else if(this.description == ''){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoDescriptionProvided, navigateToHomeOnClose:false}})
-      return false
-    }
-    return true
   }
 }

@@ -8,7 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HomeComponent } from './components/home/home.component';
@@ -28,7 +28,7 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
 import { UpdatePDFComponent } from './components/update-pdf/update-pdf.component';
-import { CommonsModule } from './commons/commons.module';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import { CommonsModule } from './commons/commons.module';
     RecoverPasswordComponent,
     UpdatePasswordComponent,
     UpdatePDFComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +58,7 @@ import { CommonsModule } from './commons/commons.module';
     HttpClientModule,
     MatDialogModule,
     MatPaginatorModule,
-    CommonsModule
+    ReactiveFormsModule
   ],
   providers: [PdfService, AuthService, UserStorageService, AuthInterceptorProvider, ErrorInterceptorProvider],
   bootstrap: [AppComponent]
