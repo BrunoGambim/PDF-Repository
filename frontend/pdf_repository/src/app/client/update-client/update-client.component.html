@@ -1,14 +1,23 @@
-<form class="update-client-form">
+<form [formGroup]="updateClientForm" class="update-client-form">
   <mat-form-field appearance="outline" class="update-client-form-field">
     <mat-label>Email</mat-label>
-    <input matInput placeholder="user@email.com" name="email" [(ngModel)]="client.email">
+    <input matInput placeholder="user@email.com" name="email" formControlName="email">
+    <mat-error *ngIf="updateClientForm.get('email')?.touched && updateClientForm.get('email')?.hasError('required')">
+      Email is required!
+    </mat-error>
+    <mat-error *ngIf="updateClientForm.get('email')?.touched && updateClientForm.get('email')?.hasError('email')">
+      Email invalid!
+    </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline" class="update-client-form-field">
     <mat-label>Username</mat-label>
-    <input matInput type="username" name="username" [(ngModel)]="client.username">
+    <input matInput type="username" name="username" formControlName="username">
+    <mat-error *ngIf="updateClientForm.get('username')?.touched && updateClientForm.get('username')?.hasError('required')">
+      Username is required!
+    </mat-error>
   </mat-form-field>
   <div class="button-container">
-    <button mat-raised-button color="primary" class="update-client-form-button" (click)="update()">
+    <button mat-raised-button color="primary" [disabled]="!updateClientForm.valid"  class="update-client-form-button" (click)="update()">
       <span>Update</span>
     </button>
   </div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -17,7 +17,6 @@ import { SaveNewPDFComponent } from './save-new-pdf/save-new-pdf.component';
 import { PurchasedPDFsComponent } from './purchased-pdfs/purchased-pdfs.component';
 import { OwnedPDFsComponent } from './owned-pdfs/owned-pdfs.component';
 import { ClientRoutingModule } from './client-routing.module';
-import { CommonsModule } from '../commons/commons.module';
 
 
 
@@ -42,7 +41,7 @@ import { CommonsModule } from '../commons/commons.module';
     MatDialogModule,
     MatPaginatorModule,
     ClientRoutingModule,
-    CommonsModule
+    ReactiveFormsModule
   ],
   exports:[
     OwnedPDFsComponent,

@@ -4,8 +4,7 @@ import { AUTHORIZATION_HEADER } from 'src/app/config/auth.config';
 import { ClientModel } from 'src/app/models/client';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ClientService } from 'src/app/services/client/client.service';
-import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
-import { ERROR_MESSAGE } from 'src/app/config/error.config';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-update-client',
@@ -13,28 +12,23 @@ import { ERROR_MESSAGE } from 'src/app/config/error.config';
   styleUrls: ['./update-client.component.css']
 })
 export class UpdateClientComponent {
+  updateClientForm = new FormGroup({
+    email: new FormControl(this.client.email, [ Validators.required, Validators.email ]),
+    username: new FormControl(this.client.username, [ Validators.required ]),
+  });
+
   constructor(private clientService: ClientService, private authService: AuthService,
-    public dialogRef: MatDialogRef<UpdateClientComponent>, private dialog: MatDialog,
+    public dialogRef: MatDialogRef<UpdateClientComponent>,
     @Inject(MAT_DIALOG_DATA) public client: ClientModel) {
   }
 
   update(){
-    if(this.validateFormFields()){
-      this.clientService.updateClient(this.client).subscribe({next: (res) => {
-        this.authService.successfulLogin(res.headers.get(AUTHORIZATION_HEADER))
-        this.dialogRef.close()
-      }, error: () => {}})
-    }
-  }
+    this.client.username = this.updateClientForm.get('username')?.value as string
+    this.client.email = this.updateClientForm.get('email')?.value as string
 
-  private validateFormFields(){
-    if(this.client.username == ""){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoUsernameProvided, navigateToHomeOnClose:false}})
-      return false
-    }else if(this.client.email == ""){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoEmailProvided, navigateToHomeOnClose:false}})
-      return false
-    }
-    return true
+    this.clientService.updateClient(this.client).subscribe({next: (res) => {
+      this.authService.successfulLogin(res.headers.get(AUTHORIZATION_HEADER))
+      this.dialogRef.close()
+    }, error: () => {}})
   }
 }

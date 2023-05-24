@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientModel } from 'src/app/models/client';
 import { ClientService } from 'src/app/services/client/client.service';
-import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { ERROR_MESSAGE } from 'src/app/config/error.config';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-save-new-client',
@@ -13,37 +11,45 @@ import { ERROR_MESSAGE } from 'src/app/config/error.config';
 })
 export class SaveNewClientComponent {
 
-  client: ClientModel = {
-    id: 0,
-    username: "",
-    email: "",
-    password: "",
-    balance: 0,
-  }
+  saveClientForm = new FormGroup({
+    password: new FormControl('', [ Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$')]),
+    confirmPassword: new FormControl('', [ Validators.required ]),
+    email: new FormControl('', [ Validators.required, Validators.email ]),
+    username: new FormControl('', [ Validators.required ]),
+  }, [confirmPasswordValidator]);
 
-  constructor(private clientService: ClientService, private router: Router,
-    private dialog: MatDialog){
+  constructor(private clientService: ClientService, private router: Router){
   }
 
   saveClient(){
-    if(this.validateFormFields()){
-      this.clientService.saveClient(this.client).subscribe({next: () => {
-        this.router.navigate(['login'])
-      }, error: () => {}})
+    let client: ClientModel = {
+      id: 0,
+      username: this.saveClientForm.get('username')?.value as string,
+      email: this.saveClientForm.get('email')?.value as string,
+      password: this.saveClientForm.get('password')?.value as string,
+      balance: 0,
     }
-  }
 
-  private validateFormFields(){
-    if(this.client.username == ""){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoUsernameProvided, navigateToHomeOnClose:false}})
-      return false
-    }else if(this.client.email == ""){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoEmailProvided, navigateToHomeOnClose:false}})
-      return false
-    }else if(this.client.password == ""){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoPasswordProvided, navigateToHomeOnClose:false}})
-      return false
-    }
-    return true
+    this.clientService.saveClient(client).subscribe({next: () => {
+      this.router.navigate(['login'])
+    }, error: () => {}})
   }
 }
+
+export const confirmPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
+  let valid = password && confirmPassword && password.value === confirmPassword.value
+  if(confirmPassword && !valid && !confirmPassword.hasError('mismatch')){
+    if(confirmPassword.errors == null){
+      confirmPassword.setErrors({mismatch: true})
+    }else{
+      confirmPassword.errors['mismatch'] = true
+    }
+  }
+  if(confirmPassword && valid && confirmPassword.hasError('mismatch')){
+      confirmPassword.setErrors(null)
+  }
+
+  return valid ? null : { mismatch: true };
+};

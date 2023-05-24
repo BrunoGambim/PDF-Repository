@@ -1,6 +1,6 @@
 .save-client-card{
   margin: auto;
-  width: 30rem;
+  width: 40rem;
 }
 
 .save-client-form {
@@ -9,10 +9,14 @@
 
 .save-client-form-field {
   width: 100%;
-
+  margin-bottom: .5rem;
 }
 
 .client-form-signup-button {
   width: 100%;
   height: 2.5rem;
+}
+
+.client-form-password-field {
+  margin-bottom: 1rem;
 }

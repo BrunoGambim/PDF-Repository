@@ -3,8 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UpdateUserPasswordService } from 'src/app/services/user/update-user-password.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
-import { ERROR_MESSAGE } from 'src/app/config/error.config';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-update-password',
@@ -13,11 +12,13 @@ import { ERROR_MESSAGE } from 'src/app/config/error.config';
 })
 export class UpdatePasswordComponent {
   email: string = ''
-  password: string = ''
-  code: string = ''
+  updatePasswordForm = new FormGroup({
+    password: new FormControl('', [ Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$')]),
+    code: new FormControl('', [ Validators.required ]),
+  });
 
   constructor(updateUserPasswordService: UpdateUserPasswordService, private router: Router,
-    private userService: UserService, private dialog: MatDialog){
+    private userService: UserService){
       let email = updateUserPasswordService.popEmail()
       if(email == null ){
         router.navigate([''])
@@ -27,21 +28,10 @@ export class UpdatePasswordComponent {
   }
 
   updatePassword(){
-    if(this.validateFormFields()){
-      this.userService.updatePassword(this.email, this.code, this.password).subscribe({next: () => {
-        this.router.navigate(['login'])
-      }, error: () => {}})
-    }
+    this.userService.updatePassword(this.email, this.updatePasswordForm.get('code')?.value as string,
+      this.updatePasswordForm.get('password')?.value as string).subscribe({next: () => {
+      this.router.navigate(['login'])
+    }, error: () => {}})
   }
 
-  private validateFormFields(){
-    if(this.password == ''){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoPasswordProvided, navigateToHomeOnClose:false}})
-      return false
-    } else if(this.code == ''){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoCodeProvided, navigateToHomeOnClose:false}})
-      return false
-    }
-    return true
-  }
 }

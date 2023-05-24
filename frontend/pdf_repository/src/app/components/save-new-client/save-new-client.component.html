@@ -1,19 +1,45 @@
 <mat-card class="save-client-card">
   <mat-card-content class="card-body">
-    <form class="save-client-form">
+    <form class="save-client-form" [formGroup]="saveClientForm">
       <mat-form-field appearance="outline" class="save-client-form-field">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="user@mail.com" name="email" [(ngModel)]="client.email">
+        <input matInput placeholder="user@mail.com" name="email" formControlName="email">
+        <mat-error *ngIf="saveClientForm.get('email')?.touched && saveClientForm.get('email')?.hasError('required')">
+          Email is required!
+        </mat-error>
+        <mat-error *ngIf="saveClientForm.get('email')?.touched && saveClientForm.get('email')?.hasError('email')">
+          Email invalid!
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="save-client-form-field">
         <mat-label>Username</mat-label>
-        <input matInput placeholder="Username" name="username" [(ngModel)]="client.username">
+        <input matInput placeholder="Username" name="username" formControlName="username">
+        <mat-error *ngIf="saveClientForm.get('username')?.touched && saveClientForm.get('username')?.hasError('required')">
+          Username is required!
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="save-client-form-field">
         <mat-label>Password</mat-label>
-        <input matInput placeholder="Password" name="password" type="password" [(ngModel)]="client.password">
+        <input matInput placeholder="Password" name="password" type="password" formControlName="password">
+        <mat-error *ngIf="saveClientForm.get('password')?.touched && saveClientForm.get('password')?.hasError('required')">
+          Password is required!
+        </mat-error>
+        <mat-error *ngIf="saveClientForm.get('password')?.touched && saveClientForm.get('password')?.hasError('pattern')">
+          Password must have at least one lower-case, upper-case, numbers and 9 characters!
+        </mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" class="client-form-signup-button" (click)="saveClient()">
+      <mat-form-field appearance="outline" class="save-client-form-field">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput placeholder="Confirm Password" name="confirmPassword" type="password" formControlName="confirmPassword">
+        <mat-error *ngIf="saveClientForm.get('confirmPassword')?.touched && saveClientForm.get('confirmPassword')?.hasError('required')">
+          Confirm Password is required!
+        </mat-error>
+        <mat-error *ngIf="saveClientForm.get('confirmPassword')?.touched && !saveClientForm.get('confirmPassword')?.hasError('required')
+           && saveClientForm.getError('mismatch') ">
+          Passwords do not match!
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="client-form-signup-button" [disabled]="!saveClientForm.valid" (click)="saveClient()">
         <span>Signup</span>
       </button>
     </form>

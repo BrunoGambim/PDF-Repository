@@ -3,8 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UpdateUserPasswordService } from 'src/app/services/user/update-user-password.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { ErrorDialogComponent } from '../../commons/error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { ERROR_MESSAGE } from 'src/app/config/error.config';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-recover-password',
@@ -12,26 +13,18 @@ import { ERROR_MESSAGE } from 'src/app/config/error.config';
   styleUrls: ['./recover-password.component.css']
 })
 export class RecoverPasswordComponent {
-  email: string = ''
+  emailForm = new FormGroup({
+    email: new FormControl('', [ Validators.required, Validators.email ]),
+  });
 
   constructor(private userService: UserService, private router: Router,
-    private updateUSerPasswordService: UpdateUserPasswordService, private dialog: MatDialog){
+    private updateUSerPasswordService: UpdateUserPasswordService){
   }
 
   sendPassordRecoverMessage(){
-    if(this.validateFormFields()){
-      this.userService.sendPasswordUpdateCode(this.email).subscribe({next: () => {
-        this.updateUSerPasswordService.putEmail(this.email)
-        this.router.navigate(['updatePassword'])
-      }, error: () => {}})
-    }
-  }
-
-  private validateFormFields(){
-    if(this.email == ''){
-      this.dialog.open(ErrorDialogComponent,{data: {message: ERROR_MESSAGE.NoEmailProvided, navigateToHomeOnClose:false}})
-      return false
-    }
-    return true
+    this.userService.sendPasswordUpdateCode(this.emailForm.get('email')?.value as string).subscribe({next: () => {
+      this.updateUSerPasswordService.putEmail(this.emailForm.get('email')?.value as string)
+      this.router.navigate(['updatePassword'])
+    }, error: () => {}})
   }
 }
