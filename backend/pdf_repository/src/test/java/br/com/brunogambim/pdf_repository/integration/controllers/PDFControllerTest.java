@@ -93,6 +93,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 			.forEach(p -> pdfRepository.save(p));
 		
 		specification = new RequestSpecBuilder()
+				.setBaseUri(TestConfigs.BASE_URI)
 				.setBasePath(TestConfigs.PDFS_V1_PATH)
 				.build();
 	}
@@ -101,7 +102,9 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(1)
 	@SuppressWarnings("unchecked")
 	public void findPDFInfoByName() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given()
+				.relaxedHTTPSValidation()
+				.spec(specification)
 				.contentType(ContentType.JSON)
 				.when()
 				.param("pageSize", 20)
@@ -117,7 +120,9 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 			.isEqualTo(Arrays.asList("desc","desc2","desc3","desc4","desc5","desc6","desc7","desc8","desc9","desc10","desc rep1", "desc rep2","desc11"));
 		pdfs.getItems().stream().map(pdf -> pdf.get("data")).forEach(data -> assertThat(data).isNull());
 		
-		pdfs = given().spec(specification)
+		pdfs = given()
+				.relaxedHTTPSValidation()
+				.spec(specification)
 				.contentType(ContentType.JSON)
 				.when()
 				.param("name", "name4")
@@ -139,7 +144,9 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(2)
 	@SuppressWarnings("unchecked")
 	public void findPDFInfoByOwnerName() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given()
+				.spec(specification)
+				.relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("ownersName", true)
@@ -156,7 +163,9 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 			.isEqualTo(Arrays.asList("desc","desc2","desc3","desc4","desc5","desc6","desc7","desc8","desc9","desc10","desc rep1","desc rep2","desc11"));
 		pdfs.getItems().stream().map(pdf -> pdf.get("data")).forEach(data -> assertThat(data).isNull());
 		
-		pdfs = given().spec(specification)
+		pdfs = given()
+				.spec(specification)
+				.relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("ownersName", true)
@@ -174,7 +183,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 		.isEqualTo(Arrays.asList("desc4","desc5","desc6","desc rep1"));
 		pdfs.getItems().stream().map(pdf -> pdf.get("data")).forEach(data -> assertThat(data).isNull());
 		
-		pdfs = given().spec(specification)
+		pdfs = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("ownersName", true)
@@ -198,7 +207,9 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	public void authenticateAsClient() {
 		CredentialsDTO user = new CredentialsDTO("user@mail.com", "123456");
 		var authHeader = given()
+				.baseUri(TestConfigs.BASE_URI)
 				.basePath(TestConfigs.LOGIN_PATH)
+				.relaxedHTTPSValidation()
 				.body(user)
 					.when()
 				.post()
@@ -207,6 +218,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 							.extract().header(TestConfigs.AUTHORIZATION_HEADER);
 		
 		specification = new RequestSpecBuilder()
+				.setBaseUri(TestConfigs.BASE_URI)
 				.setBasePath(TestConfigs.PDFS_V1_PATH)
 				.addHeader(TestConfigs.AUTHORIZATION_HEADER, authHeader)
 				.build();
@@ -215,7 +227,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Test
 	@Order(4)
 	public void deletePDFFileWithClient() {
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 			.when()
 			.request("DELETE", "/15")
 			.then()
@@ -229,7 +241,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(5)
 	@SuppressWarnings("unchecked")
 	public void findPDFInfoByNameAuthenticatedWithClient() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("pageSize", 20)
@@ -251,7 +263,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(6)
 	@SuppressWarnings("unchecked")
 	public void findPDFInfoByOwnerNameAuthenticatedWithClient() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("ownersName", true)
@@ -273,7 +285,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Test
 	@Order(7)
 	public void reportPDFFile() {
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.when()
 				.request("PUT", "/5/reported")
 				.then()
@@ -287,8 +299,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	public void evaluatePDFFile() {
 		EvaluatePDFFileDTO eval = new EvaluatePDFFileDTO(8); 
 		Long id = userRepository.findByEmail("user@mail.com").get().getId();
-		given()
-				.spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.body(eval)
 				.contentType(ContentType.JSON)
 				.when()
@@ -306,7 +317,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(9)
 	@SuppressWarnings("unchecked")
 	public void findPDFInfoThatAnUserOwns() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("ownersName", true)
@@ -328,7 +339,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(10)
 	@SuppressWarnings("unchecked")
 	public void findPDFInfoThatAnUserHasAccess() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("ownersName", true)
@@ -349,7 +360,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Test
 	@Order(11)
 	public void findPDFInfoByIdWithClient() {
-		PDFInfo pdf = given().spec(specification)
+		PDFInfo pdf = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.request("GET", "/5")
@@ -367,7 +378,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 		assertThat(pdf.getOwnersEmail()).isEqualTo("user2@mail.com");
 		assertThat(pdf.getData()).isNotNull();
 		
-		pdf = given().spec(specification)
+		pdf = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.request("GET", "/6")
@@ -390,7 +401,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(12)
 	public void purchasePDFFileAccess() {
 		Long id = userRepository.findByEmail("user@mail.com").get().getId();
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.request("PUT", "6/hasAccess")
@@ -408,7 +419,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 				.fileName("newname")
 				.mimeType("application/pdf")
 				.build();
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.multiPart(file)
 				.formParam("description", "desc newname")
 				.contentType(ContentType.MULTIPART)
@@ -428,7 +439,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 				.fileName("renamed")
 				.mimeType("application/pdf")
 				.build();
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.multiPart(file)
 				.formParam("description", "newdesc newname")
 				.contentType(ContentType.MULTIPART)
@@ -449,6 +460,8 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 		CredentialsDTO user = new CredentialsDTO("admin@mail.com", "123456");
 		var authHeader = given()
 				.basePath(TestConfigs.LOGIN_PATH)
+				.baseUri(TestConfigs.BASE_URI)
+				.relaxedHTTPSValidation()
 				.body(user)
 					.when()
 				.post()
@@ -457,6 +470,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 							.extract().header(TestConfigs.AUTHORIZATION_HEADER);
 		
 		specification = new RequestSpecBuilder()
+				.setBaseUri(TestConfigs.BASE_URI)
 				.setBasePath(TestConfigs.PDFS_V1_PATH)
 				.addHeader(TestConfigs.AUTHORIZATION_HEADER, authHeader)
 				.build();
@@ -466,7 +480,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(16)
 	@SuppressWarnings("unchecked")
 	public void findPDFInfoByNameAuthenticatedWithAdmin() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("pageSize", 20)
@@ -487,7 +501,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(17)
 	@SuppressWarnings("unchecked")
 	public void findPDFInfoByOwnerNameAuthenticatedWithAdmin() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("ownersName", true)
@@ -508,7 +522,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Test
 	@Order(18)
 	public void validateReportedPDF() {
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.when()
 				.request("PUT", "11/validate")
 				.then()
@@ -522,7 +536,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Test
 	@Order(19)
 	public void validateWaitingForValidationPDF() {
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.when()
 				.request("PUT", "13/validate")
 				.then()
@@ -536,7 +550,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Test
 	@Order(20)
 	public void deletePDFFileWithAdmin() {
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 			.when()
 			.request("DELETE", "/10")
 			.then()
@@ -549,7 +563,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Test
 	@Order(21)
 	public void findPDFInfoByIdWithAdmin() {
-		PDFInfo pdf = given().spec(specification)
+		PDFInfo pdf = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.request("GET", "/5")
@@ -567,7 +581,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 		assertThat(pdf.getOwnersEmail()).isEqualTo("user2@mail.com");
 		assertThat(pdf.getData()).isNotNull();
 		
-		pdf = given().spec(specification)
+		pdf = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.request("GET", "/6")
@@ -590,7 +604,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(22)
 	@SuppressWarnings("unchecked")
 	public void findReportedPDFFiles() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("ownersName", true)
@@ -609,7 +623,7 @@ public class PDFControllerTest extends AbstractIntegrationTest {
 	@Order(23)
 	@SuppressWarnings("unchecked")
 	public void findWaitingForValidationPDFFiles() {
-		PageAdapter<Map<String, String>> pdfs = given().spec(specification)
+		PageAdapter<Map<String, String>> pdfs = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.when()
 				.param("ownersName", true)

@@ -48,6 +48,7 @@ public class ClientControllerTest extends AbstractIntegrationTest {
 			.forEach(c -> userRepository.save(c));
 		
 		specification = new RequestSpecBuilder()
+				.setBaseUri(TestConfigs.BASE_URI)
 				.setBasePath(TestConfigs.CLIENTS_V1_PATH)
 				.build();
 	}
@@ -56,7 +57,7 @@ public class ClientControllerTest extends AbstractIntegrationTest {
 	@Order(1)
 	public void createClient() {
 		CreateClientDTO dto = new CreateClientDTO("new client", "new@mail.com", "123456");
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.body(dto)
 				.when()
@@ -74,7 +75,7 @@ public class ClientControllerTest extends AbstractIntegrationTest {
 	@Test
 	@Order(2)
 	public void findClient() {
-		ClientInfo client = given().spec(specification)
+		ClientInfo client = given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.param("email", "new@mail.com")
 				.when()
@@ -94,7 +95,9 @@ public class ClientControllerTest extends AbstractIntegrationTest {
 	public void authenticateAsClient() {
 		CredentialsDTO user = new CredentialsDTO("new@mail.com", "123456");
 		var authHeader = given()
+				.baseUri(TestConfigs.BASE_URI)
 				.basePath(TestConfigs.LOGIN_PATH)
+				.relaxedHTTPSValidation()
 				.body(user)
 					.when()
 				.post()
@@ -103,6 +106,7 @@ public class ClientControllerTest extends AbstractIntegrationTest {
 							.extract().header(TestConfigs.AUTHORIZATION_HEADER);
 		
 		specification = new RequestSpecBuilder()
+				.setBaseUri(TestConfigs.BASE_URI)
 				.setBasePath(TestConfigs.CLIENTS_V1_PATH)
 				.addHeader(TestConfigs.AUTHORIZATION_HEADER, authHeader)
 				.build();
@@ -113,7 +117,7 @@ public class ClientControllerTest extends AbstractIntegrationTest {
 	public void updateClient() {
 		UpdateClientDTO dto = new UpdateClientDTO("updated client", "updated@mail.com");
 		Long id = userRepository.findByEmail("new@mail.com").get().getId();
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.body(dto)
 				.when()
