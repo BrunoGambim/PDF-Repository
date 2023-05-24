@@ -49,6 +49,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
 			.forEach(c -> userRepository.save(c));
 		
 		specification = new RequestSpecBuilder()
+				.setBaseUri(TestConfigs.BASE_URI)
 				.setBasePath(TestConfigs.USERS_V1_PATH)
 				.build();
 	}
@@ -57,7 +58,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
 	@Order(1)
 	public void sendUpdatePasswordCode() {
 		UpdatePasswordCodeDTO dto = new UpdatePasswordCodeDTO("2user@mail.com");
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.body(dto)
 				.when()
@@ -69,7 +70,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
 			.isNotNull();
 		
 		dto = new UpdatePasswordCodeDTO("admin2@mail.com");
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 			.contentType(ContentType.JSON)
 			.body(dto)
 			.when()
@@ -86,7 +87,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
 	public void updateUserPassword() {
 		String code = userRepository.findByEmail("2user@mail.com").get().getCode().getCode();
 		UpdateUserPasswordDTO dto = new UpdateUserPasswordDTO("654321",code,"2user@mail.com");
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 				.contentType(ContentType.JSON)
 				.body(dto)
 				.when()
@@ -99,7 +100,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
 		
 		code = userRepository.findByEmail("admin2@mail.com").get().getCode().getCode();
 		dto = new UpdateUserPasswordDTO("654321",code,"admin2@mail.com");
-		given().spec(specification)
+		given().spec(specification).relaxedHTTPSValidation()
 			.contentType(ContentType.JSON)
 			.body(dto)
 			.when()
